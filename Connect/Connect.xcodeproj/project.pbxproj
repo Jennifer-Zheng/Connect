@@ -16,6 +16,15 @@
 		D653770B241C0A7700E283E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537709241C0A7700E283E2 /* LaunchScreen.storyboard */; };
 		D6537716241C0A7700E283E2 /* ConnectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6537715241C0A7700E283E2 /* ConnectTests.swift */; };
 		D6537721241C0A7700E283E2 /* ConnectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6537720241C0A7700E283E2 /* ConnectUITests.swift */; };
+		D6537730241C0E0200E283E2 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D653772F241C0E0200E283E2 /* Login.storyboard */; };
+		D6537732241C108A00E283E2 /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537731241C108A00E283E2 /* EditProfile.storyboard */; };
+		D6537734241C109A00E283E2 /* ImportContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537733241C109A00E283E2 /* ImportContacts.storyboard */; };
+		D6537736241C10AF00E283E2 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537735241C10AF00E283E2 /* Profile.storyboard */; };
+		D6537738241C11A100E283E2 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537737241C11A100E283E2 /* Settings.storyboard */; };
+		D653773A241C11B600E283E2 /* Relationships.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6537739241C11B600E283E2 /* Relationships.storyboard */; };
+		D653773C241C11CF00E283E2 /* Requests.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D653773B241C11CF00E283E2 /* Requests.storyboard */; };
+		D653773E241C11E000E283E2 /* Connections.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D653773D241C11E000E283E2 /* Connections.storyboard */; };
+		D6537740241C11F400E283E2 /* Nearby.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D653773F241C11F400E283E2 /* Nearby.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +60,15 @@
 		D653771C241C0A7700E283E2 /* ConnectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConnectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6537720241C0A7700E283E2 /* ConnectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectUITests.swift; sourceTree = "<group>"; };
 		D6537722241C0A7700E283E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D653772F241C0E0200E283E2 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		D6537731241C108A00E283E2 /* EditProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditProfile.storyboard; sourceTree = "<group>"; };
+		D6537733241C109A00E283E2 /* ImportContacts.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImportContacts.storyboard; sourceTree = "<group>"; };
+		D6537735241C10AF00E283E2 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		D6537737241C11A100E283E2 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		D6537739241C11B600E283E2 /* Relationships.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Relationships.storyboard; sourceTree = "<group>"; };
+		D653773B241C11CF00E283E2 /* Requests.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Requests.storyboard; sourceTree = "<group>"; };
+		D653773D241C11E000E283E2 /* Connections.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Connections.storyboard; sourceTree = "<group>"; };
+		D653773F241C11F400E283E2 /* Nearby.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Nearby.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +119,10 @@
 		D65376FA241C0A7600E283E2 /* Connect */ = {
 			isa = PBXGroup;
 			children = (
+				D653772E241C0C4C00E283E2 /* Storyboards */,
 				D65376FB241C0A7600E283E2 /* AppDelegate.swift */,
 				D65376FD241C0A7600E283E2 /* SceneDelegate.swift */,
 				D65376FF241C0A7600E283E2 /* ViewController.swift */,
-				D6537701241C0A7600E283E2 /* Main.storyboard */,
 				D6537707241C0A7700E283E2 /* Assets.xcassets */,
 				D6537709241C0A7700E283E2 /* LaunchScreen.storyboard */,
 				D653770C241C0A7700E283E2 /* Info.plist */,
@@ -129,6 +147,23 @@
 				D6537722241C0A7700E283E2 /* Info.plist */,
 			);
 			path = ConnectUITests;
+			sourceTree = "<group>";
+		};
+		D653772E241C0C4C00E283E2 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D6537701241C0A7600E283E2 /* Main.storyboard */,
+				D653772F241C0E0200E283E2 /* Login.storyboard */,
+				D6537731241C108A00E283E2 /* EditProfile.storyboard */,
+				D6537733241C109A00E283E2 /* ImportContacts.storyboard */,
+				D6537735241C10AF00E283E2 /* Profile.storyboard */,
+				D6537737241C11A100E283E2 /* Settings.storyboard */,
+				D6537739241C11B600E283E2 /* Relationships.storyboard */,
+				D653773B241C11CF00E283E2 /* Requests.storyboard */,
+				D653773D241C11E000E283E2 /* Connections.storyboard */,
+				D653773F241C11F400E283E2 /* Nearby.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,8 +270,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6537730241C0E0200E283E2 /* Login.storyboard in Resources */,
+				D6537732241C108A00E283E2 /* EditProfile.storyboard in Resources */,
+				D6537734241C109A00E283E2 /* ImportContacts.storyboard in Resources */,
+				D6537738241C11A100E283E2 /* Settings.storyboard in Resources */,
+				D653773E241C11E000E283E2 /* Connections.storyboard in Resources */,
+				D6537740241C11F400E283E2 /* Nearby.storyboard in Resources */,
+				D653773A241C11B600E283E2 /* Relationships.storyboard in Resources */,
 				D653770B241C0A7700E283E2 /* LaunchScreen.storyboard in Resources */,
 				D6537708241C0A7700E283E2 /* Assets.xcassets in Resources */,
+				D6537736241C10AF00E283E2 /* Profile.storyboard in Resources */,
+				D653773C241C11CF00E283E2 /* Requests.storyboard in Resources */,
 				D6537703241C0A7600E283E2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
