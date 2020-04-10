@@ -24,7 +24,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="m7P-Jq-fGC" kind="show" identifier="ImportContactsSegue" id="VXV-ip-qt5"/>
+                                    <segue destination="m7P-Jq-fGC" kind="showDetail" identifier="ImportContactsSegue" id="VXV-ip-qt5"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-Hc-bu0">
@@ -50,7 +50,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Name Here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wbJ-9p-RMK">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter name here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wbJ-9p-RMK">
                                 <rect key="frame" x="29" y="342" width="365" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -71,7 +71,7 @@
                                         <barButtonItem key="rightBarButtonItem" title="Edit" id="TIP-gk-NZd">
                                             <connections>
                                                 <action selector="editButtonPressed:" destination="CtW-o4-inb" id="vPu-eW-Xrd"/>
-                                                <segue destination="Qh7-TP-5GW" kind="show" identifier="ConnectionsSegue" id="HW9-Ez-bvH"/>
+                                                <segue destination="Qh7-TP-5GW" kind="showDetail" identifier="ConnectionsSegue" id="HW9-Ez-bvH"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
