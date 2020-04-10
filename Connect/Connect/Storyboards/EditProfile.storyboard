@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CtW-o4-inb">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,7 +10,7 @@
         <!--EditProfile-->
         <scene sceneID="I0A-1Q-kfC">
             <objects>
-                <viewController storyboardIdentifier="EditProfile" title="EditProfile" id="CtW-o4-inb" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditProfile" title="EditProfile" id="CtW-o4-inb" customClass="EditProfileViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gZ3-Cg-Xvz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,6 +23,9 @@
                                 <state key="normal" title="Import Contacts">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <segue destination="m7P-Jq-fGC" kind="show" identifier="ImportContactsSegue" id="VXV-ip-qt5"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yTh-Hc-bu0">
                                 <rect key="frame" x="29" y="314" width="105" height="35"/>
@@ -31,7 +34,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Bio" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r2c-9x-OCX">
-                                <rect key="frame" x="29" y="431" width="97" height="35"/>
+                                <rect key="frame" x="29" y="431" width="54" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -41,43 +44,76 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z2s-qi-cmp">
-                                <rect key="frame" x="230" y="256" width="50" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icloud.and.arrow.up" catalog="system"/>
-                            </button>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gdl-JB-YE0">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.83921568627450982" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
-                                <items>
-                                    <navigationItem title="Edit Profile" id="KCA-wm-LgW"/>
-                                </items>
-                            </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8t1-Sh-fPJ">
-                                <rect key="frame" x="359" y="105" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="checkmark" catalog="system"/>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0 Connections" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ds3-yf-3yQ">
                                 <rect key="frame" x="29" y="389" width="125" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Name Here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wbJ-9p-RMK">
+                                <rect key="frame" x="29" y="342" width="365" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tell us about yourself!" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f02-S3-m6C">
+                                <rect key="frame" x="29" y="459" width="365" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gdl-JB-YE0">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.83921568627450982" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem title="Profile" id="KCA-wm-LgW">
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="TIP-gk-NZd">
+                                            <connections>
+                                                <action selector="editButtonPressed:" destination="CtW-o4-inb" id="vPu-eW-Xrd"/>
+                                                <segue destination="Qh7-TP-5GW" kind="show" identifier="ConnectionsSegue" id="HW9-Ez-bvH"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="icV-Bc-725"/>
                     </view>
+                    <connections>
+                        <outlet property="bio" destination="f02-S3-m6C" id="zKv-rl-KLV"/>
+                        <outlet property="editButton" destination="TIP-gk-NZd" id="CCz-mw-Zqq"/>
+                        <outlet property="name" destination="wbJ-9p-RMK" id="BuR-Rn-92y"/>
+                        <outlet property="numConnections" destination="ds3-yf-3yQ" id="o9M-Ze-HBa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crL-Br-qpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
+        <!--Connections-->
+        <scene sceneID="kDW-h9-Pq7">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Connections" id="Qh7-TP-5GW" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="X4b-3z-FTp"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qj6-zg-MKV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="654" y="-89"/>
+        </scene>
+        <!--ImportContacts-->
+        <scene sceneID="uZH-g5-7XA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ImportContacts" id="m7P-Jq-fGC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="NXZ-tD-c1F"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wWi-xn-Fy2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="627" y="241"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Profile" width="100" height="100"/>
-        <image name="checkmark" catalog="system" width="64" height="56"/>
-        <image name="icloud.and.arrow.up" catalog="system" width="64" height="52"/>
     </resources>
 </document>
