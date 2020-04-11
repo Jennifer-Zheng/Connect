@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,10 @@
 		387E57E42436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E52436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
+		C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */; };
+		C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */; };
+		C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */; };
+		C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */; };
 		D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FB241C0A7600E283E2 /* AppDelegate.swift */; };
 		D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FD241C0A7600E283E2 /* SceneDelegate.swift */; };
 		D6537700241C0A7600E283E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FF241C0A7600E283E2 /* ViewController.swift */; };
@@ -60,6 +64,10 @@
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
 		B4BE1D2FE8A4C52539B38F35 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
+		C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
+		C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingConnectionTableViewCell.swift; sourceTree = "<group>"; };
+		C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingRelationshipTableViewCell.swift; sourceTree = "<group>"; };
+		C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		CD8CC6FFBD4A36C1C7D611F4 /* Pods-ConnectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.debug.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D65376F8241C0A7600E283E2 /* Connect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65376FB241C0A7600E283E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,8 +133,17 @@
 				CD8CC6FFBD4A36C1C7D611F4 /* Pods-ConnectTests.debug.xcconfig */,
 				87BA50E7D805DA360A26E5D6 /* Pods-ConnectTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C9EEBFD6243FD06A005EA785 /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */,
+				C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */,
+				C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */,
+			);
+			path = "Custom Cells";
 			sourceTree = "<group>";
 		};
 		D0C880A89B11517F9A493F83 /* Frameworks */ = {
@@ -165,9 +182,11 @@
 			isa = PBXGroup;
 			children = (
 				D653772E241C0C4C00E283E2 /* Storyboards */,
+				C9EEBFD6243FD06A005EA785 /* Custom Cells */,
 				D65376FB241C0A7600E283E2 /* AppDelegate.swift */,
 				D65376FD241C0A7600E283E2 /* SceneDelegate.swift */,
 				D65376FF241C0A7600E283E2 /* ViewController.swift */,
+				C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */,
 				D6537707241C0A7700E283E2 /* Assets.xcassets */,
 				D6537709241C0A7700E283E2 /* LaunchScreen.storyboard */,
 				D653770C241C0A7700E283E2 /* Info.plist */,
@@ -463,9 +482,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
+				C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */,
+				C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */,
 				D6537700241C0A7600E283E2 /* ViewController.swift in Sources */,
 				D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */,
 				D6537706241C0A7600E283E2 /* Connect.xcdatamodeld in Sources */,
+				C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */,
 				D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
