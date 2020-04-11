@@ -10,15 +10,14 @@ import UIKit
 
 class ContactTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var otherName: UILabel!
+    @IBOutlet weak var otherProfile: UIImageView!
+    @IBOutlet weak var otherNumberOfMutuals: UILabel!
+    @IBOutlet weak var chevron: UIButton!
+    @IBOutlet weak var addButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        addButton.layer.cornerRadius = 15
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }

@@ -59,6 +59,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
     }
     
     // Number of rows needed for each request.
@@ -98,25 +100,30 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 // Add in user info.
                 cell.otherName?.text = "First Last"
                 //cell.otherProfile.image =
-                cell.otherNumberOfMutuals?.text = "\(users[requests[indexPath.section]["user"]!]!["numMutuals"]!) Mutual Connections"
+                let numMutuals = users[requests[indexPath.section]["user"]!]!["numMutuals"]!
+                cell.otherNumberOfMutuals?.text = "\(numMutuals) Mutual Connection"
+                if (numMutuals != 1) {
+                    cell.otherNumberOfMutuals?.text! += "s"
+                }
                 
                 // Add functions to buttons. They need to be in this file since they modify the table.
-                cell.chevronDown?.tag = indexPath.section
-                cell.chevronUp?.tag = indexPath.section
+                cell.chevron?.tag = indexPath.section
                 cell.confirmButton?.tag = indexPath.section
                 cell.declineButton?.tag = indexPath.section
-                cell.chevronDown?.addTarget(self, action: #selector(onChevronPress(sender:)), for: .touchUpInside)
-                cell.chevronUp?.addTarget(self, action: #selector(onChevronPress(sender:)), for: .touchUpInside)
+                cell.chevron?.addTarget(self, action: #selector(onChevronPress(sender:)), for: .touchUpInside)
                 cell.confirmButton?.addTarget(self, action: #selector(onConfirmRequestPress(sender:)), for: .touchUpInside)
                 cell.declineButton?.addTarget(self, action: #selector(onDeclineRequestPress(sender:)), for: .touchUpInside)
                 
                 // Chevron visibility.
-                if (expanded[indexPath.section] == false) {
-                    cell.chevronUp?.isHidden = true
-                    cell.chevronDown?.isHidden = false // Added because this wasn't always getting re-drawn.
+                if (users[requests[indexPath.section]["user"]!]!["numMutuals"]! == 0) {
+                    cell.chevron?.isHidden = true
+                } else {
+                    cell.chevron?.isHidden = false
                 }
-                if (users[requests[indexPath.section]["user"]!]!["numMutuals"]! == 0 || expanded[indexPath.section]) {
-                    cell.chevronDown?.isHidden = true
+                if (expanded[indexPath.section]) {
+                    cell.chevron?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+                } else {
+                    cell.chevron?.transform = CGAffineTransform.identity
                 }
                 
                 return cell

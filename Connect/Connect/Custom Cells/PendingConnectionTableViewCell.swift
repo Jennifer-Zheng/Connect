@@ -13,10 +13,9 @@ class PendingConnectionTableViewCell: UITableViewCell {
     @IBOutlet weak var otherProfile: UIImageView!
     @IBOutlet weak var otherName: UILabel!
     @IBOutlet weak var otherNumberOfMutuals: UILabel!
+    @IBOutlet weak var chevron: UIButton!
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
-    @IBOutlet weak var chevronDown: UIButton!
-    @IBOutlet weak var chevronUp: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

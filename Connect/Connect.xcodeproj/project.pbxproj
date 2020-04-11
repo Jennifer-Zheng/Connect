@@ -18,7 +18,8 @@
 		C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */; };
 		C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */; };
 		C9EEBFE224415EB0005EA785 /* ImportContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */; };
-		C9EEBFE424416031005EA785 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFE324416031005EA785 /* ContactTableViewCell.swift */; };
+		C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFE5244173E4005EA785 /* ContactTableViewCell.swift */; };
+		C9EEBFEE244178AB005EA785 /* MutualConnectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9EEBFED244178AB005EA785 /* MutualConnectionTableViewCell.xib */; };
 		D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FB241C0A7600E283E2 /* AppDelegate.swift */; };
 		D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FD241C0A7600E283E2 /* SceneDelegate.swift */; };
 		D6537700241C0A7600E283E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65376FF241C0A7600E283E2 /* ViewController.swift */; };
@@ -73,7 +74,8 @@
 		C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingRelationshipTableViewCell.swift; sourceTree = "<group>"; };
 		C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportContactsViewController.swift; sourceTree = "<group>"; };
-		C9EEBFE324416031005EA785 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		C9EEBFE5244173E4005EA785 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		C9EEBFED244178AB005EA785 /* MutualConnectionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MutualConnectionTableViewCell.xib; sourceTree = "<group>"; };
 		CD8CC6FFBD4A36C1C7D611F4 /* Pods-ConnectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.debug.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D65376F8241C0A7600E283E2 /* Connect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65376FB241C0A7600E283E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,7 +150,8 @@
 				C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */,
 				C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */,
 				C9EEBFDD2440EDD7005EA785 /* MutualConnectionTableViewCell.swift */,
-				C9EEBFE324416031005EA785 /* ContactTableViewCell.swift */,
+				C9EEBFED244178AB005EA785 /* MutualConnectionTableViewCell.xib */,
+				C9EEBFE5244173E4005EA785 /* ContactTableViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				D6537732241C108A00E283E2 /* EditProfile.storyboard in Resources */,
 				D6537734241C109A00E283E2 /* ImportContacts.storyboard in Resources */,
 				D6537738241C11A100E283E2 /* Settings.storyboard in Resources */,
+				C9EEBFEE244178AB005EA785 /* MutualConnectionTableViewCell.xib in Resources */,
 				D653773E241C11E000E283E2 /* Connections.storyboard in Resources */,
 				D6537740241C11F400E283E2 /* Nearby.storyboard in Resources */,
 				D653773A241C11B600E283E2 /* Relationships.storyboard in Resources */,
@@ -493,7 +497,7 @@
 			files = (
 				C9EEBFE224415EB0005EA785 /* ImportContactsViewController.swift in Sources */,
 				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
-				C9EEBFE424416031005EA785 /* ContactTableViewCell.swift in Sources */,
+				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
 				C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */,
 				C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */,
 				D6537700241C0A7600E283E2 /* ViewController.swift in Sources */,

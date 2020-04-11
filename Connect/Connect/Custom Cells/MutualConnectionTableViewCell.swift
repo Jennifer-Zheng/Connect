@@ -14,7 +14,6 @@ class MutualConnectionTableViewCell: UITableViewCell {
     @IBOutlet weak var mutualName: UILabel!
     @IBOutlet weak var mutualRelation: UIButton!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         mutualRelation.layer.cornerRadius = 15
