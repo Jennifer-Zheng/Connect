@@ -9,6 +9,7 @@ target 'Connect' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
+  pod 'Firebase/Storage'
 
   target 'ConnectTests' do
     inherit! :search_paths

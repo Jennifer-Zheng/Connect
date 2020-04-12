@@ -170,11 +170,11 @@
                         <viewLayoutGuide key="safeArea" id="icV-Bc-725"/>
                     </view>
                     <connections>
-                        <outlet property="avatar" destination="rsW-2p-257" id="FRA-J9-bvW"/>
                         <outlet property="bio" destination="Sph-Bg-WK2" id="yH3-Ud-sOd"/>
                         <outlet property="editButton" destination="SmF-cX-9Ce" id="BFo-f4-wGs"/>
                         <outlet property="name" destination="wbJ-9p-RMK" id="BuR-Rn-92y"/>
                         <outlet property="numConnections" destination="ds3-yf-3yQ" id="o9M-Ze-HBa"/>
+                        <outlet property="profilePic" destination="rsW-2p-257" id="crR-L6-kzZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crL-Br-qpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
