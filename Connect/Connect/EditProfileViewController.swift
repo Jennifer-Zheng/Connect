@@ -2,7 +2,7 @@
 //  EditProfileViewController.swift
 //  Connect
 //
-//  Created by Jennifer on 4/9/20.
+//  Created by Jennifer Zheng on 4/9/20.
 //  Copyright © 2020 Nikhil Pandeti. All rights reserved.
 //
 
@@ -10,25 +10,26 @@ import UIKit
 
 class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var bio: UITextField!
+    @IBOutlet weak var bio: UITextView!
     @IBOutlet weak var numConnections: UITextField!
-    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var avatar: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        editButton.title = "Done"
-        name.isEnabled = true
-        bio.isEnabled = true
+        // Remove padding from Bio text view
+        self.bio.textContainer.lineFragmentPadding = 0
         setupAvatar()
     }
     
+    // Register tap gesture on profile pic
     func setupAvatar() {
         avatar.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(recognizeTapGesture(recognizer:)))
         avatar.addGestureRecognizer(tapGesture)
     }
     
+    // Allow users to choose profile pic from their photo library
     @IBAction func recognizeTapGesture(recognizer: UITapGestureRecognizer) {
         let picker = UIImagePickerController()
         picker.sourceType = .photoLibrary
@@ -37,6 +38,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.present(picker, animated: true, completion: nil)
     }
     
+    // Replace profile pic with selected image
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let imageSelected = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             avatar.image = imageSelected.circleMask
@@ -51,29 +53,28 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         // TODO: once registration is finished, retrieve name, bio, numConnections, and profile pic from Firebase
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String,
-                            sender: Any?) -> Bool {
-        if identifier == "ConnectionsSegue" && editButton.title == "Edit" {
-            return false
-        }
-        return true
-    }
-    
+    // Enable or disable editable fields depending on Edit button state
     @IBAction func editButtonPressed(_ sender: Any) {
-        if editButton.title == "Edit" {
-            editButton.title = "Done"
+        if editButton.currentTitle == "Edit" {
+            editButton.setTitle("Save", for: .normal)
             avatar.isUserInteractionEnabled = true
             name.isEnabled = true
-            bio.isEnabled = true
+            name.backgroundColor = UIColor.quaternarySystemFill
+            bio.isEditable = true
+            bio.backgroundColor = UIColor.quaternarySystemFill
+            
         } else {
-            editButton.title = "Edit"
+            editButton.setTitle("Edit", for: .normal)
             avatar.isUserInteractionEnabled = false
             name.isEnabled = false
-            bio.isEnabled = false
+            name.backgroundColor = UIColor.white
+            bio.isEditable = false
+            bio.backgroundColor = UIColor.white
         }
     }
 }
 
+// Masks user selected profile pic so that it will be circular
 extension UIImage {
     var circleMask: UIImage? {
         let square = CGSize(width: min(size.width, size.height), height: min(size.width, size.height))
