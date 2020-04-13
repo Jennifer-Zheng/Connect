@@ -7,6 +7,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--EditProfile-->
+        <scene sceneID="eIT-5W-QQg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditProfile" id="rNp-vp-ocx" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xoL-1Q-uW8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="777" y="29"/>
+        </scene>
         <!--Connections View Controller-->
         <scene sceneID="6MD-FU-hxS">
             <objects>
@@ -23,6 +31,9 @@
                                         <rect key="frame" x="8" y="42" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="Profile"/>
+                                        <connections>
+                                            <segue destination="rNp-vp-ocx" kind="presentation" modalPresentationStyle="fullScreen" id="1rh-gz-PNt"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5F7-Tv-paJ">
                                         <rect key="frame" x="356" y="42" width="50" height="50"/>
@@ -58,6 +69,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="Requests"/>
+                                <connections>
+                                    <segue destination="vDV-gO-m0W" kind="presentation" modalPresentationStyle="fullScreen" id="ZQo-zC-o1Z"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bFJ-d0-QLx">
                                 <rect key="frame" x="136" y="796" width="1" height="100"/>
@@ -127,6 +141,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVR-yH-jKa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="134.78260869565219" y="48.883928571428569"/>
+        </scene>
+        <!--Requests-->
+        <scene sceneID="Cfl-to-Qc2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Requests" id="vDV-gO-m0W" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gss-ad-ejB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772" y="66"/>
         </scene>
     </scenes>
     <resources>
