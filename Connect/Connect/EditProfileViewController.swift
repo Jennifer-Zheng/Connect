@@ -19,11 +19,16 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        signIn()
         // Remove padding from Bio text view
         self.bio.textContainer.lineFragmentPadding = 0
         showCurrentProfileInfo()
         setupProfilePic()
+    }
+    
+    //TODO: delete when registration screens are done
+    func signIn() {
+        Auth.auth().signIn(withEmail: "test@test.com", password: "test123")
     }
     
     func showCurrentProfileInfo() {
