@@ -15,6 +15,10 @@
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
+		C9C28C7224450DA200AB0911 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9C28C7124450DA200AB0911 /* Conversation.storyboard */; };
+		C9C28C7424450DD800AB0911 /* Messaging.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9C28C7324450DD800AB0911 /* Messaging.storyboard */; };
+		C9C28C7624450DF200AB0911 /* MessagingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C7524450DF200AB0911 /* MessagingTableViewCell.swift */; };
+		C9C28C7824450E0D00AB0911 /* MessagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C7724450E0D00AB0911 /* MessagingViewController.swift */; };
 		C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */; };
 		C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */; };
 		C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */; };
@@ -73,6 +77,10 @@
 		B4BE1D2FE8A4C52539B38F35 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
 		C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionTableViewCell.swift; sourceTree = "<group>"; };
+		C9C28C7124450DA200AB0911 /* Conversation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
+		C9C28C7324450DD800AB0911 /* Messaging.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Messaging.storyboard; sourceTree = "<group>"; };
+		C9C28C7524450DF200AB0911 /* MessagingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingTableViewCell.swift; sourceTree = "<group>"; };
+		C9C28C7724450E0D00AB0911 /* MessagingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingViewController.swift; sourceTree = "<group>"; };
 		C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsViewController.swift; sourceTree = "<group>"; };
 		C9EEBFD7244049BB005EA785 /* PendingConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		C9EEBFD9244049CB005EA785 /* PendingRelationshipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingRelationshipTableViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +165,7 @@
 				C9EEBFED244178AB005EA785 /* MutualConnectionTableViewCell.xib */,
 				C9EEBFE5244173E4005EA785 /* ContactTableViewCell.swift */,
 				C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */,
+				C9C28C7524450DF200AB0911 /* MessagingTableViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -201,15 +210,16 @@
 				D65376FB241C0A7600E283E2 /* AppDelegate.swift */,
 				D65376FD241C0A7600E283E2 /* SceneDelegate.swift */,
 				D65376FF241C0A7600E283E2 /* ViewController.swift */,
-				C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */,
-				C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */,
 				C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */,
+				38E589E3243FEC26000074DC /* EditProfileViewController.swift */,
+				C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */,
+				C9C28C7724450E0D00AB0911 /* MessagingViewController.swift */,
+				C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */,
 				D6537707241C0A7700E283E2 /* Assets.xcassets */,
 				D6537709241C0A7700E283E2 /* LaunchScreen.storyboard */,
 				D653770C241C0A7700E283E2 /* Info.plist */,
 				D6537704241C0A7600E283E2 /* Connect.xcdatamodeld */,
 				387E57E22436B014008CF705 /* GoogleService-Info.plist */,
-				38E589E3243FEC26000074DC /* EditProfileViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -245,6 +255,8 @@
 				D653773B241C11CF00E283E2 /* Requests.storyboard */,
 				D653773D241C11E000E283E2 /* Connections.storyboard */,
 				D653773F241C11F400E283E2 /* Nearby.storyboard */,
+				C9C28C7124450DA200AB0911 /* Conversation.storyboard */,
+				C9C28C7324450DD800AB0911 /* Messaging.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -366,6 +378,8 @@
 				C9EEBFEE244178AB005EA785 /* MutualConnectionTableViewCell.xib in Resources */,
 				D653773E241C11E000E283E2 /* Connections.storyboard in Resources */,
 				D6537740241C11F400E283E2 /* Nearby.storyboard in Resources */,
+				C9C28C7224450DA200AB0911 /* Conversation.storyboard in Resources */,
+				C9C28C7424450DD800AB0911 /* Messaging.storyboard in Resources */,
 				D653773A241C11B600E283E2 /* Relationships.storyboard in Resources */,
 				D653770B241C0A7700E283E2 /* LaunchScreen.storyboard in Resources */,
 				D6537708241C0A7700E283E2 /* Assets.xcassets in Resources */,
@@ -509,8 +523,10 @@
 				D6537700241C0A7600E283E2 /* ViewController.swift in Sources */,
 				D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */,
 				D6537706241C0A7600E283E2 /* Connect.xcdatamodeld in Sources */,
+				C9C28C7824450E0D00AB0911 /* MessagingViewController.swift in Sources */,
 				C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */,
 				C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */,
+				C9C28C7624450DF200AB0911 /* MessagingTableViewCell.swift in Sources */,
 				38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */,
 				C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */,
 				D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */,
