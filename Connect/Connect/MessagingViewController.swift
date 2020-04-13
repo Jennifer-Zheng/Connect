@@ -8,23 +8,58 @@
 
 import UIKit
 
-class MessagingViewController: UIViewController {
-
+class MessagingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    // Custom cell identifiers.
+    let messagingCellIdentifier = "MessagingCell"
+    
+    // Dummy connections array. The structure is bad for testing purposes
+    var connections = [
+        ["user" : "Jon Doe",
+         "lastSender" : "you",
+         "lastMessage" : "Hello!"],
+        ["user" : "John Doe",
+        "lastSender" : "other",
+        "lastMessage" : "This is a really long message so there should be automatic dots"],
+        ["user" : "Lauren Doe",
+        "lastSender" : "none",
+        "lastMessage" : nil]
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // Number of rows needed in the table.
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return connections.count
     }
-    */
+    
+    // Height for each cell.
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: messagingCellIdentifier) as! MessagingTableViewCell
+        let otherName = connections[indexPath.row]["user"]!!
+        let otherFirstName = otherName.components(separatedBy: " ")[0]
+        cell.otherName?.text = otherName
+        //cell.otherProfile?.image
+        
+        // This is bad code for testing purposes.
+        if (connections[indexPath.row]["lastSender"] == "none") {
+            cell.previewMessage?.text = "You are now connected with " + otherFirstName
+        } else if (connections[indexPath.row]["lastSender"] == "you") {
+            cell.previewMessage?.text = "You said: " + connections[indexPath.row]["lastMessage"]!!
+        } else {
+            cell.previewMessage?.text = connections[indexPath.row]["lastMessage"]!!
+        }
+        return cell
+    }
 
 }

@@ -7,13 +7,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Messaging-->
+        <scene sceneID="bfd-Iu-zfD">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Messaging" id="uNk-Hh-Zis" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l5l-bQ-lAa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="778" y="32"/>
+        </scene>
         <!--EditProfile-->
         <scene sceneID="eIT-5W-QQg">
             <objects>
                 <viewControllerPlaceholder storyboardName="EditProfile" id="rNp-vp-ocx" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xoL-1Q-uW8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="777" y="29"/>
+            <point key="canvasLocation" x="777" y="-3"/>
         </scene>
         <!--Connections View Controller-->
         <scene sceneID="6MD-FU-hxS">
@@ -39,6 +47,9 @@
                                         <rect key="frame" x="356" y="42" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="message.circle" catalog="system"/>
+                                        <connections>
+                                            <segue destination="uNk-Hh-Zis" kind="presentation" modalPresentationStyle="fullScreen" id="csS-Ti-TZj"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Connections" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mg1-Hn-1YK">
                                         <rect key="frame" x="130" y="55" width="155" height="35"/>
