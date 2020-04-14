@@ -62,4 +62,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
 
+    @IBAction func onBackButtonPress(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
