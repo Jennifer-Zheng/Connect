@@ -23,6 +23,14 @@
                                     <segue destination="QZc-rp-9rc" kind="presentation" modalPresentationStyle="fullScreen" id="HZ2-AB-Whq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64v-X0-V80">
+                                <rect key="frame" x="197" y="232" width="44" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Profile"/>
+                                <connections>
+                                    <segue destination="GFG-MB-g0C" kind="show" id="nsh-0h-rZY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -50,6 +58,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sJo-Ql-t1o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="656" y="143"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="VXW-u3-ecZ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" id="GFG-MB-g0C" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="7IV-AM-h1v"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N9r-El-fV9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="696" y="1"/>
         </scene>
     </scenes>
 </document>

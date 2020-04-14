@@ -10,7 +10,7 @@
         <!--EditProfile-->
         <scene sceneID="qkV-6A-0c2">
             <objects>
-                <viewController storyboardIdentifier="EditProfile" title="EditProfile" id="pMU-Lc-otY" customClass="EditProfileViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditProfile" title="EditProfile" id="pMU-Lc-otY" customClass="ProfileViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="177-xT-sIY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,9 +32,6 @@
                                     <constraint firstAttribute="width" constant="150" id="E1A-s4-SSb"/>
                                     <constraint firstAttribute="height" constant="150" id="TRE-8c-joJ"/>
                                 </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="RZV-uI-6ZD" appends="YES" id="HMC-8N-Bn2"/>
-                                </connections>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CvV-0w-NaZ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
@@ -47,6 +44,9 @@
                                         </constraints>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <state key="normal" image="arrow.left" catalog="system"/>
+                                        <connections>
+                                            <action selector="dismissButton:" destination="pMU-Lc-otY" eventType="touchUpInside" id="WIv-MW-O7V"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qe3-jI-ZAE">
                                         <rect key="frame" x="346" y="44" width="50" height="50"/>
@@ -82,6 +82,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="add:" destination="pMU-Lc-otY" eventType="touchUpInside" id="QSy-Sg-30q"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmH-3t-WQy">
                                 <rect key="frame" x="30" y="301" width="304" height="35"/>
@@ -113,6 +116,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="block:" destination="pMU-Lc-otY" eventType="touchUpInside" id="NYD-fp-y5O"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mym-yf-wcH">
                                 <rect key="frame" x="342" y="301" width="49" height="35"/>
@@ -132,6 +138,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="requestConnection:" destination="pMU-Lc-otY" eventType="touchUpInside" id="2ra-Tu-csi"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MUTUAL CONNECTIONS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2i-lM-cr3">
                                 <rect key="frame" x="0.0" y="600" width="414" height="56"/>
@@ -205,16 +214,15 @@
                         <viewLayoutGuide key="safeArea" id="Dtr-ru-Esr"/>
                     </view>
                     <connections>
-                        <outlet property="name" destination="rjB-1Y-udY" id="88b-yY-eL2"/>
-                        <outlet property="profilePic" destination="AQ7-MP-562" id="o1n-sh-4hL"/>
+                        <outlet property="Connection" destination="vmH-3t-WQy" id="QtT-YT-aOT"/>
+                        <outlet property="bioTextField" destination="GKy-se-BTR" id="bii-L8-y7B"/>
+                        <outlet property="mutualsTableView" destination="GzU-cA-oLc" id="0d0-8h-Jt9"/>
+                        <outlet property="nameTextField" destination="rjB-1Y-udY" id="UTE-Qx-B6M"/>
+                        <outlet property="profilePic" destination="AQ7-MP-562" id="Sad-Nb-Xnb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="blb-h6-FW6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="RZV-uI-6ZD">
-                    <connections>
-                        <action selector="recognizeTapGestureWithRecognizer:" destination="pMU-Lc-otY" id="dbO-va-0Tt"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="RZV-uI-6ZD"/>
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
