@@ -169,4 +169,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         dismissed[sender.tag] = true
         tableView.reloadSections(sections, with: .automatic)
     }
+    
+    @IBAction func onBackButtonPress(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

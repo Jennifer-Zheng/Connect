@@ -18,16 +18,16 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     // Custom cell identifiers.
     let connectionCellIdentifier = "ConnectionCell"
     
-    var connections: Array<Dictionary<String, String>> = []
-    
-    var images: Array<UIImage> = []
+    var connections: Array<Dictionary<String, Any>> = []
     var uid = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         uid = Auth.auth().currentUser!.uid
         loadProfilePic()
         loadConnections()
@@ -58,7 +58,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                 // Then load each connection for their names and profile pictures.
                 for i in 0...(self.connections.count - 1) {
                     let otherId = self.connections[i]["user"]!
-                    Firestore.firestore().collection("users").document(otherId)
+                    Firestore.firestore().collection("users").document(otherId as! String)
                         .addSnapshotListener { documentSnapshot, error in
                       guard let document = documentSnapshot else {
                         print("Error fetching document: \(error!)")
@@ -67,12 +67,12 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                             self.connections[i]["name"] = document.get("name") as? String
                             // Load in profile picture.
                             // TODO: Change jpg to PNG
-                            let reference = Storage.storage().reference().child("profile_pics").child(otherId + ".jpg")
+                            let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".jpg")
                             reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
                               if let error = error {
                                 print(error.localizedDescription)
                               } else {
-                                self.images.append(UIImage(data: data!)!)
+                                self.connections[i]["image"] = UIImage(data: data!)!
                                 loadedImages += 1
                                 // Only reload the table once all ten images have loaded.
                                 if (loadedImages == self.connections.count){
@@ -97,9 +97,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: connectionCellIdentifier) as! ConnectionTableViewCell
-        cell.otherName?.text = connections[indexPath.row]["name"]!
-        cell.otherProfile?.image = images[indexPath.row]
-        cell.relation?.setTitle(connections[indexPath.row]["relationship"]!, for: .normal)
+        cell.otherName?.text = (connections[indexPath.row]["name"] as! String)
+        cell.otherProfile?.image = (connections[indexPath.row]["image"] as! UIImage)
+        cell.relation?.setTitle((connections[indexPath.row]["relationship"] as! String), for: .normal)
         return cell
     }
 

@@ -65,7 +65,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="1"/>
                                 <state key="normal" image="Connections"/>
                                 <connections>
-                                    <segue destination="mQ4-VG-vYZ" kind="presentation" modalPresentationStyle="fullScreen" id="UYL-8d-7sF"/>
+                                    <action selector="onBackButtonPress:" destination="wE2-eW-827" eventType="touchUpInside" id="gRL-gd-NRe"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yRB-4m-uhn">
@@ -251,14 +251,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AS5-48-P0w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="858" y="86"/>
-        </scene>
-        <!--Connections-->
-        <scene sceneID="dXO-vX-YXY">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Connections" id="mQ4-VG-vYZ" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rv9-FE-60t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="867" y="160"/>
         </scene>
     </scenes>
     <resources>
