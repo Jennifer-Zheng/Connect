@@ -54,7 +54,7 @@
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="25"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="test" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wbJ-9p-RMK">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wbJ-9p-RMK">
                                 <rect key="frame" x="29" y="353" width="365" height="36"/>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor" red="0.4549019608" green="0.4549019608" blue="0.50196078430000002" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -94,7 +94,7 @@
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <state key="normal" image="arrow.left" catalog="system"/>
                                         <connections>
-                                            <segue destination="Qh7-TP-5GW" kind="presentation" modalPresentationStyle="fullScreen" id="QWj-oE-IO0"/>
+                                            <action selector="onBackButtonPress:" destination="CtW-o4-inb" eventType="touchUpInside" id="67h-3S-k7M"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rV2-1G-9CD">
@@ -194,16 +194,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pm1-nh-MJL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="641" y="-144"/>
-        </scene>
-        <!--Connections-->
-        <scene sceneID="kDW-h9-Pq7">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Connections" id="Qh7-TP-5GW" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="X4b-3z-FTp"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qj6-zg-MKV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-349" y="-35"/>
         </scene>
         <!--ImportContacts-->
         <scene sceneID="uZH-g5-7XA">
