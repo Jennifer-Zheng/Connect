@@ -10,7 +10,7 @@
         <!--Requests View Controller-->
         <scene sceneID="6DC-IM-cle">
             <objects>
-                <viewController storyboardIdentifier="RequestsViewController" id="wE2-eW-827" customClass="RequestsViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Requests" id="wE2-eW-827" customClass="RequestsViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="s90-Jo-XBp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,11 +30,17 @@
                                         <rect key="frame" x="8" y="42" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="Profile"/>
+                                        <connections>
+                                            <segue destination="x0L-Yn-2Mt" kind="presentation" modalPresentationStyle="fullScreen" id="Zhj-FJ-rKh"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oIs-pn-dK8">
                                         <rect key="frame" x="356" y="42" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="message.circle" catalog="system"/>
+                                        <connections>
+                                            <segue destination="xEh-20-TIP" kind="presentation" modalPresentationStyle="fullScreen" id="pZg-lO-Rtc"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -58,6 +64,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="1"/>
                                 <state key="normal" image="Connections"/>
+                                <connections>
+                                    <segue destination="mQ4-VG-vYZ" kind="presentation" modalPresentationStyle="fullScreen" id="UYL-8d-7sF"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yRB-4m-uhn">
                                 <rect key="frame" x="136" y="796" width="1" height="100"/>
@@ -226,6 +235,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ZN-bS-oGe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="202.89855072463769" y="144.64285714285714"/>
+        </scene>
+        <!--Messaging-->
+        <scene sceneID="Azi-dd-rNb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Messaging" id="xEh-20-TIP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HSQ-RW-TUy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="859" y="125"/>
+        </scene>
+        <!--EditProfile-->
+        <scene sceneID="GO9-nf-Oq9">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditProfile" id="x0L-Yn-2Mt" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AS5-48-P0w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="858" y="86"/>
+        </scene>
+        <!--Connections-->
+        <scene sceneID="dXO-vX-YXY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Connections" id="mQ4-VG-vYZ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rv9-FE-60t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="867" y="160"/>
         </scene>
     </scenes>
     <resources>
