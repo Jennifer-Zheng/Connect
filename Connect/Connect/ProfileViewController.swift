@@ -11,8 +11,10 @@ import Firebase
 import FirebaseStorage
 
 class ProfileViewController: UIViewController {
-    @IBOutlet weak var profilePic: UIImageView!
     
+    let mutualConnectionCellIdentifier = "MutualConnectionCell"
+    
+    @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var Connection: UIButton!
     @IBOutlet weak var bioTextField: UITextView!
@@ -20,9 +22,17 @@ class ProfileViewController: UIViewController {
     
     let testUser = "D7lCTYj3JTOFjxZlFfKgQHri2ew1"
     
+    var connectionsArray : Array<Dictionary<String, String>> = Array<Dictionary<String, String>>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bioTextField.textContainer.lineFragmentPadding = 0
+        
+        mutualsTableView.dataSource = self
+        mutualsTableView.delegate = self
+        let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
+        mutualsTableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
+        
         signIn()
         showCurrentProfileInfo()
     }
@@ -63,7 +73,7 @@ class ProfileViewController: UIViewController {
             self.nameTextField.text = document.get("name") as? String;
             self.bioTextField.text = document.get("bio") as? String;
             
-            let connectionsArray = (document.get("connections") as? Array<Dictionary<String, String>>)!
+            self.connectionsArray = (document.get("connections") as? Array<Dictionary<String, String>>)!
             
         }
     }
@@ -81,4 +91,25 @@ class ProfileViewController: UIViewController {
     @IBAction func requestConnection(_ sender: Any) {
         
     }
+}
+
+extension ProfileViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return connectionsArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Mutual connection cell.
+        let cell = tableView.dequeueReusableCell(withIdentifier: mutualConnectionCellIdentifier) as! MutualConnectionTableViewCell
+        
+        cell.mutualRelation.titleLabel?.text = connectionsArray[indexPath.row]["relationship"] ?? "Friend"
+        cell.populateWithUser(uid: connectionsArray[indexPath.row]["user"])
+        return cell
+    }
+    
+    
+}
+
+extension ProfileViewController : UITableViewDelegate {
+    
 }

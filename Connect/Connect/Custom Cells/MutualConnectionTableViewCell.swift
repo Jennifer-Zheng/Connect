@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseStorage
 
 class MutualConnectionTableViewCell: UITableViewCell {
 
@@ -17,6 +19,32 @@ class MutualConnectionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         mutualRelation.layer.cornerRadius = 15
+    }
+    
+    func populateWithUser(uid : String?) {
+        if uid == nil {
+            return
+        }
+        
+        let reference = Storage.storage().reference().child("profile_pics").child("\(uid!).png")
+        // Download in memory with a maximum allowed size = 5 MB
+        reference.getData(maxSize: 5 * 1024 * 1024) { data, error in
+        if (error != nil) {
+            
+          } else {
+            self.mutualProfile.image = UIImage(data: data!)
+          }
+        }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document("\(uid!)")
+        .addSnapshotListener { documentSnapshot, error in
+          guard let document = documentSnapshot else {
+            print("Error fetching document: \(error!)")
+            return
+          }
+            self.mutualName.text = document.get("name") as? String
+        }
     }
 
 }
