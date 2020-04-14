@@ -81,7 +81,7 @@
                                 <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="Requests"/>
                                 <connections>
-                                    <segue destination="vDV-gO-m0W" kind="presentation" modalPresentationStyle="fullScreen" id="ZQo-zC-o1Z"/>
+                                    <segue destination="vDV-gO-m0W" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="ZQo-zC-o1Z"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bFJ-d0-QLx">

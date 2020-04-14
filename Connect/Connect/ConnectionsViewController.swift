@@ -23,6 +23,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Firestore.firestore().clearPersistence(completion: nil)
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -56,30 +57,32 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                 self.connections = (document.get("connections") as? Array<Dictionary<String, String>>)!
                 var loadedImages = 0
                 // Then load each connection for their names and profile pictures.
-                for i in 0...(self.connections.count - 1) {
-                    let otherId = self.connections[i]["user"]!
-                    Firestore.firestore().collection("users").document(otherId as! String)
-                        .addSnapshotListener { documentSnapshot, error in
-                      guard let document = documentSnapshot else {
-                        print("Error fetching document: \(error!)")
-                        return
-                      }
-                            self.connections[i]["name"] = document.get("name") as? String
-                            // Load in profile picture.
-                            // TODO: Change jpg to PNG
-                            let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".jpg")
-                            reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
-                              if let error = error {
-                                print(error.localizedDescription)
-                              } else {
-                                self.connections[i]["image"] = UIImage(data: data!)!
-                                loadedImages += 1
-                                // Only reload the table once all ten images have loaded.
-                                if (loadedImages == self.connections.count){
-                                    self.tableView.reloadData()
+                if (self.connections.count > 0) {
+                    for i in 0...(self.connections.count - 1) {
+                        let otherId = self.connections[i]["user"]!
+                        Firestore.firestore().collection("users").document(otherId as! String)
+                            .addSnapshotListener { documentSnapshot, error in
+                          guard let document = documentSnapshot else {
+                            print("Error fetching document: \(error!)")
+                            return
+                          }
+                                self.connections[i]["name"] = document.get("name") as? String
+                                // Load in profile picture.
+                                // TODO: Change jpg to PNG
+                                let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".png")
+                                reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
+                                  if let error = error {
+                                    print(error.localizedDescription)
+                                  } else {
+                                    self.connections[i]["image"] = UIImage(data: data!)!
+                                    loadedImages += 1
+                                    // Only reload the table once all ten images have loaded.
+                                    if (loadedImages == self.connections.count){
+                                        self.tableView.reloadData()
+                                    }
+                                  }
                                 }
-                              }
-                            }
+                        }
                     }
                 }
         }
