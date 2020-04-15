@@ -68,22 +68,46 @@
                                 <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" textContentType="name"/>
                             </textField>
-                            <searchBar contentMode="redraw" ambiguous="YES" searchBarStyle="prominent" placeholder="Search relationship tags..." translatesAutoresizingMaskIntoConstraints="NO" id="Bzk-7m-tX9">
-                                <rect key="frame" x="0.0" y="196" width="414" height="44"/>
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search relationship tags..." translatesAutoresizingMaskIntoConstraints="NO" id="Bzk-7m-tX9">
+                                <rect key="frame" x="0.0" y="196" width="414" height="56"/>
                                 <color key="barTintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mGY-Vw-nCw">
-                                <rect key="frame" x="0.0" y="240" width="414" height="656"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mGY-Vw-nCw">
+                                <rect key="frame" x="0.0" y="252" width="414" height="644"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="OTF-8Y-Ehh">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RelationshipTableViewCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RelationshipTableViewCell" id="OTF-8Y-Ehh" customClass="RelationshipTableViewCell" customModule="Connect" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OTF-8Y-Ehh" id="GxS-Am-pV5">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEl-va-i6c">
+                                                    <rect key="frame" x="20" y="7" width="374" height="30"/>
+                                                    <color key="backgroundColor" red="0.89585071800000005" green="0.25153872370000002" blue="0.19796681399999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                                    <color key="tintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <state key="normal" title="Relationship">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uEl-va-i6c" firstAttribute="centerX" secondItem="GxS-Am-pV5" secondAttribute="centerX" id="A28-yv-xAx"/>
+                                                <constraint firstItem="uEl-va-i6c" firstAttribute="centerY" secondItem="GxS-Am-pV5" secondAttribute="centerY" id="VDl-Zt-VSk"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="relationship" destination="uEl-va-i6c" id="P8N-ZY-XGL"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -94,7 +118,9 @@
                             <constraint firstItem="VeU-pb-EdA" firstAttribute="top" secondItem="PtR-yr-tbf" secondAttribute="bottom" constant="8" id="4hG-i7-co8"/>
                             <constraint firstItem="VeU-pb-EdA" firstAttribute="leading" secondItem="rq7-ZB-DWG" secondAttribute="leading" constant="76" id="7n7-GF-49j"/>
                             <constraint firstItem="mGY-Vw-nCw" firstAttribute="leading" secondItem="6q9-ww-Hjx" secondAttribute="leading" id="DDJ-3n-8WJ"/>
+                            <constraint firstItem="Bzk-7m-tX9" firstAttribute="trailing" secondItem="rq7-ZB-DWG" secondAttribute="trailing" id="Gli-1Z-GGW"/>
                             <constraint firstItem="JvA-rj-Fzi" firstAttribute="centerX" secondItem="rq7-ZB-DWG" secondAttribute="centerX" id="KUf-LE-Cdt"/>
+                            <constraint firstItem="Bzk-7m-tX9" firstAttribute="top" secondItem="VeU-pb-EdA" secondAttribute="bottom" constant="13" id="LbX-Nl-vo6"/>
                             <constraint firstItem="mGY-Vw-nCw" firstAttribute="top" secondItem="Bzk-7m-tX9" secondAttribute="bottom" id="Ozf-Os-k8h"/>
                             <constraint firstItem="rq7-ZB-DWG" firstAttribute="trailing" secondItem="VNB-bh-raA" secondAttribute="trailing" constant="10" id="TnI-0c-nMD"/>
                             <constraint firstItem="PtR-yr-tbf" firstAttribute="top" secondItem="6q9-ww-Hjx" secondAttribute="top" id="coC-tr-VnU"/>
@@ -102,6 +128,7 @@
                             <constraint firstItem="PtR-yr-tbf" firstAttribute="leading" secondItem="6q9-ww-Hjx" secondAttribute="leading" id="lUm-EC-NBD"/>
                             <constraint firstItem="VNB-bh-raA" firstAttribute="leading" secondItem="VeU-pb-EdA" secondAttribute="trailing" constant="19" id="lZ5-LX-Aud"/>
                             <constraint firstAttribute="bottom" secondItem="mGY-Vw-nCw" secondAttribute="bottom" id="nOa-km-nIN"/>
+                            <constraint firstItem="Bzk-7m-tX9" firstAttribute="leading" secondItem="rq7-ZB-DWG" secondAttribute="leading" id="nSw-SR-qvN"/>
                             <constraint firstAttribute="trailing" secondItem="mGY-Vw-nCw" secondAttribute="trailing" id="xRk-P1-vfO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rq7-ZB-DWG"/>
@@ -109,6 +136,7 @@
                     <connections>
                         <outlet property="nameTextField" destination="VNB-bh-raA" id="vby-hr-klW"/>
                         <outlet property="profilePic" destination="VeU-pb-EdA" id="g1N-1o-G4W"/>
+                        <outlet property="relationshipsTableView" destination="mGY-Vw-nCw" id="g5B-av-NzT"/>
                         <outlet property="searchBar" destination="Bzk-7m-tX9" id="HZ1-Pp-GEk"/>
                     </connections>
                 </viewController>

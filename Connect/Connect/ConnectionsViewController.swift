@@ -57,7 +57,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                 var loadedImages = 0
                 // Then load each connection for their names and profile pictures.
                 for i in 0...(self.connections.count - 1) {
-                    let otherId = self.connections[i]["user"]!
+                    guard let otherId = self.connections[i]["user"] else {
+                        continue
+                    }
                     Firestore.firestore().collection("users").document(otherId as! String)
                         .addSnapshotListener { documentSnapshot, error in
                       guard let document = documentSnapshot else {
