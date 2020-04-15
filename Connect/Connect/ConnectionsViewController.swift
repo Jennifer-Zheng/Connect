@@ -29,7 +29,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        uid = Auth.auth().currentUser!.uid
+        uid = "D7lCTYj3JTOFjxZlFfKgQHri2ew1" //Auth.auth().currentUser!.uid
         loadProfilePic()
         loadConnections()
     }
@@ -86,6 +86,14 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.destination is ProfileViewController) {
+            let indexPath = self.tableView.indexPathForSelectedRow!
+            let profileVC = segue.destination as! ProfileViewController
+            profileVC.user = self.connections[indexPath.row]["user"] as! String
+        }
+    }
+    
     // Number of rows needed in the table.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return connections.count
@@ -101,6 +109,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         cell.otherName?.text = (connections[indexPath.row]["name"] as! String)
         cell.otherProfile?.image = (connections[indexPath.row]["image"] as! UIImage)
         cell.relation?.setTitle((connections[indexPath.row]["relationship"] as! String), for: .normal)
+        cell.relation.backgroundColor = Constants.getRelationColor(connections[indexPath.row]["relationship"] as! String)
+        let spacing: CGFloat = 8.0
+        cell.relation.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
         return cell
     }
 

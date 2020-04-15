@@ -137,6 +137,7 @@
                                             <outlet property="otherName" destination="F2n-Jz-MhU" id="WKT-cn-eQm"/>
                                             <outlet property="otherProfile" destination="aOn-ln-Db7" id="sh8-B1-1ZK"/>
                                             <outlet property="relation" destination="GVw-da-w0R" id="QUV-wv-Lim"/>
+                                            <segue destination="yao-bY-9yF" kind="presentation" modalPresentationStyle="fullScreen" id="4LP-jo-mSE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -160,7 +161,17 @@
                 <viewControllerPlaceholder storyboardName="Requests" id="vDV-gO-m0W" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gss-ad-ejB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="772" y="66"/>
+            <point key="canvasLocation" x="778" y="98"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="kod-O4-RLb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" id="yao-bY-9yF" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Cef-Zl-Lui"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hde-ri-Knj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="758" y="64"/>
         </scene>
     </scenes>
     <resources>
