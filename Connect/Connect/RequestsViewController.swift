@@ -173,6 +173,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                         mutualIds.insert(user["user"]!)
                     }
                 }
+                pendingConnections[i]["numMutuals"] = mutuals.count
                 // If there are matches, load their profiles in to get their profiles.
                 if (mutuals.count > 0) {
                     dispatchGroup.enter()
@@ -242,7 +243,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 return 0
             }
             if (pendingConnections[idx]["expanded"] as! Bool) {
-                return min(maxMutualsToDisplay + 1, (pendingConnections[idx]["mutuals"] as! Array<Any>).count + 1)
+                return min(maxMutualsToDisplay + 1, pendingConnections[idx]["numMutuals"] as! Int + 1)
             }
             return 1
         }
@@ -291,7 +292,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             
             cell.otherName?.text = (pendingConnections[idx]["name"] as? String)!
             cell.otherProfile?.image = (pendingConnections[indexPath.row]["image"] as! UIImage)
-            let numMutuals = (pendingConnections[idx]["mutuals"] as? Array<Any>)!.count
+            let numMutuals = pendingConnections[idx]["numMutuals"] as! Int
             cell.otherNumberOfMutuals?.text = "\(numMutuals) Mutual Connection"
             if (numMutuals != 1) {
                 cell.otherNumberOfMutuals?.text! += "s"
