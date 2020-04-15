@@ -42,13 +42,14 @@ class LoginViewController: UIViewController {
             }
             
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                    if error == nil{
-                        self.currUserUID = Auth.auth().currentUser?.uid
-                        print(self.currUserUID)
-                    }
-                    else{
-                        print(error)
-                    }
+                guard let user = authResult?.user, error == nil else {
+                    print(error!.localizedDescription)
+                    self.errorMsg.text = error!.localizedDescription
+                    return
+                }
+                self.currUserUID = Auth.auth().currentUser?.uid
+                print(self.currUserUID)
+                self.transitionToHome()
             }
         }
         else{
@@ -60,6 +61,15 @@ class LoginViewController: UIViewController {
         if segue.identifier == editProfileSegue{
             
         }
+    }
+    
+    func transitionToHome(){
+        let storyboard = UIStoryboard(name: "Connections", bundle:nil)
+        
+        let connectionsViewController = storyboard.instantiateViewController(withIdentifier: "Connections") as? ConnectionsViewController
+        
+        view.window?.rootViewController = connectionsViewController
+        view.window?.makeKeyAndVisible()
     }
     
 }

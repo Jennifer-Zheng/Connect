@@ -12,6 +12,9 @@
 		387E57E42436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E52436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E589E3243FEC26000074DC /* EditProfileViewController.swift */; };
+		86E584552447A3B6002E4BEC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584542447A3B6002E4BEC /* LoginViewController.swift */; };
+		86E584572447A532002E4BEC /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584562447A532002E4BEC /* VerifyViewController.swift */; };
+		86E584592447A56A002E4BEC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584582447A56A002E4BEC /* RegisterViewController.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
@@ -71,6 +74,9 @@
 		4B173F78F74314AF648EE242 /* Pods_Connect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FC0949F8A9D80511B5D1CEC /* Pods-Connect-ConnectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect-ConnectUITests.debug.xcconfig"; path = "Target Support Files/Pods-Connect-ConnectUITests/Pods-Connect-ConnectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		66FAC9E124CFD99F5EE82BEF /* Pods-Connect-ConnectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect-ConnectUITests.release.xcconfig"; path = "Target Support Files/Pods-Connect-ConnectUITests/Pods-Connect-ConnectUITests.release.xcconfig"; sourceTree = "<group>"; };
+		86E584542447A3B6002E4BEC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		86E584562447A532002E4BEC /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
+		86E584582447A56A002E4BEC /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		87BA50E7D805DA360A26E5D6 /* Pods-ConnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.release.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.release.xcconfig"; sourceTree = "<group>"; };
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
@@ -220,6 +226,9 @@
 				D653770C241C0A7700E283E2 /* Info.plist */,
 				D6537704241C0A7600E283E2 /* Connect.xcdatamodeld */,
 				387E57E22436B014008CF705 /* GoogleService-Info.plist */,
+				86E584542447A3B6002E4BEC /* LoginViewController.swift */,
+				86E584562447A532002E4BEC /* VerifyViewController.swift */,
+				86E584582447A56A002E4BEC /* RegisterViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -524,9 +533,12 @@
 				D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */,
 				D6537706241C0A7600E283E2 /* Connect.xcdatamodeld in Sources */,
 				C9C28C7824450E0D00AB0911 /* MessagingViewController.swift in Sources */,
+				86E584592447A56A002E4BEC /* RegisterViewController.swift in Sources */,
 				C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */,
 				C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */,
+				86E584572447A532002E4BEC /* VerifyViewController.swift in Sources */,
 				C9C28C7624450DF200AB0911 /* MessagingTableViewCell.swift in Sources */,
+				86E584552447A3B6002E4BEC /* LoginViewController.swift in Sources */,
 				38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */,
 				C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */,
 				D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */,

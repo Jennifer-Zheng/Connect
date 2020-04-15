@@ -45,22 +45,29 @@ class RegisterViewController: UIViewController {
                 }
                 
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                    if error == nil{
-                        db.collection("users").document(Auth.auth().currentUser!.uid).setData([
-                            "email": email,
-                            "password": password,
-                            "phoneNumber": Int(),
-                            "connections": [Any](),
-                            "pendingConnections": [Any](),
-                            "pendingRelations": [Any](),
-                            "sentConnections": [Any](),
-                            "messages": [Any]()
-                        ]) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
+                    guard let user = authResult?.user, error == nil else {
+                        print(error!.localizedDescription)
+                        self.errorMsg.text = error!.localizedDescription
+                        return
+                    }
+
+                    db.collection("users").document(Auth.auth().currentUser!.uid).setData([
+                        "email": email,
+                        "password": password,
+                        "phoneNumber": Int(),
+                        "connections": [Any](),
+                        "pendingConnections": [Any](),
+                        "pendingRelations": [Any](),
+                        "sentConnections": [Any](),
+                        "messages": [Any]()
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                            self.errorMsg.text = err.localizedDescription
+                            return
+                        } else {
+                            print("Document successfully written!")
+                            self.transitionToEditProfile()
                         }
                     }
                 }
@@ -75,6 +82,15 @@ class RegisterViewController: UIViewController {
         if segue.identifier == editProfileSegue{
             
         }
+    }
+    
+    func transitionToEditProfile(){
+        let storyboard = UIStoryboard(name: "EditProfile", bundle:nil)
+        
+        let editViewController = storyboard.instantiateViewController(withIdentifier: "EditProfile") as? EditProfileViewController
+        
+        view.window?.rootViewController = editViewController
+        view.window?.makeKeyAndVisible()
     }
     
 }

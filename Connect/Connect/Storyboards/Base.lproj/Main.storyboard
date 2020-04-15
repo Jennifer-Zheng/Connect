@@ -28,7 +28,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="z9f-dW-9t5" kind="presentation" identifier="temp" modalPresentationStyle="fullScreen" id="gMe-Kn-8Bi"/>
+                        <segue destination="z9f-dW-9t5" kind="presentation" identifier="connectionsSegue" modalPresentationStyle="fullScreen" id="gMe-Kn-8Bi"/>
+                        <segue destination="YkN-2K-3cw" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="sCu-de-WTJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -49,7 +50,15 @@
                 <viewControllerPlaceholder storyboardName="Connections" referencedIdentifier="Connections" id="z9f-dW-9t5" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sJo-Ql-t1o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="656" y="143"/>
+            <point key="canvasLocation" x="696" y="113"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="qag-HQ-Fai">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="YkN-2K-3cw" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1VK-Cu-xZt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="624" y="236"/>
         </scene>
     </scenes>
 </document>
