@@ -248,6 +248,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 // Add in user info.
                 cell.otherName?.text = (pendingRelations[indexPath.row]["name"] as! String)
+                cell.otherRelation?.setTitle((pendingRelations[indexPath.row]["relationship"] as! String), for: .normal)
                 cell.otherProfile?.image = (pendingRelations[indexPath.row]["image"] as! UIImage)
                 
                 // Add functions to buttons. They need to be in this file since they modify the table.
@@ -261,6 +262,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             // Connection Request
             let idx = indexPath.section - pendingRelations.count
             let cell = tableView.dequeueReusableCell(withIdentifier: pendingConnectionCellIdentifier) as! PendingConnectionTableViewCell
+            
             cell.otherName?.text = (pendingConnections[idx]["name"] as? String)!
             cell.otherProfile?.image = (pendingConnections[indexPath.row]["image"] as! UIImage)
             let numMutuals = (pendingConnections[idx]["mutuals"] as? Array<Any>)!.count
