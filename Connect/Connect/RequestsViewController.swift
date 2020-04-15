@@ -23,6 +23,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     let queue = DispatchQueue.global()
     let dispatchGroup = DispatchGroup()
     
+    let maxMutualsToDisplay = 4
+    
     var pendingRelations: Array<Dictionary<String, Any>> = []
     var pendingConnections: Array<Dictionary<String, Any>> = []
     var connections: Array<Dictionary<String, Any>> = []
@@ -122,8 +124,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             for i in 0...(self.pendingConnections.count - 1) {
                 let otherId = self.pendingConnections[i]["user"]!
                 Firestore.firestore().collection("users").document(otherId as! String)
-                    .addSnapshotListener { documentSnapshot, error in
-                        guard let document = documentSnapshot else {
+                    .getDocument { document, error in
+                        guard let document = document, document.exists else {
                             print("Error fetching document: \(error!)")
                             return
                         }
@@ -161,42 +163,63 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             // Iterate through all of the sender's connections and see if there are matches with the users.
             for i in 0...(pendingConnections.count - 1) {
                 var mutuals: Array<Dictionary<String, Any>> = []
+                var mutualIds = Set<String>()
                 for user in (pendingConnections[i]["connections"] as! Array<Dictionary<String, String>>) {
                     if (set.contains(user["user"]!)) {
                         mutuals.append([
                             "user": user["user"]!,
                             "relationship": user["relationship"]!
                         ])
+                        mutualIds.insert(user["user"]!)
                     }
                 }
-                // If there are matches, load their profiles in to get their names and images.
+                // If there are matches, load their profiles in to get their profiles.
                 if (mutuals.count > 0) {
                     dispatchGroup.enter()
-                    var loadedImages = 0
+                    var loadedMutuals = 0
                     for i in 0...(mutuals.count - 1) {
                         Firestore.firestore().collection("users").document((mutuals[i]["user"] as? String)!)
-                            .addSnapshotListener { documentSnapshot, error in
-                                guard let document = documentSnapshot else {
-                                    print("Error fetching document: \(error!)")
-                                    return
+                            .getDocument { document, error in
+                                if let error = error {
+                                    print("Error fetching document: \(error)")
+                                } else {
+                                    mutuals[i]["name"] = document!.get("name") as? String
+                                    // Rank mutuals based on their # of mutuals to the sender of the connection request.
+                                    var priority = 0
+                                    let mutualConnections = document!.get("connections") as! Array<Dictionary<String, String>>
+                                    for j in 0...(mutualConnections.count - 1) {
+                                        if (mutualIds.contains(mutualConnections[j]["user"]!)) {
+                                            priority += 1
+                                        }
+                                    }
+                                    mutuals[i]["priority"] = priority
                                 }
-                                mutuals[i]["name"] = document.get("name") as? String
-                                // TODO: Sort by # of mutuals
-                        }
-                       // Load in profile picture.
-                        let reference = Storage.storage().reference().child("profile_pics").child(mutuals[i]["user"] as! String + ".png")
-                        reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
-                            if let error = error {
-                                print(error.localizedDescription)
-                            } else {
-                                mutuals[i]["image"] = UIImage(data: data!)!
-                            }
-                            loadedImages += 1
-                            // Only mark done once all images have loaded.
-                            if (loadedImages == self.pendingConnections.count) {
-                                self.pendingConnections[i]["mutuals"] = mutuals
-                                self.dispatchGroup.leave()
-                            }
+                                // Once all mutuals have loaded, we only need to load the profile pictures of those with the highest rank.
+                                loadedMutuals += 1
+                                if (loadedMutuals == mutuals.count) {
+                                    mutuals.sort {
+                                        (($0 as Dictionary<String, Any>)["priority"] as? Int)! < (($1 as Dictionary<String, Any>)["priority"] as? Int)!
+                                    }
+                                    mutuals = Array(mutuals.prefix(self.maxMutualsToDisplay))
+                                    var loadedImages = 0
+                                    for j in 0...(mutuals.count - 1) {
+                                        // Load in profile picture.
+                                        let reference = Storage.storage().reference().child("profile_pics").child(mutuals[j]["user"] as! String + ".png")
+                                        reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
+                                            if let error = error {
+                                                print(error.localizedDescription)
+                                            } else {
+                                                mutuals[i]["image"] = UIImage(data: data!)!
+                                            }
+                                            loadedImages += 1
+                                            // Only mark done once all images have loaded.
+                                            if (loadedImages == mutuals.count) {
+                                                self.pendingConnections[i]["mutuals"] = mutuals
+                                                self.dispatchGroup.leave()
+                                            }
+                                        }
+                                    }
+                                }
                         }
                     }
                 }
@@ -219,7 +242,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 return 0
             }
             if (pendingConnections[idx]["expanded"] as! Bool) {
-                return min(5, (pendingConnections[idx]["mutuals"] as! Array<Any>).count + 1)
+                return min(maxMutualsToDisplay + 1, (pendingConnections[idx]["mutuals"] as! Array<Any>).count + 1)
             }
             return 1
         }
