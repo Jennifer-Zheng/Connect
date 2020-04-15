@@ -18,6 +18,7 @@
 		86E5844D24468BFE002E4BEC /* RelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844C24468BFE002E4BEC /* RelationshipTableViewCell.swift */; };
 		86E5844F24470FD9002E4BEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844E24470FD9002E4BEC /* Constants.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
+		C9A753E92447C28B00A9F3DE /* NearbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A753E82447C28B00A9F3DE /* NearbyViewController.swift */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
 		C9C28C7224450DA200AB0911 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9C28C7124450DA200AB0911 /* Conversation.storyboard */; };
@@ -85,6 +86,7 @@
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
 		B4BE1D2FE8A4C52539B38F35 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
+		C9A753E82447C28B00A9F3DE /* NearbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyViewController.swift; sourceTree = "<group>"; };
 		C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		C9C28C7124450DA200AB0911 /* Conversation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */,
 				C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */,
 				C9C28C7724450E0D00AB0911 /* MessagingViewController.swift */,
+				C9A753E82447C28B00A9F3DE /* NearbyViewController.swift */,
 				C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */,
 				D6537707241C0A7700E283E2 /* Assets.xcassets */,
 				D6537709241C0A7700E283E2 /* LaunchScreen.storyboard */,
@@ -532,6 +535,7 @@
 			files = (
 				C9EEBFE224415EB0005EA785 /* ImportContactsViewController.swift in Sources */,
 				86E5844F24470FD9002E4BEC /* Constants.swift in Sources */,
+				C9A753E92447C28B00A9F3DE /* NearbyViewController.swift in Sources */,
 				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
 				86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */,
 				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
