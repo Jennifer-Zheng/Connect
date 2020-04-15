@@ -20,6 +20,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     let pendingRelationshipCellIdentifier = "PendingRelationshipCell"
     let mutualConnectionCellIdentifier = "MutualConnectionCell"
     
+    let profileSegueIdentifier = "ProfileSegue"
+    
     let queue = DispatchQueue.global()
     let dispatchGroup = DispatchGroup()
     
@@ -84,8 +86,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Load the profiles of each relation request sender.
     func loadPendingRelations() {
-        dispatchGroup.enter()
         if (self.pendingRelations.count > 0) {
+            dispatchGroup.enter()
             var loadedImages = 0
             for i in 0...(self.pendingRelations.count - 1) {
                 let otherId = self.pendingRelations[i]["user"]!
@@ -118,8 +120,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Load the profiles of each connection request sender.
     func loadPendingConnections() {
-        dispatchGroup.enter()
         if (self.pendingConnections.count > 0) {
+            dispatchGroup.enter()
             var loadedImages = 0
             for i in 0...(self.pendingConnections.count - 1) {
                 let otherId = self.pendingConnections[i]["user"]!
@@ -228,6 +230,27 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    // Segue to the profile screen when a request cell is clicked.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Don't segue for mutual cells.
+        if (indexPath.row == 0) {
+            performSegue(withIdentifier: profileSegueIdentifier, sender: self)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == profileSegueIdentifier) {
+            let idx = self.tableView.indexPathForSelectedRow!.section
+            print(idx)
+            let profileVC = segue.destination as! ProfileViewController
+            if (idx < pendingRelations.count) {
+                profileVC.user = pendingRelations[idx]["user"] as! String
+            } else {
+                profileVC.user = pendingConnections[idx - pendingRelations.count]["user"] as! String
+            }
+        }
+    }
+    
     // Number of rows needed for each request.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Pending Relationships
@@ -281,8 +304,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 // Add functions to buttons. They need to be in this file since they modify the table.
                 cell.confirmButton?.tag = indexPath.section
                 cell.declineButton?.tag = indexPath.section
-                cell.confirmButton?.addTarget(self, action: #selector(onConfirmRequestPress(sender:)), for: .touchUpInside)
-                cell.declineButton?.addTarget(self, action: #selector(onDeclineRequestPress(sender:)), for: .touchUpInside)
+                cell.confirmButton?.addTarget(self, action: #selector(onConfirmRelationship(sender:)), for: .touchUpInside)
+                cell.declineButton?.addTarget(self, action: #selector(onDeclineRelationship(sender:)), for: .touchUpInside)
                 
                 return cell
             }
@@ -303,8 +326,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             cell.confirmButton?.tag = indexPath.section
             cell.declineButton?.tag = indexPath.section
             cell.chevron?.addTarget(self, action: #selector(onChevronPress(sender:)), for: .touchUpInside)
-            cell.confirmButton?.addTarget(self, action: #selector(onConfirmRequestPress(sender:)), for: .touchUpInside)
-            cell.declineButton?.addTarget(self, action: #selector(onDeclineRequestPress(sender:)), for: .touchUpInside)
+            cell.confirmButton?.addTarget(self, action: #selector(onConfirmConnection(sender:)), for: .touchUpInside)
+            cell.declineButton?.addTarget(self, action: #selector(onDeclineConnection(sender:)), for: .touchUpInside)
                 
             // Chevron visibility.
             if (numMutuals == 0) {
@@ -342,26 +365,88 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // Update the database and hide the section.
-    @objc func onConfirmRequestPress(sender: UIButton) {
+    @objc func onConfirmRelationship(sender: UIButton) {
         let sections = IndexSet(integer: sender.tag)
-        // api call here.
-        if (sender.tag < pendingRelations.count) {
-            pendingRelations[sender.tag]["dismissed"] = true
-        } else {
-            pendingConnections[sender.tag - pendingRelations.count]["dismissed"] = true
+        let otherUID = pendingRelations[sender.tag]["user"] as! String
+        var oldRelationship = ""
+        for connection in connections {
+            if (connection["user"] as! String == otherUID) {
+                oldRelationship = connection["relationship"] as! String
+            }
         }
+        let newRelationship = pendingRelations[sender.tag]["relationship"] as! String
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "sentRelations": FieldValue.arrayRemove([["user": uid, "relationship": newRelationship]])
+            ])
+        Firestore.firestore().collection("users").document(uid)
+            .updateData([
+                "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": oldRelationship]]),
+                "pendingRelations": FieldValue.arrayRemove([["user": otherUID, "relationship": newRelationship]])
+            ])
+        Firestore.firestore().collection("users").document(uid)
+            .updateData([
+                "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": newRelationship]]),
+            ])
+        
+        pendingRelations[sender.tag]["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
     
-    // Hide the section.
-    @objc func onDeclineRequestPress(sender: UIButton) {
+    // Update the database and hide the section.
+    @objc func onDeclineRelationship(sender: UIButton) {
         let sections = IndexSet(integer: sender.tag)
-        // api call here
-        if (sender.tag < pendingRelations.count) {
-            pendingRelations[sender.tag]["dismissed"] = true
-        } else {
-            pendingConnections[sender.tag - pendingRelations.count]["dismissed"] = true
-        }
+        let otherUID = pendingRelations[sender.tag]["user"] as! String
+        let relationship = pendingRelations[sender.tag]["relationship"] as! String
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "sentRelations": FieldValue.arrayRemove([["user": uid, "relationship": relationship]])
+            ])
+        Firestore.firestore().collection("users").document(uid)
+            .updateData([
+                "pendingRelations": FieldValue.arrayRemove([["user": otherUID, "relationship": relationship]])
+            ])
+        
+        pendingRelations[sender.tag]["dismissed"] = true
+        tableView.reloadSections(sections, with: .automatic)
+    }
+    
+    // Update the database and hide the section.
+    @objc func onConfirmConnection(sender: UIButton) {
+        let sections = IndexSet(integer: sender.tag)
+        let idx = sender.tag - pendingRelations.count
+        let otherUID = pendingConnections[idx]["user"] as! String
+        
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayRemove([["user": uid]])
+            ])
+        Firestore.firestore().collection("users").document(uid)
+            .updateData([
+                "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
+                "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
+            ])
+        
+        pendingConnections[idx]["dismissed"] = true
+        tableView.reloadSections(sections, with: .automatic)
+    }
+    
+    // Update the database and hide the section.
+    @objc func onDeclineConnection(sender: UIButton) {
+        let sections = IndexSet(integer: sender.tag)
+        let idx = sender.tag - pendingRelations.count
+        let otherUID = pendingConnections[idx]["user"] as! String
+        
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayRemove([["user": uid]])
+            ])
+        Firestore.firestore().collection("users").document(uid)
+            .updateData([
+                "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
+            ])
+        
+        pendingConnections[idx]["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
     
