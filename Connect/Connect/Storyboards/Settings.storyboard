@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S66-lP-wQh">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S66-lP-wQh">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nez-hG-Ric">
@@ -29,8 +29,8 @@
                                             <action selector="dismissButton:" destination="UXf-yQ-lh7" eventType="touchUpInside" id="agj-JB-faU"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x5-2M-56i">
-                                        <rect key="frame" x="157" y="52" width="100" height="35"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x5-2M-56i">
+                                        <rect key="frame" x="160" y="52" width="94.5" height="35"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -69,15 +69,29 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="trailing" secondItem="B8u-jI-ZQX" secondAttribute="trailing" id="Oao-2x-qhC"/>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="leading" secondItem="B8u-jI-ZQX" secondAttribute="leading" id="Ta7-Ak-B4u"/>
                             <constraint firstItem="pfl-a3-wgt" firstAttribute="centerY" secondItem="0vW-H6-Ycd" secondAttribute="centerY" id="fNe-UH-bf2"/>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="top" secondItem="0vW-H6-Ycd" secondAttribute="top" id="rrW-Zt-k7U"/>
                             <constraint firstItem="pfl-a3-wgt" firstAttribute="centerX" secondItem="0vW-H6-Ycd" secondAttribute="centerX" id="wEw-4M-ztO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="B8u-jI-ZQX"/>
                     </view>
+                    <connections>
+                        <segue destination="09S-bO-qG0" kind="showDetail" identifier="signOutToLoginSegue" id="OyF-Me-GVS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpP-mt-SMd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="179.71014492753625" y="56.919642857142854"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="GS1-df-G67">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="09S-bO-qG0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tE0-bt-BC5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="764" y="58"/>
         </scene>
     </scenes>
     <resources>

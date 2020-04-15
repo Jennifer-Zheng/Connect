@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     @IBAction func signOut(_ sender: Any) {
         do {
             try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "signOutToLoginSegue", sender: self)
         } catch let signOutError as NSError {
           print ("Error signing out: %@", signOutError)
         }
