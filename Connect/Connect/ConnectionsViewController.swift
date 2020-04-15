@@ -29,7 +29,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        uid = "D7lCTYj3JTOFjxZlFfKgQHri2ew1" //Auth.auth().currentUser!.uid
+        uid = Auth.auth().currentUser!.uid
         loadProfilePic()
         loadConnections()
     }

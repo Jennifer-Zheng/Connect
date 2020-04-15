@@ -162,18 +162,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="eis-nu-x1C">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="eis-nu-x1C">
                                                     <rect key="frame" x="20" y="13" width="125" height="125"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="125" id="Y25-ic-BzH"/>
+                                                        <constraint firstAttribute="height" constant="125" id="gQA-WB-zR5"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y59-1B-qbV">
                                                     <rect key="frame" x="0.0" y="149" width="414" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wants to set your relation to them as:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTb-9f-kvn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Wants to set your relation to them as:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTb-9f-kvn">
                                                     <rect key="frame" x="153" y="37" width="255" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -187,8 +189,22 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yF-vn-RrV">
+                                                    <rect key="frame" x="153" y="67" width="92" height="28"/>
+                                                    <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <state key="normal" title="Relation">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UcN-XH-bDs">
+                                                    <rect key="frame" x="153" y="8" width="241" height="29"/>
+                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsi-hd-wSG">
-                                                    <rect key="frame" x="260" y="103" width="92" height="35"/>
+                                                    <rect key="frame" x="257" y="103" width="92" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -196,23 +212,20 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yF-vn-RrV">
-                                                    <rect key="frame" x="153" y="67" width="92" height="28"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <state key="normal" title="Relation">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </state>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UcN-XH-bDs">
-                                                    <rect key="frame" x="153" y="8" width="241" height="29"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="eis-nu-x1C" secondAttribute="bottom" constant="12" id="5u0-Qn-lUL"/>
+                                                <constraint firstItem="eis-nu-x1C" firstAttribute="leading" secondItem="b6b-fV-qcX" secondAttribute="leading" constant="20" id="8WJ-bW-1Fx"/>
+                                                <constraint firstItem="hTb-9f-kvn" firstAttribute="top" secondItem="UcN-XH-bDs" secondAttribute="bottom" id="9Ab-Kz-9fr"/>
+                                                <constraint firstItem="eis-nu-x1C" firstAttribute="top" secondItem="b6b-fV-qcX" secondAttribute="top" constant="13" id="CkO-Dp-nGI"/>
+                                                <constraint firstItem="UcN-XH-bDs" firstAttribute="top" secondItem="b6b-fV-qcX" secondAttribute="top" constant="8" id="JHn-l6-cTN"/>
+                                                <constraint firstItem="4yF-vn-RrV" firstAttribute="top" secondItem="hTb-9f-kvn" secondAttribute="bottom" constant="10" id="eAs-JX-96c"/>
+                                                <constraint firstItem="hTb-9f-kvn" firstAttribute="leading" secondItem="eis-nu-x1C" secondAttribute="trailing" constant="8" id="eVk-no-L9J"/>
+                                                <constraint firstAttribute="trailing" secondItem="eis-nu-x1C" secondAttribute="trailing" constant="269" id="j3D-yh-Kud"/>
+                                                <constraint firstItem="UcN-XH-bDs" firstAttribute="leading" secondItem="eis-nu-x1C" secondAttribute="trailing" constant="8" id="k28-81-cEo"/>
+                                                <constraint firstItem="4yF-vn-RrV" firstAttribute="leading" secondItem="eis-nu-x1C" secondAttribute="trailing" constant="8" id="s2f-Oi-rIT"/>
+                                                <constraint firstAttribute="bottom" secondItem="4yF-vn-RrV" secondAttribute="bottom" constant="55" id="xJZ-RI-bmV"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="confirmButton" destination="ZxM-aS-hKV" id="Zir-Ri-po6"/>

@@ -106,25 +106,26 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-ln-Db7">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-ln-Db7">
                                                     <rect key="frame" x="20" y="14" width="125" height="125"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="125" id="1R9-RG-bNq"/>
+                                                        <constraint firstAttribute="width" constant="125" id="UDa-3j-Jnr"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2n-Jz-MhU">
-                                                    <rect key="frame" x="150" y="17" width="244" height="36"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F2n-Jz-MhU">
+                                                    <rect key="frame" x="150" y="17" width="104" height="36"/>
                                                     <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="27"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="052-Eh-fmZ">
-                                                    <rect key="frame" x="0.0" y="149" width="414" height="1"/>
+                                                    <rect key="frame" x="0.0" y="148" width="414" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GVw-da-w0R">
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GVw-da-w0R">
                                                     <rect key="frame" x="153" y="74" width="92" height="35"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <state key="normal" title="Relation">
@@ -132,6 +133,17 @@
                                                     </state>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="GVw-da-w0R" secondAttribute="bottom" constant="41" id="3TI-Fq-UqJ"/>
+                                                <constraint firstItem="aOn-ln-Db7" firstAttribute="top" secondItem="lge-eZ-c8L" secondAttribute="top" constant="14" id="C8E-b4-d7B"/>
+                                                <constraint firstAttribute="bottom" secondItem="aOn-ln-Db7" secondAttribute="bottom" constant="11" id="M10-C3-h6A"/>
+                                                <constraint firstItem="GVw-da-w0R" firstAttribute="leading" secondItem="aOn-ln-Db7" secondAttribute="trailing" constant="8" id="dYK-ue-Gu3"/>
+                                                <constraint firstItem="F2n-Jz-MhU" firstAttribute="leading" secondItem="aOn-ln-Db7" secondAttribute="trailing" constant="5" id="khv-yo-wax"/>
+                                                <constraint firstItem="GVw-da-w0R" firstAttribute="top" secondItem="F2n-Jz-MhU" secondAttribute="bottom" constant="21" id="lao-VR-PkC"/>
+                                                <constraint firstItem="F2n-Jz-MhU" firstAttribute="top" secondItem="lge-eZ-c8L" secondAttribute="top" constant="17" id="r0I-Th-Pc9"/>
+                                                <constraint firstAttribute="trailing" secondItem="aOn-ln-Db7" secondAttribute="trailing" constant="269" id="tw5-rL-y9E"/>
+                                                <constraint firstItem="aOn-ln-Db7" firstAttribute="leading" secondItem="lge-eZ-c8L" secondAttribute="leading" constant="20" id="zML-bT-Zn6"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="otherName" destination="F2n-Jz-MhU" id="WKT-cn-eQm"/>
