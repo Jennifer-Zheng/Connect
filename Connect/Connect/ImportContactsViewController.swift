@@ -7,33 +7,27 @@
 //
 
 import UIKit
+import Contacts
+import Firebase
+import FirebaseStorage
 
 class ImportContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profilePic: UIButton!
     
     let contactCellIdentifier = "ContactCell"
     let mutualConnectionCellIdentifier = "MutualConnectionCell"
     
-    // Dummy contacts array.
-    var contacts = [
-        ["user" : "a"],
-        ["user" : "b"],
-        ["user" : "c"],
-    ]
-    
-    // Dummy mutuals array.
-    var users = [
-        "a" : [
-            "numMutuals" : 0
-        ],
-        "b" : [
-            "numMutuals" : 1
-        ],
-        "c" : [
-            "numMutuals" : 5
-        ]
-    ]
+    let queue = DispatchQueue.global()
+    let dispatchGroup = DispatchGroup()
+
+    var phoneNumbersInContacts: Array<String> = []
+    var contactsThatAreUsers: Dictionary<String, Dictionary<String, Any>> = [:]
+    var mutualConnectionsPerContact: Array<Dictionary<String,Array<String>>> = []
+    var contactProfilePics: Dictionary<String, UIImage> = [:]
+
+    let testUser = "gCWpsbrZLrQjBa4E0vzw258TdUK2"
     
     // Dummy arrays for row expansion and dismissal.
     var expanded = [false, false, false, false, false]
@@ -45,6 +39,66 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.delegate = self
         let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
+        
+        // Authorize access to contacts if user hasn't already
+        let store = CNContactStore()
+        let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+
+        if authorizationStatus == .notDetermined {
+          store.requestAccess(for: .contacts) { [weak self] didAuthorize,
+          error in
+            if didAuthorize {
+               self?.retrieveContacts(from: store)
+            }
+          }
+        } else if authorizationStatus == .authorized {
+            retrieveContacts(from: store)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        dispatchGroup.notify(queue: queue) {
+            self.getContactsThatAreRegisteredUsers()
+            self.dispatchGroup.notify(queue: self.queue) {
+                self.getMutualConnections()
+                self.dispatchGroup.notify(queue: self.queue) {
+                    self.getProfilePics()
+                    self.dispatchGroup.notify(queue: DispatchQueue.main) {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
+    func retrieveContacts(from store: CNContactStore) {
+      let containerId = store.defaultContainerIdentifier()
+      let predicate = CNContact.predicateForContactsInContainer(withIdentifier: containerId)
+      let keysToFetch = [CNContactGivenNameKey as CNKeyDescriptor,
+                         CNContactFamilyNameKey as CNKeyDescriptor,
+                         CNContactImageDataAvailableKey as
+                         CNKeyDescriptor,
+                         CNContactImageDataKey as CNKeyDescriptor]
+
+      let contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
+        
+      for contact in contacts {
+          if contact.isKeyAvailable(CNContactPhoneNumbersKey) {
+            let number = (contact.phoneNumbers.first?.value)?.stringValue
+            phoneNumbersInContacts.append(number!.digits)
+          } else {
+              //Refetch the keys
+              let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+
+              do {
+                  let refetchedContact = try store.unifiedContact(withIdentifier: contact.identifier, keysToFetch: keysToFetch)
+                  let number = (refetchedContact.phoneNumbers.first?.value)?.stringValue
+                  phoneNumbersInContacts.append(number!.digits)
+              } catch {
+                  print("Failed to fetch contact, error: \(error)")
+              }
+          }
+       }
     }
     
     // Number of rows needed for each request.
@@ -54,12 +108,13 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             return 1
         }
         // Show up to 5 mutuals if expanded.
-        return min(5, users[contacts[section]["user"]!]!["numMutuals"]! + 1)
+        //return min(5, users[contacts[section]["user"]!]!["numMutuals"]! + 1)
+        return min(5, mutualConnectionsPerContact[section].values.count+1)
     }
     
-    // Number of requests.
+    // Number of possible contacts to import.
     func numberOfSections(in tableView: UITableView) -> Int {
-        return contacts.count
+        return self.mutualConnectionsPerContact.count
     }
     
     // Height for each cell. Contacts are 150, mutual connections are 50.
@@ -75,11 +130,11 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
         if (indexPath.row == 0) {
             // Contact cell.
             let cell = tableView.dequeueReusableCell(withIdentifier: contactCellIdentifier) as! ContactTableViewCell
-                
             // Add in user info.
-            cell.otherName?.text = "First Last"
-            //cell.otherProfile.image =
-            let numMutuals = users[contacts[indexPath.section]["user"]!]!["numMutuals"]!
+            let contactUid = mutualConnectionsPerContact[indexPath.section].first?.key
+            cell.otherName?.text = contactsThatAreUsers[contactUid!]!["name"] as? String
+            cell.otherProfile.image = contactProfilePics[contactUid!]
+            let numMutuals = mutualConnectionsPerContact[indexPath.section][contactUid!]!.count
             cell.otherNumberOfMutuals?.text = "\(numMutuals) Mutual Connection"
             if (numMutuals != 1) {
                 cell.otherNumberOfMutuals?.text! += "s"
@@ -101,7 +156,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             }
                 
             // Chevron visibility.
-            if (users[contacts[indexPath.section]["user"]!]!["numMutuals"]! == 0) {
+            if (numMutuals == 0) {
                 cell.chevron?.isHidden = true
             } else {
                 cell.chevron?.isHidden = false
@@ -111,11 +166,22 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 cell.chevron?.transform = CGAffineTransform.identity
             }
-                
             return cell
         }
+
         // Mutual connection cell.
         let cell = tableView.dequeueReusableCell(withIdentifier: mutualConnectionCellIdentifier) as! MutualConnectionTableViewCell
+        let contactUid = mutualConnectionsPerContact[indexPath.section].first?.key
+        // TODO: fix index 0
+        let mutualUid = mutualConnectionsPerContact[indexPath.section][contactUid!]![0]
+        cell.mutualName?.text = contactsThatAreUsers[mutualUid]!["name"] as? String
+        let connections = contactsThatAreUsers[mutualUid]!["connections"] as! Array<Dictionary<String, String>>
+        let relationship = connections[0]["relationship"]!
+        cell.mutualRelation?.setTitle(relationship, for: .normal)
+        cell.mutualRelation.backgroundColor = Constants.getRelationColor(relationship)
+        let spacing: CGFloat = 8.0
+        cell.mutualRelation.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
+        cell.mutualProfile?.image = contactProfilePics[mutualUid]
         return cell
     }
     
@@ -136,5 +202,122 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
 
     @IBAction func onBackButtonPress(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // Query Firebase for phone numbers that exist in user contacts
+    func getContactsThatAreRegisteredUsers() {
+      let reference = Firestore.firestore().collection("users")
+        // Firestore "in" operator only supports up to 10 comparison values
+        if phoneNumbersInContacts.count < 10 {
+          dispatchGroup.enter()
+          reference.whereField("phoneNumber", in: phoneNumbersInContacts)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                    self.dispatchGroup.leave()
+                } else {
+                    for document in querySnapshot!.documents {
+                        // Map of uid to user info
+                        if document.documentID != self.testUser {
+                            self.contactsThatAreUsers[document.documentID] = document.data()
+                        }
+                    }
+                }
+                self.dispatchGroup.leave()
+            }
+        } else {
+            dispatchGroup.enter()
+            for phoneNum in phoneNumbersInContacts {
+                reference.whereField("phoneNumber", isEqualTo: phoneNum)
+                .getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                        self.dispatchGroup.leave()
+                    } else {
+                        for document in querySnapshot!.documents {
+                            // Map of uid to user info
+                            if document.documentID != self.testUser {
+                                self.contactsThatAreUsers[document.documentID] = document.data()
+                            }
+                        }
+                    }
+                }
+            }
+            self.dispatchGroup.leave()
+        }
+    }
+      
+      func getMutualConnections() {
+         dispatchGroup.enter()
+          // TODO: replace user id with id generated by Firebase Auth
+          Firestore.firestore().collection("users").document("\(testUser)")
+          .addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+              print("Error fetching document: \(error!)")
+              self.dispatchGroup.leave()
+              return
+            }
+            // Get the user's list of connections
+            let userConnections = (document.get("connections") as? Array<Dictionary<String, String>>)!
+
+            // Return an array of strings containing the connections' names
+            let userConnectionsList = userConnections.map({ (person) -> String in
+                return person["user"]!
+            })
+            
+            for contactUid in self.contactsThatAreUsers.keys {
+                // Checks if contact is already a connection b/c then we don't need to import them
+                if !userConnectionsList.contains(contactUid) {
+                    let userInfo = self.contactsThatAreUsers[contactUid]!
+                    let contactConnections = userInfo["connections"]! as! Array<Dictionary<String, String>>
+                    let contactConnectionsList = contactConnections.map({ (person) -> String in
+                        return person["user"]!
+                    })
+                    // Array of mutual connections shared by current user and their contact
+                    let mutualConnectionIds = userConnectionsList.filter(contactConnectionsList.contains)
+                    // Array of contacts paired with their mutual connections
+                    self.mutualConnectionsPerContact.append([contactUid:mutualConnectionIds])
+                }
+              }
+            self.dispatchGroup.leave()
+          }
+      }
+    
+    func getProfilePics() {
+        dispatchGroup.enter()
+        var loadedImages = 0
+        for mutualConnection in self.mutualConnectionsPerContact {
+            let contactUid = (mutualConnection.first?.key)!
+            let reference = Storage.storage().reference().child("profile_pics").child("\(contactUid).png")
+            // Download in memory with a maximum allowed size = 5 MB
+            reference.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if (error != nil) {
+                let controller = UIAlertController(
+                    title: "Warning",
+                    message: "Image is too large",
+                    preferredStyle: .alert)
+                controller.addAction(UIAlertAction(
+                    title: "OK",
+                    style: .default,
+                    handler: nil))
+                self.present(controller, animated: true, completion: nil)
+              } else {
+                self.contactProfilePics[contactUid] = UIImage(data: data!)
+              }
+                loadedImages += 1
+                // Only mark done once all images have loaded.
+                if (loadedImages == self.mutualConnectionsPerContact.count) {
+                    self.dispatchGroup.leave()
+                }
+            }
+        }
+    }
+}
+
+// Parses phone number so it only returns the digits (ex. (555) 564-8583 -> 5555648583)
+extension String {
+    var digits: String {
+        return components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .joined()
     }
 }
