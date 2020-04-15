@@ -13,6 +13,7 @@
 		387E57E52436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E589E3243FEC26000074DC /* EditProfileViewController.swift */; };
 		86E584472444F5D3002E4BEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584462444F5D3002E4BEC /* ProfileViewController.swift */; };
+		86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
@@ -73,6 +74,7 @@
 		5FC0949F8A9D80511B5D1CEC /* Pods-Connect-ConnectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect-ConnectUITests.debug.xcconfig"; path = "Target Support Files/Pods-Connect-ConnectUITests/Pods-Connect-ConnectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		66FAC9E124CFD99F5EE82BEF /* Pods-Connect-ConnectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect-ConnectUITests.release.xcconfig"; path = "Target Support Files/Pods-Connect-ConnectUITests/Pods-Connect-ConnectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		86E584462444F5D3002E4BEC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipsViewController.swift; sourceTree = "<group>"; };
 		87BA50E7D805DA360A26E5D6 /* Pods-ConnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.release.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.release.xcconfig"; sourceTree = "<group>"; };
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
@@ -213,7 +215,6 @@
 				D65376FD241C0A7600E283E2 /* SceneDelegate.swift */,
 				D65376FF241C0A7600E283E2 /* ViewController.swift */,
 				C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */,
-				38E589E3243FEC26000074DC /* EditProfileViewController.swift */,
 				C9EEBFE124415EB0005EA785 /* ImportContactsViewController.swift */,
 				C9C28C7724450E0D00AB0911 /* MessagingViewController.swift */,
 				C9EEBFD4243FC6D5005EA785 /* RequestsViewController.swift */,
@@ -224,6 +225,7 @@
 				387E57E22436B014008CF705 /* GoogleService-Info.plist */,
 				38E589E3243FEC26000074DC /* EditProfileViewController.swift */,
 				86E584462444F5D3002E4BEC /* ProfileViewController.swift */,
+				86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -521,6 +523,7 @@
 			files = (
 				C9EEBFE224415EB0005EA785 /* ImportContactsViewController.swift in Sources */,
 				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
+				86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */,
 				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
 				C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */,
 				C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */,
