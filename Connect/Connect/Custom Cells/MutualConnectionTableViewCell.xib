@@ -15,25 +15,24 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="cQQ-Qx-ing">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="cQQ-Qx-ing">
                         <rect key="frame" x="31" y="2" width="45" height="45"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="45" id="NBg-tv-t3I"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrC-nS-8Kd">
-                        <rect key="frame" x="89" y="13" width="70" height="24"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="First Last" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrC-nS-8Kd">
+                        <rect key="frame" x="89" y="13" width="124" height="24"/>
                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TDE-MC-Fyw">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDE-MC-Fyw">
                         <rect key="frame" x="0.0" y="49" width="414" height="1"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9v-LA-6dg">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9v-LA-6dg">
                         <rect key="frame" x="302" y="11" width="92" height="28"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="Relation">
@@ -41,13 +40,28 @@
                         </state>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="cQQ-Qx-ing" firstAttribute="leading" secondItem="PqF-pe-ZPu" secondAttribute="leading" constant="31" id="1HJ-XY-Q4A"/>
+                    <constraint firstAttribute="bottom" secondItem="TDE-MC-Fyw" secondAttribute="bottom" id="2Gu-Gn-0UP"/>
+                    <constraint firstItem="cQQ-Qx-ing" firstAttribute="top" secondItem="PqF-pe-ZPu" secondAttribute="top" constant="2" id="2Xy-Gc-Z8e"/>
+                    <constraint firstAttribute="trailing" secondItem="TDE-MC-Fyw" secondAttribute="trailing" id="3Gh-DM-rM9"/>
+                    <constraint firstItem="TDE-MC-Fyw" firstAttribute="leading" secondItem="PqF-pe-ZPu" secondAttribute="leading" id="3sW-9X-vmI"/>
+                    <constraint firstItem="mrC-nS-8Kd" firstAttribute="leading" secondItem="PqF-pe-ZPu" secondAttribute="leading" constant="89" id="5Xh-NL-qXD"/>
+                    <constraint firstItem="TDE-MC-Fyw" firstAttribute="top" secondItem="PqF-pe-ZPu" secondAttribute="top" constant="49" id="IF9-Na-Io8"/>
+                    <constraint firstItem="mrC-nS-8Kd" firstAttribute="top" secondItem="PqF-pe-ZPu" secondAttribute="top" constant="13" id="Kz7-b1-JxM"/>
+                    <constraint firstItem="I9v-LA-6dg" firstAttribute="top" secondItem="PqF-pe-ZPu" secondAttribute="top" constant="11" id="Vxe-I7-H4o"/>
+                    <constraint firstAttribute="bottom" secondItem="mrC-nS-8Kd" secondAttribute="bottom" constant="13" id="WOa-nT-oh6"/>
+                    <constraint firstAttribute="bottom" secondItem="I9v-LA-6dg" secondAttribute="bottom" constant="11" id="cEO-UI-3UM"/>
+                    <constraint firstAttribute="trailing" secondItem="cQQ-Qx-ing" secondAttribute="trailing" constant="338" id="wQt-MW-V2F"/>
+                    <constraint firstAttribute="trailing" secondItem="I9v-LA-6dg" secondAttribute="trailing" constant="20" id="xz9-3u-uk0"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="mutualName" destination="mrC-nS-8Kd" id="Gdn-kl-OJ6"/>
                 <outlet property="mutualProfile" destination="cQQ-Qx-ing" id="3WT-8E-Neu"/>
                 <outlet property="mutualRelation" destination="I9v-LA-6dg" id="C7M-zX-oFn"/>
             </connections>
-            <point key="canvasLocation" x="-175.36231884057972" y="231.69642857142856"/>
+            <point key="canvasLocation" x="-171" y="224"/>
         </tableViewCell>
     </objects>
     <resources>
