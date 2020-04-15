@@ -11,11 +11,11 @@ import Firebase
 
 class RelationshipTableViewCell: UITableViewCell {
     @IBOutlet weak var relationship: UIButton!
+    var viewController : RelationshipsViewController?
     
-    
-    func setText(text: String) {
-        //print("\(text.size(withAttributes: [NSAttributedString.Key.font: self]).width)")
-        relationship.titleLabel?.text = text
-        relationship.frame.size = CGSize(width: (relationship.titleLabel?.frame.size.width ?? 200) + 40, height: relationship.frame.height)
+    @IBAction func buttonTap(_ sender: Any) {
+        if(viewController != nil) {
+            viewController?.dismiss(animated: true, completion: nil)
+        }
     }
 }

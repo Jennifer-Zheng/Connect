@@ -73,7 +73,7 @@
                                 <color key="barTintColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mGY-Vw-nCw">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mGY-Vw-nCw">
                                 <rect key="frame" x="0.0" y="252" width="414" height="644"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -98,6 +98,9 @@
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="buttonTap:" destination="OTF-8Y-Ehh" eventType="touchUpInside" id="eIj-PP-OJf"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
