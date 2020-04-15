@@ -101,8 +101,14 @@ extension ProfileViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Mutual connection cell.
         let cell = tableView.dequeueReusableCell(withIdentifier: mutualConnectionCellIdentifier) as! MutualConnectionTableViewCell
-        
-        cell.mutualRelation.titleLabel?.text = connectionsArray[indexPath.row]["relationship"] ?? "Friend"
+        let relationText = connectionsArray[indexPath.row]["relationship"] ?? "Relation"
+        cell.mutualRelation.setTitle(relationText, for: .normal)
+        cell.mutualRelation.backgroundColor = Constants.allRelationships.first(where: { (arg0 : (String, UIColor)) -> Bool in
+            let (relation, color) = arg0
+            return relationText.lowercased() == relation.lowercased()
+            })?.1
+        let spacing: CGFloat = 8.0
+        cell.mutualRelation.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
         cell.populateWithUser(uid: connectionsArray[indexPath.row]["user"])
         return cell
     }

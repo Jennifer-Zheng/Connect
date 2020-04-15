@@ -15,6 +15,7 @@
 		86E584472444F5D3002E4BEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584462444F5D3002E4BEC /* ProfileViewController.swift */; };
 		86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */; };
 		86E5844D24468BFE002E4BEC /* RelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844C24468BFE002E4BEC /* RelationshipTableViewCell.swift */; };
+		86E5844F24470FD9002E4BEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844E24470FD9002E4BEC /* Constants.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
@@ -77,6 +78,7 @@
 		86E584462444F5D3002E4BEC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipsViewController.swift; sourceTree = "<group>"; };
 		86E5844C24468BFE002E4BEC /* RelationshipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipTableViewCell.swift; sourceTree = "<group>"; };
+		86E5844E24470FD9002E4BEC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		87BA50E7D805DA360A26E5D6 /* Pods-ConnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.release.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.release.xcconfig"; sourceTree = "<group>"; };
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				38E589E3243FEC26000074DC /* EditProfileViewController.swift */,
 				86E584462444F5D3002E4BEC /* ProfileViewController.swift */,
 				86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */,
+				86E5844E24470FD9002E4BEC /* Constants.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9EEBFE224415EB0005EA785 /* ImportContactsViewController.swift in Sources */,
+				86E5844F24470FD9002E4BEC /* Constants.swift in Sources */,
 				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
 				86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */,
 				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
