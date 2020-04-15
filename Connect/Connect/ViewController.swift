@@ -17,11 +17,6 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        do {
-            try Auth.auth().signOut()
-        } catch let signOutError as NSError {
-          print ("Error signing out: %@", signOutError)
-        }
         if Auth.auth().currentUser != nil {
             self.performSegue(withIdentifier: "connectionsSegue", sender: self)
         } else {

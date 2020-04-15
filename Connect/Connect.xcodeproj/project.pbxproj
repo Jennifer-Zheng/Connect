@@ -15,6 +15,7 @@
 		86E584552447A3B6002E4BEC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584542447A3B6002E4BEC /* LoginViewController.swift */; };
 		86E584572447A532002E4BEC /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584562447A532002E4BEC /* VerifyViewController.swift */; };
 		86E584592447A56A002E4BEC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584582447A56A002E4BEC /* RegisterViewController.swift */; };
+		86E5845B2447B681002E4BEC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5845A2447B681002E4BEC /* SettingsViewController.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
 		C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */; };
 		C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */; };
@@ -77,6 +78,7 @@
 		86E584542447A3B6002E4BEC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		86E584562447A532002E4BEC /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		86E584582447A56A002E4BEC /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		86E5845A2447B681002E4BEC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		87BA50E7D805DA360A26E5D6 /* Pods-ConnectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectTests.release.xcconfig"; path = "Target Support Files/Pods-ConnectTests/Pods-ConnectTests.release.xcconfig"; sourceTree = "<group>"; };
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				86E584542447A3B6002E4BEC /* LoginViewController.swift */,
 				86E584562447A532002E4BEC /* VerifyViewController.swift */,
 				86E584582447A56A002E4BEC /* RegisterViewController.swift */,
+				86E5845A2447B681002E4BEC /* SettingsViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
 				C9EEBFDE2440EDD7005EA785 /* MutualConnectionTableViewCell.swift in Sources */,
 				C9EEBFD8244049BB005EA785 /* PendingConnectionTableViewCell.swift in Sources */,
+				86E5845B2447B681002E4BEC /* SettingsViewController.swift in Sources */,
 				D6537700241C0A7600E283E2 /* ViewController.swift in Sources */,
 				D65376FC241C0A7600E283E2 /* AppDelegate.swift in Sources */,
 				D6537706241C0A7600E283E2 /* Connect.xcdatamodeld in Sources */,
