@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var bioTextField: UITextView!
     @IBOutlet weak var mutualsTableView: UITableView!
     
-    let user = "D7lCTYj3JTOFjxZlFfKgQHri2ew1"
+    var user = "D7lCTYj3JTOFjxZlFfKgQHri2ew1"
     
     var connectionsArray : Array<Dictionary<String, String>> = Array<Dictionary<String, String>>()
     
@@ -80,6 +80,14 @@ class ProfileViewController: UIViewController {
     
     @IBAction func dismissButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.destination is RelationshipsViewController){
+            let relationshipVC = segue.destination as! RelationshipsViewController
+            relationshipVC.user = self.user
+        }
     }
     
     @IBAction func add(_ sender: Any) {

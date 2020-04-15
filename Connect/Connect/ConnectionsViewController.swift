@@ -86,6 +86,14 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.destination is ProfileViewController) {
+            let indexPath = self.tableView.indexPathForSelectedRow!
+            let profileVC = segue.destination as! ProfileViewController
+            profileVC.user = self.connections[indexPath.row]["user"] as! String
+        }
+    }
+    
     // Number of rows needed in the table.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return connections.count
