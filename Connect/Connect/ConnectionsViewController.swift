@@ -101,6 +101,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         cell.otherName?.text = (connections[indexPath.row]["name"] as! String)
         cell.otherProfile?.image = (connections[indexPath.row]["image"] as! UIImage)
         cell.relation?.setTitle((connections[indexPath.row]["relationship"] as! String), for: .normal)
+        cell.relation.backgroundColor = Constants.getRelationColor(connections[indexPath.row]["relationship"] as! String)
+        let spacing: CGFloat = 8.0
+        cell.relation.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
         return cell
     }
 
