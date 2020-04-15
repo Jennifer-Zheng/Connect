@@ -44,7 +44,6 @@ class RegisterViewController: UIViewController {
                         return
                 }
                 
-                //db.collection("users").addDocument(data: ["email" : email])
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     if error == nil{
                         db.collection("users").document(Auth.auth().currentUser!.uid).setData([

@@ -12,11 +12,7 @@ import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
-    var handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-      
-    }
-    
-    var currUserUID = ""
+    var currUserUID : String?
     var editProfileSegue = "successfulLoginSegue"
 
     override func viewDidLoad() {
@@ -26,10 +22,6 @@ class LoginViewController: UIViewController {
         } catch let signOutError as NSError {
           print ("Error signing out: %@", signOutError)
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle)
     }
 
     @IBOutlet weak var emailAddress: UITextField!
@@ -49,8 +41,15 @@ class LoginViewController: UIViewController {
                     return
             }
             
-            Auth.auth().signIn(withEmail: email, password: password)
-            currUserUID = Auth.auth().currentUser!.uid
+            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                    if error == nil{
+                        self.currUserUID = Auth.auth().currentUser?.uid
+                        print(self.currUserUID)
+                    }
+                    else{
+                        print(error)
+                    }
+            }
         }
         else{
             errorMsg.text = "Please fill out all fields"
