@@ -28,11 +28,11 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     let maxMutualsToDisplay = 4
     
     // List of user's pending relationship requests represented as objects with the keys "user" and "relationship".
-    var pendingRelations: Array<Dictionary<String, Any>> = []
+    internal var pendingRelations: Array<Dictionary<String, Any>> = []
     // List of user's pending connection requests represented as objects with the key "user".
-    var pendingConnections: Array<Dictionary<String, Any>> = []
+    internal var pendingConnections: Array<Dictionary<String, Any>> = []
     // List of a user's current connections represented as objects with the keys "user" and "relationship".
-    var connections: Array<Dictionary<String, Any>> = []
+    internal var connections: Array<Dictionary<String, Any>> = []
     var uid = ""
 
     override func viewDidLoad() {
@@ -67,14 +67,13 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         dispatchGroup.enter()
         Firestore.firestore().collection("users").document(uid)
             .getDocument { document, error in
-                guard let document = document, document.exists else {
-                    print("Error fetching document: \(error!)")
-                    self.dispatchGroup.leave()
-                    return
+                if let error = error {
+                    print("Error fetching document: \(error)")
+                } else {
+                    self.connections = (document!.get("connections") as? Array<Dictionary<String, String>>)!
+                    self.pendingRelations = (document!.get("pendingRelations") as? Array<Dictionary<String, String>>)!
+                    self.pendingConnections = (document!.get("pendingConnections") as? Array<Dictionary<String, String>>)!
                 }
-                self.connections = (document.get("connections") as? Array<Dictionary<String, String>>)!
-                self.pendingRelations = (document.get("pendingRelations") as? Array<Dictionary<String, String>>)!
-                self.pendingConnections = (document.get("pendingConnections") as? Array<Dictionary<String, String>>)!
                 self.dispatchGroup.leave()
         }
         // Load user's profile picture
@@ -91,20 +90,21 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     // Load the profiles of each relation request sender.
     func loadPendingRelations() {
         if (self.pendingRelations.count > 0) {
-            dispatchGroup.enter()
-            var loadedImages = 0
             for i in 0...(self.pendingRelations.count - 1) {
                 let otherId = self.pendingRelations[i]["user"]!
+                dispatchGroup.enter()
                 Firestore.firestore().collection("users").document(otherId as! String)
                     .getDocument { document, error in
-                        guard let document = document, document.exists else {
-                            print("Error fetching document: \(error!)")
-                            return
+                        if let error = error {
+                            print("Error fetching document: \(error)")
+                        } else {
+                            self.pendingRelations[i]["name"] = document!.get("name") as? String
+                            self.pendingRelations[i]["dismissed"] = false
                         }
-                        self.pendingRelations[i]["name"] = document.get("name") as? String
-                        self.pendingRelations[i]["dismissed"] = false
+                        self.dispatchGroup.leave()
                 }
                 // Load in profile picture.
+                self.dispatchGroup.enter()
                 let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".png")
                 reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
                     if let error = error {
@@ -112,11 +112,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                     } else {
                         self.pendingRelations[i]["image"] = UIImage(data: data!)!
                     }
-                    loadedImages += 1
-                    // Only mark done once all images have loaded.
-                    if (loadedImages == self.pendingRelations.count){
-                        self.dispatchGroup.leave()
-                    }
+                    self.dispatchGroup.leave()
                 }
             }
         }
@@ -125,23 +121,24 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     // Load the profiles of each connection request sender.
     func loadPendingConnections() {
         if (self.pendingConnections.count > 0) {
-            dispatchGroup.enter()
-            var loadedImages = 0
             for i in 0...(self.pendingConnections.count - 1) {
                 let otherId = self.pendingConnections[i]["user"]!
+                self.dispatchGroup.enter()
                 Firestore.firestore().collection("users").document(otherId as! String)
                     .getDocument { document, error in
-                        guard let document = document, document.exists else {
-                            print("Error fetching document: \(error!)")
-                            return
+                        if let error = error {
+                            print("Error fetching document: \(error)")
+                        } else {
+                            self.pendingConnections[i]["name"] = document!.get("name") as? String
+                            self.pendingConnections[i]["connections"] = (document!.get("connections") as? Array<Dictionary<String, String>>)!
+                            self.pendingConnections[i]["dismissed"] = false
+                            self.pendingConnections[i]["expanded"] = false
+                            self.pendingConnections[i]["mutuals"] = []
                         }
-                        self.pendingConnections[i]["name"] = document.get("name") as? String
-                        self.pendingConnections[i]["connections"] = (document.get("connections") as? Array<Dictionary<String, String>>)!
-                        self.pendingConnections[i]["dismissed"] = false
-                        self.pendingConnections[i]["expanded"] = false
-                        self.pendingConnections[i]["mutuals"] = []
+                        self.dispatchGroup.leave()
                 }
                 // Load in profile picture.
+                self.dispatchGroup.enter()
                 let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".png")
                 reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
                     if let error = error {
@@ -149,11 +146,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                     } else {
                         self.pendingConnections[i]["image"] = UIImage(data: data!)!
                     }
-                    loadedImages += 1
-                    // Only mark done once all images have loaded.
-                    if (loadedImages == self.pendingConnections.count){
-                        self.dispatchGroup.leave()
-                    }
+                    self.dispatchGroup.leave()
                 }
             }
         }
