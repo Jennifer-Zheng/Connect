@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CtW-o4-inb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CtW-o4-inb">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Connections-->
+        <scene sceneID="QMV-WF-vbX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Connections" id="tzN-df-G9B" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2y3-ya-uEp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000" y="173"/>
+        </scene>
         <!--EditProfile-->
         <scene sceneID="I0A-1Q-kfC">
             <objects>
@@ -176,6 +184,7 @@
                         <outlet property="name" destination="wbJ-9p-RMK" id="BuR-Rn-92y"/>
                         <outlet property="numConnections" destination="ds3-yf-3yQ" id="o9M-Ze-HBa"/>
                         <outlet property="profilePic" destination="rsW-2p-257" id="crR-L6-kzZ"/>
+                        <segue destination="tzN-df-G9B" kind="presentation" identifier="connectionsSegue" modalPresentationStyle="fullScreen" id="b1H-D4-IxR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crL-Br-qpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -209,6 +218,6 @@
     <resources>
         <image name="Profile" width="2240" height="2240"/>
         <image name="Settings" width="500" height="500"/>
-        <image name="arrow.left" catalog="system" width="64" height="48"/>
+        <image name="arrow.left" catalog="system" width="128" height="98"/>
     </resources>
 </document>

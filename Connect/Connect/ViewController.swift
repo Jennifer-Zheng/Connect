@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
 
@@ -16,7 +17,12 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.performSegue(withIdentifier: "temp", sender: self)
+        if Auth.auth().currentUser != nil {
+            self.performSegue(withIdentifier: "connectionsSegue", sender: self)
+        } else {
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        }
+        
     }
 
 }

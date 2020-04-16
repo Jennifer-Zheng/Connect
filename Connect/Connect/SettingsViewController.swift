@@ -2,22 +2,26 @@
 //  SettingsViewController.swift
 //  Connect
 //
-//  Created by Jennifer on 4/13/20.
+//  Created by Nikhil Pandeti on 4/15/20.
 //  Copyright © 2020 Nikhil Pandeti. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import Firebase
 
 class SettingsViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
     
-    @IBAction func onBackButtonPress(_ sender: Any) {
+    @IBAction func dismissButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    
+    @IBAction func signOut(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "signOutToLoginSegue", sender: self)
+        } catch let signOutError as NSError {
+          print ("Error signing out: %@", signOutError)
+        }
+    }
 }

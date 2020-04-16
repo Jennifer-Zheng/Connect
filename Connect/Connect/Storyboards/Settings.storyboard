@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UXf-yQ-lh7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UXf-yQ-lh7">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,40 +15,86 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Qg-m0-klV">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S66-lP-wQh">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-J4-SIg">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nez-hG-Ric">
                                         <rect key="frame" x="18" y="52" width="50" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="lyl-VV-Wff"/>
+                                        </constraints>
                                         <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <state key="normal" image="arrow.left" catalog="system"/>
                                         <connections>
-                                            <action selector="onBackButtonPress:" destination="UXf-yQ-lh7" eventType="touchUpInside" id="coC-yv-MrC"/>
+                                            <action selector="dismissButton:" destination="UXf-yQ-lh7" eventType="touchUpInside" id="agj-JB-faU"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guK-ee-bht">
-                                        <rect key="frame" x="160" y="57" width="95" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2x5-2M-56i">
+                                        <rect key="frame" x="160" y="52" width="94.5" height="35"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="nez-hG-Ric" firstAttribute="leading" secondItem="S66-lP-wQh" secondAttribute="leading" constant="18" id="5Gc-7K-kVd"/>
+                                    <constraint firstAttribute="bottom" secondItem="nez-hG-Ric" secondAttribute="bottom" constant="13" id="6p6-bs-CgM"/>
+                                    <constraint firstItem="2x5-2M-56i" firstAttribute="centerX" secondItem="S66-lP-wQh" secondAttribute="centerX" id="8Y3-Ak-tbZ"/>
+                                    <constraint firstItem="nez-hG-Ric" firstAttribute="top" secondItem="S66-lP-wQh" secondAttribute="topMargin" id="PwS-v5-uiX"/>
+                                    <constraint firstItem="nez-hG-Ric" firstAttribute="bottom" secondItem="2x5-2M-56i" secondAttribute="bottom" id="Tva-dO-k8j"/>
+                                    <constraint firstItem="nez-hG-Ric" firstAttribute="top" secondItem="2x5-2M-56i" secondAttribute="top" id="ay1-gz-mO0"/>
+                                </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfl-a3-wgt">
+                                <rect key="frame" x="147" y="429" width="120" height="38"/>
+                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="bqg-Wd-buN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.roundedCorners">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToLayer" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="signOut:" destination="UXf-yQ-lh7" eventType="touchUpInside" id="ZrG-Gc-dPs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="trailing" secondItem="B8u-jI-ZQX" secondAttribute="trailing" id="Oao-2x-qhC"/>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="leading" secondItem="B8u-jI-ZQX" secondAttribute="leading" id="Ta7-Ak-B4u"/>
+                            <constraint firstItem="pfl-a3-wgt" firstAttribute="centerY" secondItem="0vW-H6-Ycd" secondAttribute="centerY" id="fNe-UH-bf2"/>
+                            <constraint firstItem="S66-lP-wQh" firstAttribute="top" secondItem="0vW-H6-Ycd" secondAttribute="top" id="rrW-Zt-k7U"/>
+                            <constraint firstItem="pfl-a3-wgt" firstAttribute="centerX" secondItem="0vW-H6-Ycd" secondAttribute="centerX" id="wEw-4M-ztO"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="B8u-jI-ZQX"/>
                     </view>
+                    <connections>
+                        <segue destination="09S-bO-qG0" kind="showDetail" identifier="signOutToLoginSegue" id="OyF-Me-GVS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpP-mt-SMd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="181" y="57"/>
+            <point key="canvasLocation" x="179.71014492753625" y="56.919642857142854"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="GS1-df-G67">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="09S-bO-qG0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tE0-bt-BC5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="764" y="58"/>
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.left" catalog="system" width="64" height="48"/>
+        <image name="arrow.left" catalog="system" width="128" height="98"/>
     </resources>
 </document>
