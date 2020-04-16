@@ -107,7 +107,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: connectionCellIdentifier) as! ConnectionTableViewCell
         cell.otherName?.text = (connections[indexPath.row]["name"] as! String)
-        //cell.otherProfile?.image = (connections[indexPath.row]["image"] as! UIImage)
+        cell.otherProfile?.image = (connections[indexPath.row]["image"] as! UIImage)
         cell.relation?.setTitle((connections[indexPath.row]["relationship"] as! String), for: .normal)
         cell.relation.backgroundColor = Constants.getRelationColor(connections[indexPath.row]["relationship"] as! String)
         let spacing: CGFloat = 8.0
