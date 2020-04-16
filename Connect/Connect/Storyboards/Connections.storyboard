@@ -13,7 +13,7 @@
                 <viewControllerPlaceholder storyboardName="Messaging" id="uNk-Hh-Zis" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l5l-bQ-lAa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="32"/>
+            <point key="canvasLocation" x="777" y="31"/>
         </scene>
         <!--EditProfile-->
         <scene sceneID="eIT-5W-QQg">
@@ -21,7 +21,7 @@
                 <viewControllerPlaceholder storyboardName="EditProfile" id="rNp-vp-ocx" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xoL-1Q-uW8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="777" y="-3"/>
+            <point key="canvasLocation" x="775" y="-3"/>
         </scene>
         <!--Connections View Controller-->
         <scene sceneID="6MD-FU-hxS">
@@ -95,7 +95,7 @@
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="88l-Tr-Wok">
-                                <rect key="frame" x="0.0" y="100" width="414" height="697"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="696"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
@@ -173,7 +173,7 @@
                 <viewControllerPlaceholder storyboardName="Requests" id="vDV-gO-m0W" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gss-ad-ejB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="98"/>
+            <point key="canvasLocation" x="770" y="98"/>
         </scene>
         <!--Profile-->
         <scene sceneID="kod-O4-RLb">

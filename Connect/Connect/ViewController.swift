@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
-            self.performSegue(withIdentifier: "connectionsSegue", sender: self)
+            self.performSegue(withIdentifier: "tabsSegue", sender: self)
         } else {
             self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
@@ -26,4 +26,3 @@ class ViewController: UIViewController {
     }
 
 }
-
