@@ -41,7 +41,10 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
-        
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         uid = Auth.auth().currentUser!.uid
         // First load the user.
         loadUser()
