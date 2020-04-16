@@ -27,8 +27,11 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     let maxMutualsToDisplay = 4
     
+    // List of user's pending relationship requests represented as objects with the keys "user" and "relationship".
     var pendingRelations: Array<Dictionary<String, Any>> = []
+    // List of user's pending connection requests represented as objects with the key "user".
     var pendingConnections: Array<Dictionary<String, Any>> = []
+    // List of a user's current connections represented as objects with the keys "user" and "relationship".
     var connections: Array<Dictionary<String, Any>> = []
     var uid = ""
 
