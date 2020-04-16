@@ -26,9 +26,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         Firestore.firestore().clearPersistence(completion: nil)
         tableView.dataSource = self
         tableView.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         uid = Auth.auth().currentUser!.uid
         loadProfilePic()
         loadConnections()
