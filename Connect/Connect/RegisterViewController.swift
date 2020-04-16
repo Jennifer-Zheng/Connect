@@ -27,7 +27,6 @@ class RegisterViewController: UIViewController {
     @IBAction func signUpPressed(_ sender: Any) {
         let db = Firestore.firestore()
        
-        //let num = Int(phoneNumber.text!)
         if(!emailAddress.text!.isEmpty && !password.text!.isEmpty && !confirmPassword.text!.isEmpty && !phoneNumber.text!.isEmpty){
             let phoneText = phoneNumber.text?.digits
             if(password.text != confirmPassword.text){
@@ -47,7 +46,7 @@ class RegisterViewController: UIViewController {
                 }
                 
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                    guard let user = authResult?.user, error == nil else {
+                    guard let _ = authResult?.user, error == nil else {
                         print(error!.localizedDescription)
                         self.errorMsg.text = error!.localizedDescription
                         return
@@ -80,12 +79,6 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == editProfileSegue{
-            
-        }
-    }
-    
     func transitionToEditProfile(_ uid : String?){
         let storyboard = UIStoryboard(name: "EditProfile", bundle:nil)
         
@@ -98,6 +91,16 @@ class RegisterViewController: UIViewController {
         
         view.window?.rootViewController = editViewController
         view.window?.makeKeyAndVisible()
+    }
+    
+    // Code to dismiss keyboard
+    func textFieldShouldReturn(textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }
