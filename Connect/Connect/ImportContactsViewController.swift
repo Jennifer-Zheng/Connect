@@ -22,23 +22,22 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     let dispatchGroup = DispatchGroup()
 
     var phoneNumbersInContacts: Array<String> = []
+    // A dictionary that maps userIDs to their profile's information.
     var contactsThatAreUsers: Dictionary<String, Dictionary<String, Any>> = [:]
+    // A list of dictionaries for each contact that maps their phone numbers (there can be multiple) to a list of mutuals. This is needed
+    // because a person may have multiple phone numbers linked to multiple accounts.
     var mutualConnectionsPerContact: Array<Dictionary<String,Array<String>>> = []
     var contactProfilePics: Dictionary<String, UIImage> = [:]
 
-    let testUser = "gCWpsbrZLrQjBa4E0vzw258TdUK2"
-    
-    // Dummy arrays for row expansion and dismissal.
-    var expanded = [false, false, false, false, false]
-    var pending = [false, false, false, false, false]
+    var uid = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        uid = Auth.auth().currentUser!.uid
         tableView.dataSource = self
         tableView.delegate = self
         let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
-        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,16 +46,16 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
         dispatchGroup.notify(queue: queue) {
             self.checkContactPermissions()
                 self.dispatchGroup.notify(queue: self.queue) {
-                self.getContactsThatAreRegisteredUsers()
-                self.dispatchGroup.notify(queue: self.queue) {
-                    self.getMutualConnections()
+                    self.getContactsThatAreRegisteredUsers()
                     self.dispatchGroup.notify(queue: self.queue) {
-                        self.getProfilePics()
-                        self.dispatchGroup.notify(queue: DispatchQueue.main) {
-                            self.tableView.reloadData()
+                        self.getMutualConnections()
+                        self.dispatchGroup.notify(queue: self.queue) {
+                            self.getProfilePics()
+                            self.dispatchGroup.notify(queue: DispatchQueue.main) {
+                                self.tableView.reloadData()
+                            }
                         }
                     }
-                }
             }
         }
     }
@@ -121,12 +120,11 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     // Number of rows needed for each request.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // If the section is not expanded, only 1 row is needed.
-        if (expanded[section] == false) {
+        let contactUid = mutualConnectionsPerContact[section].first?.key
+        if (self.contactsThatAreUsers[contactUid!]!["expanded"] as! Bool == false) {
             return 1
         }
-        // Show up to 5 mutuals if expanded.
-        //return min(5, users[contacts[section]["user"]!]!["numMutuals"]! + 1)
-        return min(5, mutualConnectionsPerContact[section].values.count+1)
+        return min(5, mutualConnectionsPerContact[section].values.count + 1)
     }
     
     // Number of possible contacts to import.
@@ -164,7 +162,11 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             cell.addButton?.addTarget(self, action: #selector(onAddPress(sender:)), for: .touchUpInside)
             
             // Add button -> pending button.
-            if (pending[indexPath.section]) {
+            if (contactsThatAreUsers[contactUid!]!["added"] as! Bool) {
+                cell.addButton?.setTitle("Added", for: .normal)
+                cell.addButton?.backgroundColor = UIColor.systemPurple
+            }
+            else if (contactsThatAreUsers[contactUid!]!["pending"] as! Bool) {
                 cell.addButton?.setTitle("Pending", for: .normal)
                 cell.addButton?.backgroundColor = UIColor.systemGreen
             } else {
@@ -178,7 +180,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             } else {
                 cell.chevron?.isHidden = false
             }
-            if (expanded[indexPath.section]) {
+            if (contactsThatAreUsers[contactUid!]!["expanded"] as! Bool) {
                 cell.chevron?.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             } else {
                 cell.chevron?.transform = CGAffineTransform.identity
@@ -193,7 +195,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
         let mutualUid = mutualConnectionsPerContact[indexPath.section][contactUid!]![0]
         cell.mutualName?.text = contactsThatAreUsers[mutualUid]!["name"] as? String
         let connections = contactsThatAreUsers[mutualUid]!["connections"] as! Array<Dictionary<String, String>>
-        let relationship = connections[0]["relationship"]!
+        let relationship = connections[indexPath.row]["relationship"]!
         cell.mutualRelation?.setTitle(relationship, for: .normal)
         cell.mutualRelation.backgroundColor = Constants.getRelationColor(relationship)
         let spacing: CGFloat = 8.0
@@ -205,15 +207,63 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     // Mark the section as expanded/collapsed and refresh it.
     @objc func onChevronPress(sender: UIButton) {
         let sections = IndexSet(integer: sender.tag)
-        expanded[sender.tag] = !expanded[sender.tag]
+        let contactUid = mutualConnectionsPerContact[sender.tag].first?.key
+        contactsThatAreUsers[contactUid!]!["expanded"] = !(contactsThatAreUsers[contactUid!]!["expanded"] as? Bool)!
         tableView.reloadSections(sections, with: .automatic)
     }
     
     // Either send a new request or cancel an existing one. Also change the button accordingly.
     @objc func onAddPress(sender: UIButton) {
-        // API Call goes here. Check where you need to make a new request or cancel an existing one.
+        let contactUid = mutualConnectionsPerContact[sender.tag].first?.key
         let sections = IndexSet(integer: sender.tag)
-        pending[sender.tag] = !pending[sender.tag]
+        // Don't do anything if the recipient was added due to a pending request on their end.
+        if (contactsThatAreUsers[contactUid!]!["added"] as! Bool) {
+            tableView.reloadSections(sections, with: .automatic)
+            return
+        }
+        let contactSentConnections = self.contactsThatAreUsers[contactUid!]!["sentConnections"]! as! Array<Dictionary<String, String>>
+        let contactRequestsList = contactSentConnections.map({ (person) -> String in
+            return person["user"]!
+        })
+        if (contactsThatAreUsers[contactUid!]!["pending"] as! Bool) {
+            Firestore.firestore().collection("users").document(uid)
+                .updateData([
+                    "sentConnections": FieldValue.arrayRemove([["user": contactUid!]])
+                ])
+            Firestore.firestore().collection("users").document(contactUid!)
+                .updateData([
+                    "pendingConnections": FieldValue.arrayRemove([["user": uid]])
+                ])
+            contactsThatAreUsers[contactUid!]!["pending"] = false
+        } else if (contactRequestsList.contains(self.uid)) {
+            Firestore.firestore().collection("users").document(contactUid!)
+                .updateData([
+                    "sentConnections": FieldValue.arrayRemove([["user": uid]])
+                ])
+            Firestore.firestore().collection("users").document(uid)
+                .updateData([
+                    "pendingConnections": FieldValue.arrayRemove([["user": contactUid!]])
+                ])
+            Firestore.firestore().collection("users").document(contactUid!)
+                .updateData([
+                    "connections": FieldValue.arrayUnion([["user": uid, "relationship": "Acquaintance"]]),
+                ])
+            Firestore.firestore().collection("users").document(uid)
+                .updateData([
+                    "connections": FieldValue.arrayUnion([["user": contactUid!, "relationship": "Acquaintance"]]),
+                ])
+            contactsThatAreUsers[contactUid!]!["added"] = true
+        } else {
+            Firestore.firestore().collection("users").document(uid)
+                .updateData([
+                    "sentConnections": FieldValue.arrayUnion([["user": contactUid!]])
+                ])
+            Firestore.firestore().collection("users").document(contactUid!)
+                .updateData([
+                    "pendingConnections": FieldValue.arrayUnion([["user": uid]])
+                ])
+            contactsThatAreUsers[contactUid!]!["pending"] = true
+        }
         tableView.reloadSections(sections, with: .automatic)
     }
 
@@ -235,7 +285,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                 } else {
                     for document in querySnapshot!.documents {
                         // Map of uid to user info
-                        if document.documentID != self.testUser {
+                        if document.documentID != self.uid {
                             self.contactsThatAreUsers[document.documentID] = document.data()
                         }
                     }
@@ -253,7 +303,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                     } else {
                         for document in querySnapshot!.documents {
                             // Map of uid to user info
-                            if document.documentID != self.testUser {
+                            if document.documentID != self.uid {
                                 self.contactsThatAreUsers[document.documentID] = document.data()
                             }
                         }
@@ -267,9 +317,9 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
       func getMutualConnections() {
          dispatchGroup.enter()
           // TODO: replace user id with id generated by Firebase Auth
-          Firestore.firestore().collection("users").document("\(testUser)")
-          .addSnapshotListener { documentSnapshot, error in
-            guard let document = documentSnapshot else {
+          Firestore.firestore().collection("users").document(uid)
+            .getDocument { document, error in
+                guard let document = document, document.exists else {
               print("Error fetching document: \(error!)")
               self.dispatchGroup.leave()
               return
@@ -281,15 +331,25 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             let userConnectionsList = userConnections.map({ (person) -> String in
                 return person["user"]!
             })
-            
             for contactUid in self.contactsThatAreUsers.keys {
-                // Checks if contact is already a connection b/c then we don't need to import them
+                // Checks if contact is already a connection b/c then we don't need to import them.
+                // Also check if we have already sent them a request.
                 if !userConnectionsList.contains(contactUid) {
+                    self.contactsThatAreUsers[contactUid]!["expanded"] = false
+                    self.contactsThatAreUsers[contactUid]!["pending"] = false
+                    self.contactsThatAreUsers[contactUid]!["added"] = false
                     let userInfo = self.contactsThatAreUsers[contactUid]!
                     let contactConnections = userInfo["connections"]! as! Array<Dictionary<String, String>>
+                    let contactPendingConnections = userInfo["pendingConnections"]! as! Array<Dictionary<String, String>>
                     let contactConnectionsList = contactConnections.map({ (person) -> String in
                         return person["user"]!
                     })
+                    let contactRequestsList = contactPendingConnections.map({ (person) -> String in
+                        return person["user"]!
+                    })
+                    if (contactRequestsList.contains(self.uid)) {
+                        self.contactsThatAreUsers[contactUid]!["pending"] = true
+                    }
                     // Array of mutual connections shared by current user and their contact
                     let mutualConnectionIds = userConnectionsList.filter(contactConnectionsList.contains)
                     // Array of contacts paired with their mutual connections
@@ -322,7 +382,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
               }
                 loadedImages += 1
                 // Only mark done once all images have loaded.
-                if (loadedImages == self.mutualConnectionsPerContact.count) {
+                if (loadedImages == self.contactsThatAreUsers.count) {
                     self.dispatchGroup.leave()
                 }
             }
