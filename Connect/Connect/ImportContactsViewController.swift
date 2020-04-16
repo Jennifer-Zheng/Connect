@@ -165,8 +165,10 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             if (contactsThatAreUsers[contactUid!]!["added"] as! Bool) {
                 cell.addButton?.setTitle("Added", for: .normal)
                 cell.addButton?.backgroundColor = UIColor.systemPurple
-            }
-            else if (contactsThatAreUsers[contactUid!]!["pending"] as! Bool) {
+            } else if (contactsThatAreUsers[contactUid!]!["sentRequest"] as! Bool) {
+                cell.addButton?.setTitle("Accept", for: .normal)
+                cell.addButton?.backgroundColor = UIColor.systemBlue
+            } else if (contactsThatAreUsers[contactUid!]!["pending"] as! Bool) {
                 cell.addButton?.setTitle("Pending", for: .normal)
                 cell.addButton?.backgroundColor = UIColor.systemGreen
             } else {
@@ -221,10 +223,6 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             tableView.reloadSections(sections, with: .automatic)
             return
         }
-        let contactSentConnections = self.contactsThatAreUsers[contactUid!]!["sentConnections"]! as! Array<Dictionary<String, String>>
-        let contactRequestsList = contactSentConnections.map({ (person) -> String in
-            return person["user"]!
-        })
         if (contactsThatAreUsers[contactUid!]!["pending"] as! Bool) {
             Firestore.firestore().collection("users").document(uid)
                 .updateData([
@@ -235,7 +233,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                     "pendingConnections": FieldValue.arrayRemove([["user": uid]])
                 ])
             contactsThatAreUsers[contactUid!]!["pending"] = false
-        } else if (contactRequestsList.contains(self.uid)) {
+        } else if (contactsThatAreUsers[contactUid!]!["sentRequest"] as! Bool) {
             Firestore.firestore().collection("users").document(contactUid!)
                 .updateData([
                     "sentConnections": FieldValue.arrayRemove([["user": uid]])
@@ -333,7 +331,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             })
             for contactUid in self.contactsThatAreUsers.keys {
                 // Checks if contact is already a connection b/c then we don't need to import them.
-                // Also check if we have already sent them a request.
+                // Also check if either the user or the contact has sent a connection request before.
                 if !userConnectionsList.contains(contactUid) {
                     self.contactsThatAreUsers[contactUid]!["expanded"] = false
                     self.contactsThatAreUsers[contactUid]!["pending"] = false
@@ -341,12 +339,19 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                     let userInfo = self.contactsThatAreUsers[contactUid]!
                     let contactConnections = userInfo["connections"]! as! Array<Dictionary<String, String>>
                     let contactPendingConnections = userInfo["pendingConnections"]! as! Array<Dictionary<String, String>>
+                    let contactSentConnections = userInfo["sentConnections"]! as! Array<Dictionary<String, String>>
                     let contactConnectionsList = contactConnections.map({ (person) -> String in
                         return person["user"]!
                     })
                     let contactRequestsList = contactPendingConnections.map({ (person) -> String in
                         return person["user"]!
                     })
+                    let contactSentList = contactSentConnections.map({ (person) -> String in
+                        return person["user"]!
+                    })
+                    if (contactSentList.contains(self.uid)) {
+                        self.contactsThatAreUsers[contactUid]!["sentRequest"] = true
+                    }
                     if (contactRequestsList.contains(self.uid)) {
                         self.contactsThatAreUsers[contactUid]!["pending"] = true
                     }
