@@ -22,18 +22,20 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
     @IBOutlet weak var errorMsg: UILabel!
+    @IBOutlet weak var phoneNumber: UITextField!
     
     @IBAction func signUpPressed(_ sender: Any) {
         let db = Firestore.firestore()
        
         //let num = Int(phoneNumber.text!)
-        if(!emailAddress.text!.isEmpty && !password.text!.isEmpty && !confirmPassword.text!.isEmpty){
+        if(!emailAddress.text!.isEmpty && !password.text!.isEmpty && !confirmPassword.text!.isEmpty && !phoneNumber.text!.isEmpty){
+            let phoneText = phoneNumber.text?.digits
             if(password.text != confirmPassword.text){
                 errorMsg.text = "Passwords do not match"
             }
-            /*else if(phoneNumber.text?.count != 10 || num == nil){
-                error.text = "Invalid phone number"
-            }*/
+            else if(phoneText == nil || phoneText?.count != 10){
+                errorMsg.text = "Invalid phone number"
+            }
             else{
                 guard let email = emailAddress.text, !email.isEmpty else{
                         errorMsg.text = "Email is empty"
@@ -54,7 +56,7 @@ class RegisterViewController: UIViewController {
                     db.collection("users").document(Auth.auth().currentUser!.uid).setData([
                         "email": email,
                         "password": password,
-                        "phoneNumber": Int(),
+                        "phoneNumber": phoneText!,
                         "connections": [Any](),
                         "pendingConnections": [Any](),
                         "pendingRelations": [Any](),

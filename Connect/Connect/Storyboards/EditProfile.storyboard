@@ -184,7 +184,7 @@
                         <outlet property="name" destination="wbJ-9p-RMK" id="BuR-Rn-92y"/>
                         <outlet property="numConnections" destination="ds3-yf-3yQ" id="o9M-Ze-HBa"/>
                         <outlet property="profilePic" destination="rsW-2p-257" id="crR-L6-kzZ"/>
-                        <segue destination="tzN-df-G9B" kind="showDetail" identifier="connectionsSegue" id="b1H-D4-IxR"/>
+                        <segue destination="tzN-df-G9B" kind="presentation" identifier="connectionsSegue" modalPresentationStyle="fullScreen" id="b1H-D4-IxR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="crL-Br-qpn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
