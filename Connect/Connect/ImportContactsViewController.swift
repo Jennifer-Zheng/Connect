@@ -336,6 +336,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                     self.contactsThatAreUsers[contactUid]!["expanded"] = false
                     self.contactsThatAreUsers[contactUid]!["pending"] = false
                     self.contactsThatAreUsers[contactUid]!["added"] = false
+                    self.contactsThatAreUsers[contactUid]!["sentRequest"] = false
                     let userInfo = self.contactsThatAreUsers[contactUid]!
                     let contactConnections = userInfo["connections"]! as! Array<Dictionary<String, String>>
                     let contactPendingConnections = userInfo["pendingConnections"]! as! Array<Dictionary<String, String>>

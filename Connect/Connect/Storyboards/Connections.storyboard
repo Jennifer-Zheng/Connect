@@ -106,8 +106,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-ln-Db7">
-                                                    <rect key="frame" x="20" y="14" width="125" height="125"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-ln-Db7">
+                                                    <rect key="frame" x="20" y="11" width="125" height="125"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="125" id="1R9-RG-bNq"/>
                                                         <constraint firstAttribute="width" constant="125" id="UDa-3j-Jnr"/>

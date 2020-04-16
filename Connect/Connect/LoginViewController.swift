@@ -59,6 +59,9 @@ class LoginViewController: UIViewController {
                     return
                 }
                 self.currUserUID = Auth.auth().currentUser?.uid
+                if (self.currUserUID == "gCWpsbrZLrQjBa4E0vzw258TdUK2") {
+                    self.resetTestUsers()
+                }
                 self.transitionToHome(self.currUserUID)
             }
         }
@@ -81,6 +84,55 @@ class LoginViewController: UIViewController {
         
         view.window?.rootViewController = connectionsViewController
         view.window?.makeKeyAndVisible()
+    }
+    
+    func resetTestUsers() {
+        Firestore.firestore().collection("users").document("gCWpsbrZLrQjBa4E0vzw258TdUK2").updateData([
+            "connections": [
+                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
+                 "relationship": "Lab Partner"],
+                ["user": "km5NceyWM5YNDQSJNYGp6hvzRYD2",
+                 "relationship": "Cousin"]],
+            "pendingConnections": [
+                ["user": "DdKGtN05jAUyDmBS8ARL12xslK73"]],
+            "pendingRelations": [
+                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
+                 "relationship": "Friend"]],
+            "sentConnections": [],
+            "sentRelations": []
+        ])
+        Firestore.firestore().collection("users").document("D7lCTYj3JTOFjxZlFfKgQHri2ew1").updateData([
+            "connections": [
+                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
+                 "relationship": "Lab Partner"],
+                ["user": "DdKGtN05jAUyDmBS8ARL12xslK73",
+                 "relationship": "Previous Roommate"]],
+            "pendingConnections": [],
+            "pendingRelations": [],
+            "sentConnections": [],
+            "sentRelations": [
+                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
+                 "relationship": "Friend"]]
+        ])
+        Firestore.firestore().collection("users").document("DdKGtN05jAUyDmBS8ARL12xslK73").updateData([
+            "connections": [
+                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
+                "relationship": "Previous Roommate"]],
+            "pendingConnections": [],
+            "pendingRelations": [],
+            "sentConnections": [
+                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2"]],
+            "sentRelations": []
+        ])
+        Firestore.firestore().collection("users").document("km5NceyWM5YNDQSJNYGp6hvzRYD2").updateData([
+            "connections": [
+                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
+                "relationship": "Cousin"]],
+            "pendingConnections": [],
+            "pendingRelations": [],
+            "sentConnections": [],
+            "sentRelations": []
+        ])
     }
     
 }
