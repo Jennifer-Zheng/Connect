@@ -23,26 +23,17 @@
                                     <segue destination="QZc-rp-9rc" kind="presentation" modalPresentationStyle="fullScreen" id="HZ2-AB-Whq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64v-X0-V80">
-                                <rect key="frame" x="197" y="232" width="44" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Profile"/>
-                                <connections>
-                                    <segue destination="GFG-MB-g0C" kind="show" id="nsh-0h-rZY"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="z9f-dW-9t5" kind="presentation" identifier="connectionsSegue" modalPresentationStyle="fullScreen" id="gMe-Kn-8Bi"/>
-                        <segue destination="YkN-2K-3cw" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="sCu-de-WTJ"/>
+                        <segue destination="z9f-dW-9t5" kind="presentation" identifier="temp" modalPresentationStyle="fullScreen" id="gMe-Kn-8Bi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="92.753623188405811" y="112.5"/>
+            <point key="canvasLocation" x="46" y="111"/>
         </scene>
         <!--EditProfile-->
         <scene sceneID="wwp-Ma-XEa">
@@ -52,31 +43,13 @@
             </objects>
             <point key="canvasLocation" x="665" y="-69"/>
         </scene>
-        <!--Connections-->
+        <!--login-->
         <scene sceneID="PwQ-Ty-uUg">
             <objects>
-                <viewControllerPlaceholder storyboardName="Connections" referencedIdentifier="Connections" id="z9f-dW-9t5" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Login" referencedIdentifier="login" id="z9f-dW-9t5" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sJo-Ql-t1o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="696" y="113"/>
-        </scene>
-        <!--Login-->
-        <scene sceneID="qag-HQ-Fai">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Login" id="YkN-2K-3cw" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1VK-Cu-xZt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="624" y="236"/>
-        </scene>
-        <!--Profile-->
-        <scene sceneID="VXW-u3-ecZ">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" id="GFG-MB-g0C" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="7IV-AM-h1v"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="N9r-El-fV9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="696" y="1"/>
+            <point key="canvasLocation" x="656" y="143"/>
         </scene>
     </scenes>
 </document>

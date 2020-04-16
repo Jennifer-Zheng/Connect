@@ -19,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let db = Firestore.firestore()
         // [END default_firestore]
         print(db) // silence warning
+        
+        /*let window = UIWindow(frame: UIScreen.main.bounds)
+        // Or "Admin"
+        window.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()!
+        window.makeKeyAndVisible()*/
+        
         return true
     }
 
