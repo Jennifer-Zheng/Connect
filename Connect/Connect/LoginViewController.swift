@@ -42,24 +42,17 @@ class LoginViewController: UIViewController {
             }
             
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                guard let user = authResult?.user, error == nil else {
+                guard let _ = authResult?.user, error == nil else {
                     print(error!.localizedDescription)
                     self.errorMsg.text = error!.localizedDescription
                     return
                 }
                 self.currUserUID = Auth.auth().currentUser?.uid
-                print(self.currUserUID)
                 self.transitionToHome(self.currUserUID)
             }
         }
         else{
             errorMsg.text = "Please fill out all fields"
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == editProfileSegue{
-            
         }
     }
     
