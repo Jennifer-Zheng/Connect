@@ -39,6 +39,14 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.destination is ConversationViewController) {
+            let indexPath = self.tableView.indexPathForSelectedRow!
+            let profileVC = segue.destination as! ConversationViewController
+            profileVC.otherName = self.connections[indexPath.row]["user"]!!
+        }
+    }
+    
     // Number of rows needed in the table.
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredConnections.count
