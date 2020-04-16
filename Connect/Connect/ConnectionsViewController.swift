@@ -26,62 +26,10 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         Firestore.firestore().clearPersistence(completion: nil)
         tableView.dataSource = self
         tableView.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         uid = Auth.auth().currentUser!.uid
         loadProfilePic()
         loadConnections()
-        //resetTestUsers()
-    }
-    
-    func resetTestUsers() {
-        Firestore.firestore().collection("users").document("gCWpsbrZLrQjBa4E0vzw258TdUK2").updateData([
-            "connections": [
-                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
-                 "relationship": "Lab Partner"],
-                ["user": "km5NceyWM5YNDQSJNYGp6hvzRYD2",
-                 "relationship": "Cousin"]],
-            "pendingConnections": [
-                ["user": "DdKGtN05jAUyDmBS8ARL12xslK73"]],
-            "pendingRelations": [
-                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
-                 "relationship": "Friend"]],
-            "sentConnections": [],
-            "sentRelations": []
-        ])
-        Firestore.firestore().collection("users").document("D7lCTYj3JTOFjxZlFfKgQHri2ew1").updateData([
-            "connections": [
-                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
-                 "relationship": "Lab Partner"],
-                ["user": "DdKGtN05jAUyDmBS8ARL12xslK73",
-                 "relationship": "Previous Roommate"]],
-            "pendingConnections": [],
-            "pendingRelations": [],
-            "sentConnections": [],
-            "sentRelations": [
-                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
-                 "relationship": "Friend"]]
-        ])
-        Firestore.firestore().collection("users").document("DdKGtN05jAUyDmBS8ARL12xslK73").updateData([
-            "connections": [
-                ["user": "D7lCTYj3JTOFjxZlFfKgQHri2ew1",
-                "relationship": "Previous Roommate"]],
-            "pendingConnections": [],
-            "pendingRelations": [],
-            "sentConnections": [
-                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2"]],
-            "sentRelations": []
-        ])
-        Firestore.firestore().collection("users").document("km5NceyWM5YNDQSJNYGp6hvzRYD2").updateData([
-            "connections": [
-                ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
-                "relationship": "Cousin"]],
-            "pendingConnections": [],
-            "pendingRelations": [],
-            "sentConnections": [],
-            "sentRelations": []
-        ])
     }
     
     func loadProfilePic() {
@@ -98,8 +46,8 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     // Load the profiles of the user's connections.
     func loadConnections() {
         Firestore.firestore().collection("users").document(uid)
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
+            .getDocument { document, error in
+                guard let document = document, document.exists else {
                     print("Error fetching document: \(error!)")
                     return
                 }

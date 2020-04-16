@@ -64,7 +64,7 @@ class RegisterViewController: UIViewController {
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")
-                            self.errorMsg.text = err.localizedDescription
+                            self.errorMsg.text = "Invalid email or password"
                             return
                         } else {
                             print("Document successfully written!")

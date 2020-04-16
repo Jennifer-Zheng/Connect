@@ -15,6 +15,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var bio: UITextView!
     @IBOutlet weak var numConnections: UITextField!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var goToConnectionsButton: UIButton!
     @IBOutlet weak var profilePic: UIImageView!
     
     var uid = ""
@@ -30,6 +31,11 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
            uid = Auth.auth().currentUser!.uid
            showCurrentProfileInfo()
            setupProfilePic()
+        if initialCreation {
+            goToConnectionsButton.isHidden = false
+        } else {
+            goToConnectionsButton.isHidden = true
+        }
     }
     
     @IBAction func onBackButtonPress(_ sender: Any) {

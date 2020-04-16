@@ -79,6 +79,7 @@
                                             <outlet property="otherName" destination="Ufj-5p-dv5" id="ePr-8T-Md4"/>
                                             <outlet property="otherProfile" destination="pzl-4l-O0h" id="iJl-gd-hcz"/>
                                             <outlet property="previewMessage" destination="I7u-SI-xgQ" id="FXd-WI-s5x"/>
+                                            <segue destination="K3h-CF-GQq" kind="presentation" modalPresentationStyle="fullScreen" id="Dpf-iT-8w1"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -100,6 +101,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqC-03-siO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-104.34782608695653" y="-105.13392857142857"/>
+        </scene>
+        <!--Conversation-->
+        <scene sceneID="YiN-fM-VRe">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" id="K3h-CF-GQq" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ly0-ev-8fB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="507" y="-105"/>
         </scene>
     </scenes>
     <resources>
