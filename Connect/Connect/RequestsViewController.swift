@@ -238,7 +238,6 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == profileSegueIdentifier) {
             let idx = self.tableView.indexPathForSelectedRow!.section
-            print(idx)
             let profileVC = segue.destination as! ProfileViewController
             if (idx < pendingRelations.count) {
                 profileVC.user = pendingRelations[idx]["user"] as! String
