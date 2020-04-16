@@ -17,18 +17,20 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var profilePic: UIImageView!
     
-    var uid = "gCWpsbrZLrQjBa4E0vzw258TdUK2"
+    var uid = ""
     var initialCreation = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Remove padding from Bio text view
         self.bio.textContainer.lineFragmentPadding = 0
-        showCurrentProfileInfo()
-        setupProfilePic()
-        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+           uid = Auth.auth().currentUser!.uid
+           showCurrentProfileInfo()
+           setupProfilePic()
+    }
     
     @IBAction func onBackButtonPress(_ sender: Any) {
         if(initialCreation) {
