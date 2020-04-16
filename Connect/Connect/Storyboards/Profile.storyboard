@@ -139,7 +139,6 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToPath" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="requestConnection:" destination="pMU-Lc-otY" eventType="touchUpInside" id="2ra-Tu-csi"/>
                                     <segue destination="RIM-jz-i6a" kind="presentation" modalPresentationStyle="fullScreen" id="4fR-ZN-N5Q"/>
                                 </connections>
                             </button>

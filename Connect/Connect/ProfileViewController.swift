@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController {
     
     var mutualConnections : [String] = []
     var allConnections : [String] = []
+    var userData : Dictionary<String, Any> = Dictionary<String, Any>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +71,7 @@ class ProfileViewController: UIViewController {
                 print("Error fetching document: \(error!)")
                 return
             }
+            self.userData = document.data()!
             self.nameTextField.text = document.get("name") as? String
             self.bioTextField.text = document.get("bio") as? String
             self.connectionsArray = (document.get("connections") as? Array<Dictionary<String, String>>)!
@@ -129,9 +131,6 @@ class ProfileViewController: UIViewController {
     }
     @IBAction func block(_ sender: Any) {
         //waiting for settings
-    }
-    @IBAction func requestConnection(_ sender: Any) {
-        
     }
 }
 
