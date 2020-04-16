@@ -78,7 +78,7 @@
                         <viewLayoutGuide key="safeArea" id="B8u-jI-ZQX"/>
                     </view>
                     <connections>
-                        <segue destination="09S-bO-qG0" kind="showDetail" identifier="signOutToLoginSegue" id="OyF-Me-GVS"/>
+                        <segue destination="09S-bO-qG0" kind="presentation" identifier="signOutToLoginSegue" modalPresentationStyle="fullScreen" id="OyF-Me-GVS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpP-mt-SMd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
