@@ -96,6 +96,7 @@
                                             <outlet property="otherName" destination="OEz-19-O6h" id="0GQ-2K-K2t"/>
                                             <outlet property="otherNumberOfMutuals" destination="bo3-mA-8nO" id="M0r-zX-Tb4"/>
                                             <outlet property="otherProfile" destination="IRq-Tl-cCB" id="XlC-dV-DAm"/>
+                                            <segue destination="5FC-cc-DR9" kind="presentation" modalPresentationStyle="fullScreen" id="3RP-fs-kBn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -111,6 +112,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9QZ-L9-Sei" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="111.59420289855073" y="21.428571428571427"/>
+        </scene>
+        <!--Profile-->
+        <scene sceneID="gJV-RJ-fl8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" id="5FC-cc-DR9" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9fB-ag-Yd8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="815" y="-149"/>
         </scene>
     </scenes>
     <resources>

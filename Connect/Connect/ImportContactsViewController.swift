@@ -14,7 +14,6 @@ import FirebaseStorage
 class ImportContactsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var profilePic: UIButton!
     
     let contactCellIdentifier = "ContactCell"
     let mutualConnectionCellIdentifier = "MutualConnectionCell"
@@ -39,35 +38,53 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
         tableView.delegate = self
         let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
-        
-        // Authorize access to contacts if user hasn't already
-        let store = CNContactStore()
-        let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
-
-        if authorizationStatus == .notDetermined {
-          store.requestAccess(for: .contacts) { [weak self] didAuthorize,
-          error in
-            if didAuthorize {
-               self?.retrieveContacts(from: store)
-            }
-          }
-        } else if authorizationStatus == .authorized {
-            retrieveContacts(from: store)
-        }
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        phoneNumbersInContacts = []
+        mutualConnectionsPerContact = []
         dispatchGroup.notify(queue: queue) {
-            self.getContactsThatAreRegisteredUsers()
-            self.dispatchGroup.notify(queue: self.queue) {
-                self.getMutualConnections()
+            self.checkContactPermissions()
                 self.dispatchGroup.notify(queue: self.queue) {
-                    self.getProfilePics()
-                    self.dispatchGroup.notify(queue: DispatchQueue.main) {
-                        self.tableView.reloadData()
+                self.getContactsThatAreRegisteredUsers()
+                self.dispatchGroup.notify(queue: self.queue) {
+                    self.getMutualConnections()
+                    self.dispatchGroup.notify(queue: self.queue) {
+                        self.getProfilePics()
+                        self.dispatchGroup.notify(queue: DispatchQueue.main) {
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           if(segue.destination is ProfileViewController) {
+               let indexPath = self.tableView.indexPathForSelectedRow!
+               let profileVC = segue.destination as! ProfileViewController
+               profileVC.user = mutualConnectionsPerContact[indexPath.row].first!.key
+           }
+       }
+    
+    // Authorize access to contacts if user hasn't already
+    func checkContactPermissions() {
+        dispatchGroup.enter()
+        let store = CNContactStore()
+        let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
+        if authorizationStatus == .notDetermined {
+         store.requestAccess(for: .contacts) { [weak self] didAuthorize,
+         error in
+           if didAuthorize {
+              self?.retrieveContacts(from: store)
+            self?.dispatchGroup.leave()
+           }
+         }
+        } else if authorizationStatus == .authorized {
+           retrieveContacts(from: store)
+           dispatchGroup.leave()
         }
     }
     
@@ -97,8 +114,8 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
               } catch {
                   print("Failed to fetch contact, error: \(error)")
               }
-          }
-       }
+            }
+        }
     }
     
     // Number of rows needed for each request.
@@ -208,7 +225,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     func getContactsThatAreRegisteredUsers() {
       let reference = Firestore.firestore().collection("users")
         // Firestore "in" operator only supports up to 10 comparison values
-        if phoneNumbersInContacts.count < 10 {
+        if phoneNumbersInContacts.count < 10 && phoneNumbersInContacts.count > 0 {
           dispatchGroup.enter()
           reference.whereField("phoneNumber", in: phoneNumbersInContacts)
             .getDocuments() { (querySnapshot, err) in
@@ -286,8 +303,7 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     func getProfilePics() {
         dispatchGroup.enter()
         var loadedImages = 0
-        for mutualConnection in self.mutualConnectionsPerContact {
-            let contactUid = (mutualConnection.first?.key)!
+        for contactUid in self.contactsThatAreUsers.keys {
             let reference = Storage.storage().reference().child("profile_pics").child("\(contactUid).png")
             // Download in memory with a maximum allowed size = 5 MB
             reference.getData(maxSize: 5 * 1024 * 1024) { data, error in
