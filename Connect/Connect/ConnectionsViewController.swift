@@ -38,10 +38,8 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                         self.connections[i]["image"] = (results[i] as! Dictionary<String, Any>?)!["image"]
                     }
                 }
-                DispatchQueue.global().async {
-                    DispatchQueue.main.sync {
-                        self.tableView.reloadData()
-                    }
+                DispatchQueue.main.sync {
+                    self.tableView.reloadData()
                 }
             }
         }
