@@ -11,6 +11,10 @@ import Firebase
 import FirebaseAuth
 
 class LoginViewController: UIViewController {
+
+    @IBOutlet weak var emailAddress: UITextField!
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var errorMsg: UILabel!
     
     var currUserUID : String?
     var editProfileSegue = "successfulLoginSegue"
@@ -20,34 +24,19 @@ class LoginViewController: UIViewController {
         do {
             try Auth.auth().signOut()
         } catch let signOutError as NSError {
-          print ("Error signing out: %@", signOutError)
+            print ("Error signing out: %@", signOutError)
         }
-    }
-
-    @IBOutlet weak var emailAddress: UITextField!
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var errorMsg: UILabel!
-    
-    // code to dismiss keyboard when user clicks on background
-
-    func textFieldShouldReturn(textField:UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
     
     @IBAction func loginPressed(_ sender: Any) {
         
-        if(!emailAddress.text!.isEmpty && !password.text!.isEmpty){
+        if(!emailAddress.text!.isEmpty && !password.text!.isEmpty) {
             
-            guard let email = emailAddress.text, !email.isEmpty else{
+            guard let email = emailAddress.text, !email.isEmpty else {
                     errorMsg.text = "Email is empty"
                     return
             }
-            guard let password = password.text, !password.isEmpty else{
+            guard let password = password.text, !password.isEmpty else {
                     errorMsg.text = "Password is empty"
                     return
             }
@@ -65,7 +54,7 @@ class LoginViewController: UIViewController {
                 self.transitionToHome(self.currUserUID)
             }
         }
-        else{
+        else {
             errorMsg.text = "Please fill out all fields"
         }
     }
@@ -133,6 +122,17 @@ class LoginViewController: UIViewController {
             "sentConnections": [],
             "sentRelations": []
         ])
+    }
+    
+    // code to dismiss keyboard when user clicks on background
+
+    func textFieldShouldReturn(textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
 }

@@ -27,7 +27,7 @@ class FirebaseManager {
         return userUid
     }
     
-    func getDocument() -> Dictionary<String, Any>{
+    func getDocument() -> Dictionary<String, Any> {
         return userDocument
     }
     

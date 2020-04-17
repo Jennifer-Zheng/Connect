@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var bioTextField: UITextView!
     @IBOutlet weak var mutualsTableView: UITableView!
     
-    var user = "D7lCTYj3JTOFjxZlFfKgQHri2ew1"
+    var user = ""
     var uid = ""
     
     var connectionsArray : Array<Dictionary<String, String>> = Array<Dictionary<String, String>>()

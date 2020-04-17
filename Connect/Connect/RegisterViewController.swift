@@ -27,20 +27,20 @@ class RegisterViewController: UIViewController {
     @IBAction func signUpPressed(_ sender: Any) {
         let db = Firestore.firestore()
        
-        if(!emailAddress.text!.isEmpty && !password.text!.isEmpty && !confirmPassword.text!.isEmpty && !phoneNumber.text!.isEmpty){
+        if (!emailAddress.text!.isEmpty && !password.text!.isEmpty && !confirmPassword.text!.isEmpty && !phoneNumber.text!.isEmpty) {
             let phoneText = phoneNumber.text?.digits
-            if(password.text != confirmPassword.text){
+            if (password.text != confirmPassword.text) {
                 errorMsg.text = "Passwords do not match"
             }
-            else if(phoneText == nil || phoneText?.count != 10){
+            else if (phoneText == nil || phoneText?.count != 10) {
                 errorMsg.text = "Invalid phone number"
             }
-            else{
-                guard let email = emailAddress.text, !email.isEmpty else{
+            else {
+                guard let email = emailAddress.text, !email.isEmpty else {
                         errorMsg.text = "Email is empty"
                         return
                 }
-                guard let password = password.text, !password.isEmpty else{
+                guard let password = password.text, !password.isEmpty else {
                         errorMsg.text = "Password is empty"
                         return
                 }
@@ -74,7 +74,7 @@ class RegisterViewController: UIViewController {
                 }
             }
         }
-        else{
+        else {
             errorMsg.text = "Please fill out all fields"
         }
     }
