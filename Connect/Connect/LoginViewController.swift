@@ -70,20 +70,13 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func transitionToHome(_ uid : String?){
-        do {
-            sleep(1)
-        }
-        let storyboard = UIStoryboard(name: "Connections", bundle:nil)
-        
-        let connectionsViewController = storyboard.instantiateViewController(withIdentifier: "Connections") as? ConnectionsViewController
-        
-        if uid != nil {
-            connectionsViewController?.uid = uid!
-        }
-        
-        view.window?.rootViewController = connectionsViewController
-        view.window?.makeKeyAndVisible()
+    func transitionToHome(_ uid : String?) {
+        sleep(1)
+        let storyboard = UIStoryboard(name: "Main", bundle:nil)
+        let tabBarViewController = storyboard.instantiateViewController(withIdentifier: "Main") as? ViewController
+        self.view.window?.rootViewController = tabBarViewController
+        self.view.window?.makeKeyAndVisible()
+
     }
     
     func resetTestUsers() {
@@ -128,6 +121,13 @@ class LoginViewController: UIViewController {
             "connections": [
                 ["user": "gCWpsbrZLrQjBa4E0vzw258TdUK2",
                 "relationship": "Cousin"]],
+            "pendingConnections": [],
+            "pendingRelations": [],
+            "sentConnections": [],
+            "sentRelations": []
+        ])
+        Firestore.firestore().collection("users").document("UfnCWDLeKcd0dU7VygVbbfBB4su1").updateData([
+            "connections": [],
             "pendingConnections": [],
             "pendingRelations": [],
             "sentConnections": [],

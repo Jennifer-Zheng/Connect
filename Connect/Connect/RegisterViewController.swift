@@ -79,18 +79,20 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    func transitionToEditProfile(_ uid : String?){
-        let storyboard = UIStoryboard(name: "EditProfile", bundle:nil)
-        
-        let editViewController = storyboard.instantiateViewController(withIdentifier: "EditProfile") as? EditProfileViewController
-        
-        if uid != nil {
-            editViewController?.uid = uid!
-            editViewController?.initialCreation = true
+    func transitionToEditProfile(_ uid : String?) {
+        sleep(1)
+        FirebaseManager.manager = FirebaseManager()
+        FirebaseManager.manager.loadSelf() {
+            DispatchQueue.global().async {
+                DispatchQueue.main.sync {
+                    let storyboard = UIStoryboard(name: "EditProfile", bundle:nil)
+                    let editViewController = storyboard.instantiateViewController(withIdentifier: "EditProfile") as? EditProfileViewController
+                    editViewController?.initialCreation = true
+                    self.view.window?.rootViewController = editViewController
+                    self.view.window?.makeKeyAndVisible()
+                }
+            }
         }
-        
-        view.window?.rootViewController = editViewController
-        view.window?.makeKeyAndVisible()
     }
     
     // Code to dismiss keyboard

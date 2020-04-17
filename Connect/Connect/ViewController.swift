@@ -18,11 +18,17 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
-            self.performSegue(withIdentifier: "tabsSegue", sender: self)
+            FirebaseManager.manager = FirebaseManager()
+            FirebaseManager.manager.loadSelf() {
+                DispatchQueue.global().async {
+                    DispatchQueue.main.sync {
+                        self.performSegue(withIdentifier: "tabsSegue", sender: self)
+                    }
+                }
+            }
         } else {
             self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
-        
     }
 
 }

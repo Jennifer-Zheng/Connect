@@ -14,6 +14,33 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="ZIf-xs-zeN">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="BSP-wR-h1n">
+                                        <rect key="frame" x="20" y="59" width="374" height="512"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MXo-Cd-tac">
+                                        <rect key="frame" x="102" y="463" width="211" height="69"/>
+                                        <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="60"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="fR7-u5-Vvw" firstAttribute="bottom" secondItem="MXo-Cd-tac" secondAttribute="bottom" constant="330" id="Rb6-W6-eAm"/>
+                                    <constraint firstItem="fR7-u5-Vvw" firstAttribute="trailing" secondItem="BSP-wR-h1n" secondAttribute="trailing" constant="20" id="h8Y-GJ-yVr"/>
+                                    <constraint firstItem="BSP-wR-h1n" firstAttribute="top" secondItem="fR7-u5-Vvw" secondAttribute="top" constant="15" id="hqW-Hf-fAP"/>
+                                    <constraint firstItem="BSP-wR-h1n" firstAttribute="leading" secondItem="fR7-u5-Vvw" secondAttribute="leading" constant="20" id="llS-Lb-OMK"/>
+                                    <constraint firstItem="fR7-u5-Vvw" firstAttribute="trailing" secondItem="MXo-Cd-tac" secondAttribute="trailing" constant="101" id="pWa-hx-gB5"/>
+                                    <constraint firstItem="MXo-Cd-tac" firstAttribute="leading" secondItem="fR7-u5-Vvw" secondAttribute="leading" constant="102" id="pac-yY-UKY"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="fR7-u5-Vvw"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -29,7 +56,7 @@
         <!--Custom Tab Bar View Controller-->
         <scene sceneID="gaD-3z-c2j">
             <objects>
-                <tabBarController id="4gW-tA-d5U" customClass="CustomTabBarViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="CustomTabBar" id="4gW-tA-d5U" customClass="CustomTabBarViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" alpha="0.050000000000000003" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nzX-75-ZWh" customClass="CustomTabBar" customModule="Connect" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -90,4 +117,7 @@
             <point key="canvasLocation" x="624" y="236"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo" width="512" height="512"/>
+    </resources>
 </document>

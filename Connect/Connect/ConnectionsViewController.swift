@@ -18,73 +18,35 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     // Custom cell identifiers.
     let connectionCellIdentifier = "ConnectionCell"
     
-    internal var connections: Array<Dictionary<String, Any>> = []
-    var uid = ""
+    var connections: Array<Dictionary<String, Any>> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Firestore.firestore().clearPersistence(completion: nil)
         tableView.dataSource = self
         tableView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        uid = Auth.auth().currentUser!.uid
-        loadProfilePic()
-        loadConnections()
-    }
-    
-    func loadProfilePic() {
-        let reference = Storage.storage().reference().child("profile_pics").child(uid + ".png")
-        reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
-          if let error = error {
-            print(error.localizedDescription)
-          } else {
-            self.profilePic.setImage(UIImage(data: data!), for: .normal)
-          }
-        }
-    }
-    
-    // Load the profiles of the user's connections.
-    func loadConnections() {
-        Firestore.firestore().collection("users").document(uid)
-            .getDocument { document, error in
-                guard let document = document, document.exists else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                self.connections = (document.get("connections") as? Array<Dictionary<String, String>>)!
-                var loadedImages = 0
-                // Load each connection for their names and profile pictures.
-                if (self.connections.count > 0) {
-                    for i in 0...(self.connections.count - 1) {
-                        let otherId = self.connections[i]["user"]!
-                        Firestore.firestore().collection("users").document(otherId as! String)
-                            .getDocument { document, error in
-                                guard let document = document, document.exists else {
-                                    print("Error fetching document: \(error!)")
-                                    return
-                                }
-                                self.connections[i]["name"] = document.get("name") as? String
-                                // Load in profile picture.
-                                let reference = Storage.storage().reference().child("profile_pics").child(otherId as! String + ".png")
-                                reference.getData(maxSize: 1024 * 1024 * 1024) { data, error in
-                                  if let error = error {
-                                      print(error.localizedDescription)
-                                  } else {
-                                      self.connections[i]["image"] = UIImage(data: data!)!
-                                  }
-                                  loadedImages += 1
-                                  // Only reload the table once all images have loaded.
-                                  if (loadedImages == self.connections.count){
-                                    self.tableView.reloadData()
-                                  }
-                                }
-                        }
+        profilePic.setImage(FirebaseManager.manager.getProfilePic(), for: .normal)
+        let connections = FirebaseManager.manager.getDocument()["connections"] as! Array<Dictionary<String, Any>>
+        if (connections.count > 0) {
+            FirebaseManager.manager.loadBatchUsers(userConnections: connections) { results, errors in
+                self.connections = connections
+                for i in 0...(results.count - 1) {
+                    if (errors[i] == nil) {
+                        self.connections[i]["name"] = (results[i] as! Dictionary<String, Any>?)!["name"]
+                        self.connections[i]["image"] = (results[i] as! Dictionary<String, Any>?)!["image"]
                     }
                 }
+                DispatchQueue.global().async {
+                    DispatchQueue.main.sync {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
         }
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.destination is ProfileViewController) {
