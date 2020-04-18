@@ -125,13 +125,46 @@ class FirebaseManager {
         }
     }
     
-    func loadUsersWhere(where: String, in: Array<Any>) {
+    // NOT TESTED
+    func loadUsersWhereInList(field: String, list: Array<Any>, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Error?) -> Void) {
+        Firestore.firestore().collection("users").whereField(field, in: list)
+            .getDocuments() { documents, err in
+                var results: Array<Dictionary<String, Any>?> = []
+                if (err == nil) {
+                    for document in documents!.documents {
+                        var data = document.data()
+                        data["id"] = document.documentID
+                        results.append(document.data())
+                    }
+                }
+                completion(results, err)
+        }
+    }
+    
+    // NOT TESTED
+    func loadUsersWhereEqualToValue(field: String, value: Any, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Error?) -> Void) {
+        Firestore.firestore().collection("users").whereField(field, isEqualTo: value)
+            .getDocuments() { documents, err in
+                var results: Array<Dictionary<String, Any>?> = []
+                if (err == nil) {
+                    for document in documents!.documents {
+                        var data = document.data()
+                        data["id"] = document.documentID
+                        results.append(document.data())
+                    }
+                }
+                completion(results, err)
+        }
+    }
+    
+    // Dictionaries should be the user's corresponding documents
+    func loadMutualConnections(user: Dictionary<String, Any>, otherUser: Dictionary<String, Any>, completion: @escaping () -> Void) {
         
     }
     
     // Dictionaries should be the user's corresponding documents
-    func loadMutualConnections(user: Dictionary<String, Any>, otherUser: Dictionary<String, Any>, limit: Int = Int.max,
-                               completion: @escaping () -> Void) {
+    func loadRankedMutualConnections(user: Dictionary<String, Any>, otherUser: Dictionary<String, Any>, limit: Int = Int.max,
+                                     completion: @escaping () -> Void) {
         
     }
 }

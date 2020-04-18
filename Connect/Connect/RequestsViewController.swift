@@ -384,10 +384,6 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             .updateData([
                 "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": newRelationship]])
             ])
-        Firestore.firestore().collection("users").document(otherUID)
-            .updateData([
-                "connections": FieldValue.arrayUnion([["user": uid, "relationship": newRelationship]])
-            ])
         pendingRelations[sender.tag]["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
@@ -418,6 +414,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
+                "connections": FieldValue.arrayUnion([["user": uid, "relationship": "Acquaintance"]]),
                 "sentConnections": FieldValue.arrayRemove([["user": uid]])
             ])
         Firestore.firestore().collection("users").document(uid)
