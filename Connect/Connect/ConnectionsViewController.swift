@@ -34,8 +34,8 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                 self.connections = connections
                 for i in 0...(results.count - 1) {
                     if (errors[i] == nil) {
-                        self.connections[i]["name"] = (results[i] as! Dictionary<String, Any>?)!["name"]
-                        self.connections[i]["image"] = (results[i] as! Dictionary<String, Any>?)!["image"]
+                        self.connections[i]["name"] = results[i]!["name"]
+                        self.connections[i]["image"] = results[i]!["image"]
                     }
                 }
                 DispatchQueue.main.sync {
