@@ -250,6 +250,28 @@ class FirebaseManager {
     
     // MODIFY REQUESTS
     
+    func sendRelationRequest(otherUID: String, newRelationship: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentRelations": FieldValue.arrayUnion([["user": otherUID, "relationship": newRelationship]])
+            ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "pendingRelations": FieldValue.arrayUnion([["user": userUID, "relationship": newRelationship]])
+            ])
+    }
+    
+    func sendConnectionRequest(otherUID: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayUnion([["user": otherUID]])
+            ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "pendingConnections": FieldValue.arrayUnion([["user": userUID]])
+            ])
+    }
+    
     func confirmPendingRelation(otherUID: String, newRelationship: String) {
         var oldRelationship = ""
         for connection in (userDocument["connections"] as! Array<Dictionary<String, String>>) {
