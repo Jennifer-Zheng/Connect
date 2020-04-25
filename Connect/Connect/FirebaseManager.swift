@@ -368,6 +368,17 @@ class FirebaseManager {
             ])
     }
     
+    func removeConnection(otherUID: String, relationship: String) {
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": relationship]])
+            ])
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": relationship]])
+            ])
+    }
+    
     // Updates the user's most recent location.
     func updateLocation(location: CLLocation) {
         let newPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
