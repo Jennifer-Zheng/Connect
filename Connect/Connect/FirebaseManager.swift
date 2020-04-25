@@ -128,16 +128,18 @@ class FirebaseManager {
         }
     }
     
-    // NOT TESTED
+    // Load all users where a field matches a value in a lit.
     func loadUsersWhereInList(field: String, list: Array<Any>, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Array<Error?>) -> Void) {
         let dispatchGroup = DispatchGroup()
         var results: Array<Dictionary<String, Any>?> = []
         var errors: Array<Error?> = []
         var idx = 0
+        // Firestore only allows up to 10 items to be searched through at a time so we need to loop with at most 10 items each time.
         while (idx < list.count) {
             let subArray = Array(list[idx...min(idx + 9, list.count - 1)]) as Array<Any>
             idx += subArray.count
             dispatchGroup.enter()
+            // Load users matching values.
             Firestore.firestore().collection("users").whereField(field, in: subArray)
                 .getDocuments() { documents, err in
                     if (err == nil) {
@@ -146,6 +148,7 @@ class FirebaseManager {
                                 var data = document.data()
                                 data["id"] = document.documentID
                                 dispatchGroup.enter()
+                                // If user was found, load their image.
                                 Storage.storage().reference().child("profile_pics").child(document.documentID + ".png")
                                     .getData(maxSize: 1024 * 1024 * 1024) { imageData, error in
                                         if let error = error {

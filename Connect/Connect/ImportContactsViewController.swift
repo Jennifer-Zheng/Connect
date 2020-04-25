@@ -24,12 +24,11 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     let emptyContactsMessage = "You have no contacts who can be connected to at this time."
     let maxMutualsToDisplay = 4
 
-    var uid = ""
-    var numDismissedCells = 0
     var document: Dictionary<String, Any> = [:]
     var phoneNumbers: Array<String> = []
     var contactsWithMutuals: Array<Dictionary<String, Any>?> = []
-
+    var numDismissedCells = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -39,16 +38,20 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let userUID = FirebaseManager.manager.getUID()
         document = FirebaseManager.manager.getDocument()
-        uid = FirebaseManager.manager.getUID()
         numDismissedCells = 0
         emptyMessageLabel?.text = emptyContactsMessage
+        // First ensure contact permissions are enabled then read in phone numbers.
         checkContactPermissions()
         dispatchGroup.notify(queue: DispatchQueue.global()) {
             if (self.phoneNumbers.count > 0) {
+                // Next find users containing the found numbers.
                 FirebaseManager.manager.loadUsersWhereInList(field: "phoneNumber", list: self.phoneNumbers) { results, errors in
+                    // Then look for mutual connections.
                     FirebaseManager.manager.loadBatchRankedMutualConnections(user: self.document, otherUsers: results, limit: self.maxMutualsToDisplay) { resultsWithMutuals, errors in
                         self.contactsWithMutuals = resultsWithMutuals
+                        // If any contacts were found, setup booleans such as if a request was already sent.
                         if (self.contactsWithMutuals.count > 0) {
                             for i in 0...(self.contactsWithMutuals.count - 1) {
                                 self.contactsWithMutuals[i]!["sentRequest"] = false
@@ -56,17 +59,17 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                                 self.contactsWithMutuals[i]!["pending"] = false
                                 self.contactsWithMutuals[i]!["dismissed"] = false
                                 for connectionRequest in self.contactsWithMutuals[i]!["sentConnections"] as! Array<Dictionary<String, String>> {
-                                    if (connectionRequest["user"] == self.uid) {
+                                    if (connectionRequest["user"] == userUID) {
                                         self.contactsWithMutuals[i]!["sentRequest"] = true
                                     }
                                 }
                                 for connectionRequest in self.contactsWithMutuals[i]!["pendingConnections"] as! Array<Dictionary<String, String>> {
-                                    if (connectionRequest["user"] == self.uid) {
+                                    if (connectionRequest["user"] == userUID) {
                                         self.contactsWithMutuals[i]!["pending"] = true
                                     }
                                 }
                                 for connectionRequest in self.contactsWithMutuals[i]!["connections"] as! Array<Dictionary<String, String>> {
-                                    if (connectionRequest["user"] == self.uid) {
+                                    if (connectionRequest["user"] == userUID) {
                                         self.numDismissedCells += 1
                                         self.contactsWithMutuals[i]!["dismissed"] = true
                                     }

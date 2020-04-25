@@ -246,6 +246,7 @@
                         <viewLayoutGuide key="safeArea" id="07Q-Kn-fSO"/>
                     </view>
                     <connections>
+                        <outlet property="emptyMessageLabel" destination="Z3l-7d-gQK" id="idM-RP-a7W"/>
                         <outlet property="profilePic" destination="XrY-VC-cCK" id="ySt-Ge-tC8"/>
                         <outlet property="tableView" destination="Zel-kr-ejE" id="buj-kn-Hol"/>
                         <segue destination="K73-PE-t4r" kind="presentation" identifier="ProfileSegue" modalPresentationStyle="fullScreen" id="VoD-74-ZN7"/>

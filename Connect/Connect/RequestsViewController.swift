@@ -14,6 +14,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePic: UIButton!
+    @IBOutlet weak var emptyMessageLabel: UILabel!
     
     // Custom cell identifiers.
     let pendingConnectionCellIdentifier = "PendingConnectionCell"
@@ -28,6 +29,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     var pendingRelations: Array<Dictionary<String, Any>?> = []
     // List of user's pending connection requests represented as objects with the key "user".
     var pendingConnections: Array<Dictionary<String, Any>?> = []
+    var numDismissedCells = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,8 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         let dispatchGroup = DispatchGroup()
+        emptyMessageLabel.isHidden = false
+        numDismissedCells = 0
         // Load User.
         profilePic.setImage(FirebaseManager.manager.getProfilePic(), for: .normal)
         let document = FirebaseManager.manager.getDocument()
@@ -126,6 +130,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Number of requests.
     func numberOfSections(in tableView: UITableView) -> Int {
+        emptyMessageLabel.isHidden = !(numDismissedCells == pendingRelations.count + pendingConnections.count)
         return pendingRelations.count + pendingConnections.count
     }
     
@@ -222,6 +227,10 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         let otherUID = pendingRelations[sender.tag]!["user"] as! String
         let newRelationship = pendingRelations[sender.tag]!["relationship"] as! String
         FirebaseManager.manager.confirmPendingRelation(otherUID: otherUID, newRelationship: newRelationship)
+        numDismissedCells += 1
+        if (numDismissedCells == pendingRelations.count + pendingConnections.count) {
+            emptyMessageLabel.isHidden = false
+        }
         pendingRelations[sender.tag]!["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
@@ -232,6 +241,10 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         let otherUID = pendingRelations[sender.tag]!["user"] as! String
         let newRelationship = pendingRelations[sender.tag]!["relationship"] as! String
         FirebaseManager.manager.declinePendingRelation(otherUID: otherUID, newRelationship: newRelationship)
+        numDismissedCells += 1
+        if (numDismissedCells == pendingRelations.count + pendingConnections.count) {
+            emptyMessageLabel.isHidden = false
+        }
         pendingRelations[sender.tag]!["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
@@ -242,6 +255,10 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         let idx = sender.tag - pendingRelations.count
         let otherUID = pendingConnections[idx]!["user"] as! String
         FirebaseManager.manager.confirmPendingConnection(otherUID: otherUID)
+        numDismissedCells += 1
+        if (numDismissedCells == pendingRelations.count + pendingConnections.count) {
+            emptyMessageLabel.isHidden = false
+        }
         pendingConnections[idx]!["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
@@ -252,6 +269,10 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
         let idx = sender.tag - pendingRelations.count
         let otherUID = pendingConnections[idx]!["user"] as! String
         FirebaseManager.manager.declinePendingConnection(otherUID: otherUID)
+        numDismissedCells += 1
+        if (numDismissedCells == pendingRelations.count + pendingConnections.count) {
+            emptyMessageLabel.isHidden = false
+        }
         pendingConnections[idx]!["dismissed"] = true
         tableView.reloadSections(sections, with: .automatic)
     }
