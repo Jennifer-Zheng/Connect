@@ -129,34 +129,42 @@ class FirebaseManager {
     }
     
     // NOT TESTED
-    func loadUsersWhereInList(field: String, list: Array<Any>, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Error?) -> Void) {
-        Firestore.firestore().collection("users").whereField(field, in: list)
-            .getDocuments() { documents, err in
-                var results: Array<Dictionary<String, Any>?> = []
-                if (err == nil) {
-                    for document in documents!.documents {
-                        var data = document.data()
-                        data["id"] = document.documentID
-                        results.append(document.data())
+    func loadUsersWhereInList(field: String, list: Array<Any>, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Array<Error?>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        var results: Array<Dictionary<String, Any>?> = []
+        var errors: Array<Error?> = []
+        var idx = 0
+        while (idx < list.count) {
+            let subArray = Array(list[idx...min(idx + 9, list.count - 1)]) as Array<Any>
+            idx += subArray.count
+            dispatchGroup.enter()
+            Firestore.firestore().collection("users").whereField(field, in: subArray)
+                .getDocuments() { documents, err in
+                    if (err == nil) {
+                        for document in documents!.documents {
+                            if (document.documentID != self.userUID) {
+                                var data = document.data()
+                                data["id"] = document.documentID
+                                dispatchGroup.enter()
+                                Storage.storage().reference().child("profile_pics").child(document.documentID + ".png")
+                                    .getData(maxSize: 1024 * 1024 * 1024) { imageData, error in
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                        } else {
+                                            data["image"] = UIImage(data: imageData!)
+                                            results.append(data)
+                                        }
+                                        dispatchGroup.leave()
+                                }
+                            }
+                        }
                     }
-                }
-                completion(results, err)
+                    errors.append(err)
+                    dispatchGroup.leave()
+            }
         }
-    }
-    
-    // NOT TESTED
-    func loadUsersWhereEqualToValue(field: String, value: Any, completion: @escaping (_ result: Array<Dictionary<String, Any>?>, _ error: Error?) -> Void) {
-        Firestore.firestore().collection("users").whereField(field, isEqualTo: value)
-            .getDocuments() { documents, err in
-                var results: Array<Dictionary<String, Any>?> = []
-                if (err == nil) {
-                    for document in documents!.documents {
-                        var data = document.data()
-                        data["id"] = document.documentID
-                        results.append(document.data())
-                    }
-                }
-                completion(results, err)
+        dispatchGroup.notify(queue: DispatchQueue.global()) {
+            completion(results, errors)
         }
     }
     
@@ -180,14 +188,18 @@ class FirebaseManager {
                     mutualRelations.append(connection["relationship"]!)
                 }
             }
-            loadBatchUsers(userIds: mutualIds) { results, err in
-                var mutuals = results
-                if (mutuals.count > 0) {
-                    for i in 0...(mutuals.count - 1) {
-                        mutuals[i]!["relationship"] = mutualRelations[i]
+            if (mutualIds.count == 0) {
+                completion(Array<Dictionary<String, Any>?>(), Array<Error?>())
+            } else {
+                loadBatchUsers(userIds: mutualIds) { results, err in
+                    var mutuals = results
+                    if (mutuals.count > 0) {
+                        for i in 0...(mutuals.count - 1) {
+                            mutuals[i]!["relationship"] = mutualRelations[i]
+                        }
                     }
+                    completion(mutuals, err)
                 }
-                completion(mutuals, err)
             }
         } else {
             completion(Array<Dictionary<String, Any>?>(), Array<Error?>())
@@ -269,6 +281,28 @@ class FirebaseManager {
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
                 "pendingConnections": FieldValue.arrayUnion([["user": userUID]])
+            ])
+    }
+    
+    func cancelRelationRequest(otherUID: String, newRelationship: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentRelations": FieldValue.arrayRemove([["user": otherUID, "relationship": newRelationship]])
+            ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "pendingRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
+            ])
+    }
+    
+    func cancelConnectionRequest(otherUID: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayRemove([["user": otherUID]])
+            ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "pendingConnections": FieldValue.arrayRemove([["user": userUID]])
             ])
     }
     
