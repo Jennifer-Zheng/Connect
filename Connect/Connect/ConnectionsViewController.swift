@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreLocation
 import Firebase
 import FirebaseStorage
 
-class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePic: UIButton!
@@ -18,12 +19,19 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
     // Custom cell identifiers.
     let connectionCellIdentifier = "ConnectionCell"
     
+    let locationManager = CLLocationManager()
+    
     var connections: Array<Dictionary<String, Any>> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        // TODO: Add the following line to nearby
+        // if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +53,16 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            print(location.coordinate)
+            FirebaseManager.manager.updateLocation(location: location)
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.destination is ProfileViewController) {

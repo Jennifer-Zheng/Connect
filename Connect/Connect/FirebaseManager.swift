@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 import Firebase
 import FirebaseStorage
 
@@ -364,6 +365,28 @@ class FirebaseManager {
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
                 "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
+            ])
+    }
+    
+    // Updates the user's most recent location.
+    func updateLocation(location: CLLocation) {
+        let newPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let newKey = "\(Int(newPoint.latitude.rounded())),\(Int(newPoint.longitude.rounded()))"
+        // Remove old location from the dictionary.
+        if (userDocument.keys.contains("location")) {
+            let oldPoint = userDocument["location"] as! GeoPoint
+            let oldKey = "\(Int(oldPoint.latitude.rounded())),\(Int(oldPoint.longitude.rounded()))"
+            Firestore.firestore().collection("locations").document("location")
+                .updateData([
+                    "dict.\(oldKey)": FieldValue.arrayRemove([["user": userUID, "location": oldPoint]])
+                ])
+        }
+        // Store new location.
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData(["location": newPoint])
+        Firestore.firestore().collection("locations").document("location")
+            .updateData([
+                "dict.\(newKey)": FieldValue.arrayUnion([["user": userUID, "location": newPoint]])
             ])
     }
 
