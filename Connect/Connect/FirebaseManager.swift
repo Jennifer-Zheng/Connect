@@ -268,7 +268,7 @@ class FirebaseManager {
     func loadNearbyUsers(completion: @escaping (_ result: Array<Dictionary<String,Any>?>, _ error: Array<Error?>) -> Void) {
         let userPoint = userDocument["location"] as? GeoPoint
         if (userPoint != nil) {
-            let userKey = "\(Int(userPoint!.latitude.rounded())),\(Int(userPoint!.longitude.rounded()))"
+            let userKey = "\(Int((10*userPoint!.latitude).rounded())),\(Int(10*(userPoint!.longitude).rounded()))"
             Firestore.firestore().collection("locations").document("location")
                 .getDocument { document, error in
                     if let error = error {
@@ -280,8 +280,7 @@ class FirebaseManager {
                         for entry in locations {
                             let location = entry["location"] as! GeoPoint
                             let distance = self.haversineDistance(loc1: userPoint!, loc2: location)
-                            // TODO: Instead of 50, use value from settings.
-                            if (distance < 50 && (self.userUID != entry["user"] as! String)) {
+                            if (distance < self.userDocument["maxRadius"] as! Double && (self.userUID != entry["user"] as! String)) {
                                 ids.append(entry["user"] as! String)
                                 distances.append(String(format: "%.1f", distance))
                             }
@@ -306,6 +305,27 @@ class FirebaseManager {
 
     
     // MODIFY REQUESTS
+    
+    // Upload the given profile picture to storage.
+    func uploadImage(image: UIImage) {
+        guard let imageData = image.pngData() else {
+            print("Error converting image to type Data")
+            return
+        }
+        let reference = Storage.storage().reference().child("profile_pics").child("\(userUID).png")
+        reference.putData(imageData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            reference.downloadURL(completion: { (url, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                Firestore.firestore().collection("users").document(self.userUID)
+                    .updateData(["profilePic": url!.absoluteString])
+            })
+         })
+    }
     
     func sendRelationRequest(otherUID: String, newRelationship: String) {
         Firestore.firestore().collection("users").document(userUID)
@@ -439,13 +459,14 @@ class FirebaseManager {
     // UTILITY METHODS
     
     // Use less precise coordinates for hashing then store data in neighbors for border cases.
-    // For example, coords 12.34567 and 32.10000 will be stored in (12, 32), (11, 32), (13, 32), (12, 33)... etc.
+    // Block sizes are roughly 20sq miles.
+    // For example, coords 12.34567 and 32.10000 will be stored in (123, 321), (124, 321), (122, 321), (123, 322)... etc.
     func hashGeopoints(point: GeoPoint, add: Bool) -> Dictionary<String, Any> {
         var results = Dictionary<String, Any>()
         for i in -1...1 {
             for j in -1...1 {
-                let lat = point.latitude + Double(i)
-                let long = point.longitude + Double(j)
+                let lat = (10 * point.latitude) + Double(i)
+                let long = (10 * point.longitude) + Double(j)
                 let key = "\(Int(lat.rounded())),\(Int(long.rounded()))"
                 if (add) {
                     results["dict.\(key)"] = FieldValue.arrayUnion([["user": userUID, "location": point]])

@@ -53,6 +53,7 @@ class RegisterViewController: UIViewController {
                     }
 
                     db.collection("users").document(Auth.auth().currentUser!.uid).setData([
+                        "name": "New User",
                         "email": email,
                         "password": password,
                         "phoneNumber": phoneText!,
@@ -60,7 +61,11 @@ class RegisterViewController: UIViewController {
                         "pendingConnections": [Any](),
                         "pendingRelations": [Any](),
                         "sentConnections": [Any](),
-                        "messages": [Any]()
+                        "messages": [Any](),
+                        "blockedUsers": [Any](),
+                        "connectionMessagesOnly": true,
+                        "hideProfile": false,
+                        "maxRadius": 20
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")
@@ -83,6 +88,7 @@ class RegisterViewController: UIViewController {
         sleep(1)
         FirebaseManager.manager = FirebaseManager()
         FirebaseManager.manager.loadSelf() {
+            FirebaseManager.manager.uploadImage(image: UIImage(named: "Profile")!)
             DispatchQueue.global().async {
                 DispatchQueue.main.sync {
                     let storyboard = UIStoryboard(name: "EditProfile", bundle:nil)
