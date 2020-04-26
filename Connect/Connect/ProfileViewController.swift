@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var Connection: UIButton!
     @IBOutlet weak var bioTextField: UITextView!
     @IBOutlet weak var mutualsTableView: UITableView!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var blockButton: UIButton!
     
     var user = ""
     var uid = ""
@@ -29,6 +31,7 @@ class ProfileViewController: UIViewController {
     var mutualConnections : [String] = []
     var allConnections : [String] = []
     var userData : Dictionary<String, Any> = Dictionary<String, Any>()
+    var status : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,10 +78,21 @@ class ProfileViewController: UIViewController {
             self.nameTextField.text = document.get("name") as? String
             self.bioTextField.text = document.get("bio") as? String
             self.connectionsArray = (document.get("connections") as? Array<Dictionary<String, String>>)!
-            print("connArray \(self.connectionsArray)")
+            
             self.allConnections = self.connectionsArray.map({ (person) -> String in
                 return person["user"]!
             })
+            //print("connArray \(self.allConnections) \(self.uid)")
+            if self.allConnections.contains(self.uid) {
+                self.status = "remove"
+            } else if let pendingConnections = document.get("pendingConnections") as? Array<Dictionary<String, String>> {
+                for p in pendingConnections {
+                    if p["user"] == self.uid {
+                        self.status = "pending"
+                    }
+                }
+            }
+            self.modifyAddButton()
             self.mutualsTableView.reloadData()
             self.getMutualConnections()
         })
@@ -126,8 +140,33 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func modifyAddButton() {
+        print("status \(self.status)")
+        self.addButton.titleLabel!.adjustsFontSizeToFitWidth = true
+        if(status == "") {
+            self.addButton.setTitle("Add", for: .normal)
+            self.addButton?.backgroundColor = #colorLiteral(red: 0.4453955889, green: 0.4632643461, blue: 0.9224863052, alpha: 1)
+        } else if (status == "pending") {
+            self.addButton.setTitle("Pending", for: .normal)
+            self.addButton?.backgroundColor = UIColor.systemGreen
+        } else if(status == "remove") {
+            self.addButton.setTitle("Remove", for: .normal)
+            self.addButton?.backgroundColor = UIColor.systemBlue
+        }
+    }
+    
     @IBAction func add(_ sender: Any) {
-        
+        if(status == "") {
+            FirebaseManager.manager.sendConnectionRequest(otherUID: user)
+            status = "pending"
+        } else if (status == "pending") {
+            FirebaseManager.manager.cancelConnectionRequest(otherUID: user)
+            status = ""
+        } else if(status == "remove") {
+            FirebaseManager.manager.removeConnection(otherUID: user, relationship: self.Connection.titleLabel!.text!)
+            status = ""
+        }
+        self.modifyAddButton()
     }
     @IBAction func block(_ sender: Any) {
         //waiting for settings

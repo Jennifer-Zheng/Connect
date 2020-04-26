@@ -215,7 +215,9 @@
                     </view>
                     <connections>
                         <outlet property="Connection" destination="vmH-3t-WQy" id="QtT-YT-aOT"/>
+                        <outlet property="addButton" destination="26U-Es-7o7" id="BbT-Lc-j5l"/>
                         <outlet property="bioTextField" destination="GKy-se-BTR" id="bii-L8-y7B"/>
+                        <outlet property="blockButton" destination="LbT-HD-lE9" id="Arf-Nu-dtS"/>
                         <outlet property="mutualsTableView" destination="GzU-cA-oLc" id="0d0-8h-Jt9"/>
                         <outlet property="nameTextField" destination="rjB-1Y-udY" id="UTE-Qx-B6M"/>
                         <outlet property="profilePic" destination="AQ7-MP-562" id="Sad-Nb-Xnb"/>
