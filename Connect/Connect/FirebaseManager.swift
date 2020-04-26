@@ -294,6 +294,8 @@ class FirebaseManager {
                                 }
                                 completion(users, errors)
                             }
+                        } else {
+                            completion([], [error])
                         }
                     }
             }

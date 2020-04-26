@@ -30,8 +30,6 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        // TODO: Add the following line to nearby
-        // if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse)
     }
     
     override func viewWillAppear(_ animated: Bool) {

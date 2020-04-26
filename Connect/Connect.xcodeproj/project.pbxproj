@@ -20,6 +20,7 @@
 		86E5845B2447B681002E4BEC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5845A2447B681002E4BEC /* SettingsViewController.swift */; };
 		86E5845D2447D7D0002E4BEC /* RelationshipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5845C2447D7D0002E4BEC /* RelationshipTableViewCell.swift */; };
 		9324D03E684B362A5299BE42 /* Pods_Connect_ConnectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */; };
+		C92EA1572455462D006427E9 /* NearbyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92EA1562455462D006427E9 /* NearbyTableViewCell.swift */; };
 		C9A753E92447C28B00A9F3DE /* NearbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A753E82447C28B00A9F3DE /* NearbyViewController.swift */; };
 		C9A753ED2447FE3200A9F3DE /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A753EC2447FE3200A9F3DE /* CustomTabBarViewController.swift */; };
 		C9A753EF2448034A00A9F3DE /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A753EE2448034A00A9F3DE /* CustomTabBar.swift */; };
@@ -94,6 +95,7 @@
 		92B0BD9F5626BDC2924939E9 /* Pods_ConnectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A351EA6DE87A041797DE8EAF /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
 		B4BE1D2FE8A4C52539B38F35 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
+		C92EA1562455462D006427E9 /* NearbyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTableViewCell.swift; sourceTree = "<group>"; };
 		C9A753E82447C28B00A9F3DE /* NearbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyViewController.swift; sourceTree = "<group>"; };
 		C9A753EC2447FE3200A9F3DE /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
 		C9A753EE2448034A00A9F3DE /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				C9C28C6B2445043500AB0911 /* ConnectionTableViewCell.swift */,
 				C9C28C7524450DF200AB0911 /* MessagingTableViewCell.swift */,
 				86E5845C2447D7D0002E4BEC /* RelationshipTableViewCell.swift */,
+				C92EA1562455462D006427E9 /* NearbyTableViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				86E5844F24470FD9002E4BEC /* Constants.swift in Sources */,
 				C9A753E92447C28B00A9F3DE /* NearbyViewController.swift in Sources */,
 				C9A753F32449095A00A9F3DE /* FirebaseManager.swift in Sources */,
+				C92EA1572455462D006427E9 /* NearbyTableViewCell.swift in Sources */,
 				C9EEBFD5243FC6D5005EA785 /* RequestsViewController.swift in Sources */,
 				86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */,
 				C9EEBFE6244173E4005EA785 /* ContactTableViewCell.swift in Sources */,
