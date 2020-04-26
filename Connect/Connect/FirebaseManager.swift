@@ -264,6 +264,44 @@ class FirebaseManager {
         }
     }
     
+    // Loads nearby users.
+    func loadNearbyUsers(completion: @escaping (_ result: Array<Dictionary<String,Any>?>, _ error: Array<Error?>) -> Void) {
+        let userPoint = userDocument["location"] as? GeoPoint
+        if (userPoint != nil) {
+            let userKey = "\(Int(userPoint!.latitude.rounded())),\(Int(userPoint!.longitude.rounded()))"
+            Firestore.firestore().collection("locations").document("location")
+                .getDocument { document, error in
+                    if let error = error {
+                        completion([], [error])
+                    } else {
+                        let locations = (document!.data()!["dict"] as! Dictionary<String, Array<Dictionary<String, Any>>>)[userKey]!
+                        var ids = Array<String>()
+                        var distances = Array<String>()
+                        for entry in locations {
+                            let location = entry["location"] as! GeoPoint
+                            let distance = self.haversineDistance(loc1: userPoint!, loc2: location)
+                            // TODO: Instead of 50, use value from settings.
+                            if (distance < 50 && (self.userUID != entry["user"] as! String)) {
+                                ids.append(entry["user"] as! String)
+                                distances.append(String(format: "%.1f", distance))
+                            }
+                        }
+                        if (ids.count > 0) {
+                            self.loadBatchUsers(userIds: ids) { results, errors in
+                                var users = results
+                                for i in 0...(users.count - 1) {
+                                    users[i]!["distance"] = distances[i]
+                                }
+                                completion(users, errors)
+                            }
+                        }
+                    }
+            }
+        }
+        completion([], [])
+    }
+
+    
     // MODIFY REQUESTS
     
     func sendRelationRequest(otherUID: String, newRelationship: String) {
@@ -382,23 +420,51 @@ class FirebaseManager {
     // Updates the user's most recent location.
     func updateLocation(location: CLLocation) {
         let newPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let newKey = "\(Int(newPoint.latitude.rounded())),\(Int(newPoint.longitude.rounded()))"
         // Remove old location from the dictionary.
         if (userDocument.keys.contains("location")) {
             let oldPoint = userDocument["location"] as! GeoPoint
-            let oldKey = "\(Int(oldPoint.latitude.rounded())),\(Int(oldPoint.longitude.rounded()))"
             Firestore.firestore().collection("locations").document("location")
-                .updateData([
-                    "dict.\(oldKey)": FieldValue.arrayRemove([["user": userUID, "location": oldPoint]])
-                ])
+                .updateData(hashGeopoints(point: oldPoint, add: false))
         }
         // Store new location.
         Firestore.firestore().collection("users").document(userUID)
             .updateData(["location": newPoint])
         Firestore.firestore().collection("locations").document("location")
-            .updateData([
-                "dict.\(newKey)": FieldValue.arrayUnion([["user": userUID, "location": newPoint]])
-            ])
+            .updateData(hashGeopoints(point: newPoint, add: true))
+    }
+    
+    // UTILITY METHODS
+    
+    // Use less precise coordinates for hashing then store data in neighbors for border cases.
+    // For example, coords 12.34567 and 32.10000 will be stored in (12, 32), (11, 32), (13, 32), (12, 33)... etc.
+    func hashGeopoints(point: GeoPoint, add: Bool) -> Dictionary<String, Any> {
+        var results = Dictionary<String, Any>()
+        for i in -1...1 {
+            for j in -1...1 {
+                let lat = point.latitude + Double(i)
+                let long = point.longitude + Double(j)
+                let key = "\(Int(lat.rounded())),\(Int(long.rounded()))"
+                if (add) {
+                    results["dict.\(key)"] = FieldValue.arrayUnion([["user": userUID, "location": point]])
+                } else {
+                    results["dict.\(key)"] = FieldValue.arrayRemove([["user": userUID, "location": point]])
+                }
+            }
+        }
+        return results
+    }
+    
+    // Equation to find the distance in miles between two coordinates.
+    // Formula referenced from https://www.movable-type.co.uk/scripts/latlong.html.
+    func haversineDistance(loc1: GeoPoint, loc2: GeoPoint) -> Double {
+        // The radius of Earth in miles.
+        let radius = 3958.8;
+        let deltaLatitude = (loc2.latitude - loc1.latitude) * .pi / 180
+        let deltaLongitude = (loc2.longitude - loc1.longitude) * .pi / 180
+        let a = sin(deltaLatitude / 2) * sin(deltaLatitude / 2) +
+            cos(loc1.latitude * .pi / 180) * cos(loc2.latitude * .pi / 180) * sin(deltaLongitude / 2) * sin(deltaLongitude / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        return radius * c
     }
 
 }
