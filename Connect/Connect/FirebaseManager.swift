@@ -280,8 +280,7 @@ class FirebaseManager {
                         for entry in locations {
                             let location = entry["location"] as! GeoPoint
                             let distance = self.haversineDistance(loc1: userPoint!, loc2: location)
-                            // TODO: Instead of 50, use value from settings.
-                            if (distance < 50 && (self.userUID != entry["user"] as! String)) {
+                            if (distance < self.userDocument["maxRadius"] as! Double && (self.userUID != entry["user"] as! String)) {
                                 ids.append(entry["user"] as! String)
                                 distances.append(String(format: "%.1f", distance))
                             }
