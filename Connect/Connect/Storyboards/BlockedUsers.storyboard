@@ -75,7 +75,7 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="tintColor" red="0.0" green="0.050676449950000001" blue="0.1051651554" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <state key="normal" title="Button" image="chevron.right" catalog="system"/>
+                                                    <state key="normal" image="chevron.right" catalog="system"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
