@@ -306,6 +306,27 @@ class FirebaseManager {
     
     // MODIFY REQUESTS
     
+    // Upload the given profile picture to storage.
+    func uploadImage(image: UIImage) {
+        guard let imageData = image.pngData() else {
+            print("Error converting image to type Data")
+            return
+        }
+        let reference = Storage.storage().reference().child("profile_pics").child("\(userUID).png")
+        reference.putData(imageData, metadata: nil, completion: { (metadata, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            reference.downloadURL(completion: { (url, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                Firestore.firestore().collection("users").document(self.userUID)
+                    .updateData(["profilePic": url!.absoluteString])
+            })
+         })
+    }
+    
     func sendRelationRequest(otherUID: String, newRelationship: String) {
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
