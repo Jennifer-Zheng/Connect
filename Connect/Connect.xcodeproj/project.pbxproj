@@ -11,6 +11,9 @@
 		387E57E32436B014008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E42436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E52436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
+		38852F6824560366005D0885 /* BlockedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38852F6724560366005D0885 /* BlockedUsersViewController.swift */; };
+		38852F6A245626AB005D0885 /* BlockedUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38852F69245626AB005D0885 /* BlockedUsers.storyboard */; };
+		38852F6C2456270F005D0885 /* BlockedUsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38852F6B2456270F005D0885 /* BlockedUsersTableViewCell.swift */; };
 		38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E589E3243FEC26000074DC /* EditProfileViewController.swift */; };
 		86E584472444F5D3002E4BEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E584462444F5D3002E4BEC /* ProfileViewController.swift */; };
 		86E5844B244684E6002E4BEC /* RelationshipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E5844A244684E6002E4BEC /* RelationshipsViewController.swift */; };
@@ -80,6 +83,9 @@
 /* Begin PBXFileReference section */
 		368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect_ConnectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		387E57E22436B014008CF705 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		38852F6724560366005D0885 /* BlockedUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUsersViewController.swift; sourceTree = "<group>"; };
+		38852F69245626AB005D0885 /* BlockedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BlockedUsers.storyboard; sourceTree = "<group>"; };
+		38852F6B2456270F005D0885 /* BlockedUsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUsersTableViewCell.swift; sourceTree = "<group>"; };
 		38E589E3243FEC26000074DC /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		4B173F78F74314AF648EE242 /* Pods_Connect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FC0949F8A9D80511B5D1CEC /* Pods-Connect-ConnectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect-ConnectUITests.debug.xcconfig"; path = "Target Support Files/Pods-Connect-ConnectUITests/Pods-Connect-ConnectUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -194,6 +200,7 @@
 				C9C28C7524450DF200AB0911 /* MessagingTableViewCell.swift */,
 				86E5845C2447D7D0002E4BEC /* RelationshipTableViewCell.swift */,
 				C92EA1562455462D006427E9 /* NearbyTableViewCell.swift */,
+				38852F6B2456270F005D0885 /* BlockedUsersTableViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 				D65376FB241C0A7600E283E2 /* AppDelegate.swift */,
 				D65376FD241C0A7600E283E2 /* SceneDelegate.swift */,
 				D65376FF241C0A7600E283E2 /* ViewController.swift */,
+				38852F6724560366005D0885 /* BlockedUsersViewController.swift */,
 				C9C28C692445041A00AB0911 /* ConnectionsViewController.swift */,
 				86E5844E24470FD9002E4BEC /* Constants.swift */,
 				C9A753F024480A1200A9F3DE /* ConversationViewController.swift */,
@@ -296,6 +304,7 @@
 				D653773F241C11F400E283E2 /* Nearby.storyboard */,
 				C9C28C7124450DA200AB0911 /* Conversation.storyboard */,
 				C9C28C7324450DD800AB0911 /* Messaging.storyboard */,
+				38852F69245626AB005D0885 /* BlockedUsers.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -409,6 +418,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38852F6A245626AB005D0885 /* BlockedUsers.storyboard in Resources */,
 				387E57E32436B014008CF705 /* GoogleService-Info.plist in Resources */,
 				D6537730241C0E0200E283E2 /* Login.storyboard in Resources */,
 				D6537732241C108A00E283E2 /* EditProfile.storyboard in Resources */,
@@ -575,11 +585,13 @@
 				C9A753F124480A1200A9F3DE /* ConversationViewController.swift in Sources */,
 				C9C28C6A2445041A00AB0911 /* ConnectionsViewController.swift in Sources */,
 				C9EEBFDA244049CB005EA785 /* PendingRelationshipTableViewCell.swift in Sources */,
+				38852F6824560366005D0885 /* BlockedUsersViewController.swift in Sources */,
 				C9C28C7624450DF200AB0911 /* MessagingTableViewCell.swift in Sources */,
 				86E584552447A3B6002E4BEC /* LoginViewController.swift in Sources */,
 				C9A753ED2447FE3200A9F3DE /* CustomTabBarViewController.swift in Sources */,
 				C9A753EF2448034A00A9F3DE /* CustomTabBar.swift in Sources */,
 				38E589E4243FEC26000074DC /* EditProfileViewController.swift in Sources */,
+				38852F6C2456270F005D0885 /* BlockedUsersTableViewCell.swift in Sources */,
 				C9C28C6C2445043500AB0911 /* ConnectionTableViewCell.swift in Sources */,
 				D65376FE241C0A7600E283E2 /* SceneDelegate.swift in Sources */,
 			);

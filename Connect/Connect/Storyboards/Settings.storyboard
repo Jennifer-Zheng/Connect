@@ -127,6 +127,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <color key="tintColor" red="0.0" green="0.050676449950000001" blue="0.1051651554" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button" image="chevron.right" catalog="system"/>
+                                <connections>
+                                    <segue destination="89g-S7-Rqs" kind="presentation" modalPresentationStyle="fullScreen" id="fbf-kV-bPm"/>
+                                </connections>
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-gd-G1k">
                                 <rect key="frame" x="348" y="132" width="51" height="30.5"/>
@@ -254,6 +257,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tE0-bt-BC5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="764" y="58"/>
+        </scene>
+        <!--BlockedUsers-->
+        <scene sceneID="b2d-BI-KO8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="BlockedUsers" id="89g-S7-Rqs" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kuc-l0-LOR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="743" y="121"/>
         </scene>
     </scenes>
     <resources>
