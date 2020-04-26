@@ -299,8 +299,9 @@ class FirebaseManager {
                         }
                     }
             }
+        } else {
+            completion([], [])
         }
-        completion([], [])
     }
 
     
