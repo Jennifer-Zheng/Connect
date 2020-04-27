@@ -441,6 +441,21 @@ class FirebaseManager {
             ])
     }
     
+    func blockUser(otherUID: String, relationship: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "blockedUsers": FieldValue.arrayUnion([otherUID])
+            ])
+        removeConnection(otherUID: otherUID, relationship: relationship)
+    }
+    
+    func unblockUser(otherUID: String, relationship: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "blockedUsers": FieldValue.arrayRemove([otherUID])
+            ])
+    }
+    
     // Updates the user's most recent location.
     func updateLocation(location: CLLocation) {
         let newPoint = GeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
