@@ -361,6 +361,17 @@ class FirebaseManager {
                 "pendingRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
             ])
     }
+    //TODO
+    func cancelExistingRelationRequest(otherUID: String, newRelationship: String) {
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentRelations": FieldValue.arrayRemove([["user": otherUID, "relationship": newRelationship]])
+            ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "pendingRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
+            ])
+    }
     
     func cancelConnectionRequest(otherUID: String) {
         Firestore.firestore().collection("users").document(userUID)
