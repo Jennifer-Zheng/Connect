@@ -292,6 +292,7 @@ class FirebaseManager {
                                     users[i]!["distance"] = distances[i]
                                 }
                                 users = users.filter { !($0!["blockedUsers"] as! Array<String>).contains(self.userUID) }
+                                users = users.filter { $0!["hideProfile"] as! Bool == false }
                                 completion(users, errors)
                             }
                         } else {
