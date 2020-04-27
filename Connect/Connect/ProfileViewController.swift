@@ -33,6 +33,7 @@ class ProfileViewController: UIViewController {
     var allConnections : [String] = []
     var userData : Dictionary<String, Any> = Dictionary<String, Any>()
     var status : String = ""
+    var blockedStatus: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +87,12 @@ class ProfileViewController: UIViewController {
             //print("connArray \(self.allConnections) \(self.uid)")
             if self.allConnections.contains(self.uid) {
                 self.status = "remove"
+            } else if let pendingConnections = document.get("sentConnections") as? Array<Dictionary<String, String>> {
+                for p in pendingConnections {
+                    if p["user"] == self.uid {
+                        self.status = "accept"
+                    }
+                }
             } else if let pendingConnections = document.get("pendingConnections") as? Array<Dictionary<String, String>> {
                 for p in pendingConnections {
                     if p["user"] == self.uid {
@@ -93,7 +100,14 @@ class ProfileViewController: UIViewController {
                     }
                 }
             }
-            self.modifyAddButton()
+            
+            if let blockedArray = FirebaseManager.manager.getDocument()["blockedUsers"] as? Array<String> {
+                if(blockedArray.contains(self.user)) {
+                    self.blockedStatus = "Unblock"
+                }
+            }
+            
+            self.updateButtons()
             self.mutualsTableView.reloadData()
             self.getMutualConnections()
         })
@@ -141,7 +155,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func modifyAddButton() {
+    func updateButtons() {
         print("status \(self.status)")
         self.addButton.titleLabel!.adjustsFontSizeToFitWidth = true
         if(status == "") {
@@ -160,6 +174,12 @@ class ProfileViewController: UIViewController {
         } else {
             self.relationshipButton.isEnabled = false
         }
+        
+        if(blockedStatus == "") {
+            self.blockButton.setTitle("Block", for: .normal)
+        } else if(blockedStatus == "Unblock"){
+            self.blockButton.setTitle("Block", for: .normal)
+        }
     }
     
     @IBAction func add(_ sender: Any) {
@@ -169,14 +189,25 @@ class ProfileViewController: UIViewController {
         } else if (status == "pending") {
             FirebaseManager.manager.cancelConnectionRequest(otherUID: user)
             status = ""
+        } else if (status == "accept") {
+            FirebaseManager.manager.confirmPendingConnection(otherUID: user)
+            status = "remove"
         } else if(status == "remove") {
             FirebaseManager.manager.removeConnection(otherUID: user, relationship: self.Connection.titleLabel!.text!)
             status = ""
         }
-        self.modifyAddButton()
+        self.updateButtons()
     }
     @IBAction func block(_ sender: Any) {
         //waiting for settings
+        if(blockedStatus == "") {
+            self.blockButton.setTitle("Block", for: .normal)
+            FirebaseManager.manager.blockUser(otherUID: self.user, relationship: self.Connection.titleLabel!.text!)
+        } else if(blockedStatus == "Unblock"){
+            self.blockButton.setTitle("Block", for: .normal)
+            FirebaseManager.manager.unblockUser(otherUID: self.user, relationship: self.Connection.titleLabel!.text!)
+        }
+        self.updateButtons()
     }
 }
 
