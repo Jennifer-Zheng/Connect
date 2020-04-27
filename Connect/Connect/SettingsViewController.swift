@@ -164,7 +164,8 @@ class SettingsViewController: UIViewController {
             title: "Cancel",
             style: .cancel,
             handler: nil))
-        reenterPasswordController.addTextField()
+        reenterPasswordController.addTextField{(textField) in
+            textField.isSecureTextEntry = true}
         reenterPasswordController.addAction(UIAlertAction(
             title: "OK",
             style: .default,
