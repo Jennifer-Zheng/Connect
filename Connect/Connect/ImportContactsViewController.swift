@@ -48,8 +48,10 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
             if (self.phoneNumbers.count > 0) {
                 // Next find users containing the found numbers.
                 FirebaseManager.manager.loadUsersWhereInList(field: "phoneNumber", list: self.phoneNumbers) { results, errors in
+                    // Filter out contacts that have blocked this user.
+                    let filteredResults = results.filter { !($0!["blockedUsers"] as! Array<String>).contains(userUID) }
                     // Then look for mutual connections.
-                    FirebaseManager.manager.loadBatchRankedMutualConnections(user: self.document, otherUsers: results, limit: self.maxMutualsToDisplay) { resultsWithMutuals, errors in
+                    FirebaseManager.manager.loadBatchRankedMutualConnections(user: self.document, otherUsers: filteredResults, limit: self.maxMutualsToDisplay) { resultsWithMutuals, errors in
                         self.contactsWithMutuals = resultsWithMutuals
                         // If any contacts were found, setup booleans such as if a request was already sent.
                         if (self.contactsWithMutuals.count > 0) {
