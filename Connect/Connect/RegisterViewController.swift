@@ -54,8 +54,6 @@ class RegisterViewController: UIViewController {
 
                     db.collection("users").document(Auth.auth().currentUser!.uid).setData([
                         "name": "New User",
-                        "email": email,
-                        "password": password,
                         "phoneNumber": phoneText!,
                         "connections": [Any](),
                         "pendingConnections": [Any](),
