@@ -291,6 +291,7 @@ class FirebaseManager {
                                 for i in 0...(users.count - 1) {
                                     users[i]!["distance"] = distances[i]
                                 }
+                                users = users.filter { !($0!["blockedUsers"] as! Array<String>).contains(self.userUID) }
                                 completion(users, errors)
                             }
                         } else {
