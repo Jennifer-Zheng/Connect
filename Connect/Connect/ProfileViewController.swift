@@ -43,6 +43,9 @@ class ProfileViewController: UIViewController {
         mutualsTableView.delegate = self
         let nib = UINib.init(nibName: "MutualConnectionTableViewCell", bundle: nil)
         mutualsTableView.register(nib, forCellReuseIdentifier: mutualConnectionCellIdentifier)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         
         showCurrentProfileInfo()
         self.mutualsTableView.reloadData()
@@ -87,13 +90,15 @@ class ProfileViewController: UIViewController {
             //print("connArray \(self.allConnections) \(self.uid)")
             if self.allConnections.contains(self.uid) {
                 self.status = "remove"
-            } else if let pendingConnections = document.get("sentConnections") as? Array<Dictionary<String, String>> {
+            }
+            if let pendingConnections = document.get("sentConnections") as? Array<Dictionary<String, String>> {
                 for p in pendingConnections {
                     if p["user"] == self.uid {
                         self.status = "accept"
                     }
                 }
-            } else if let pendingConnections = document.get("pendingConnections") as? Array<Dictionary<String, String>> {
+            }
+            if let pendingConnections = document.get("pendingConnections") as? Array<Dictionary<String, String>> {
                 for p in pendingConnections {
                     if p["user"] == self.uid {
                         self.status = "pending"
@@ -106,7 +111,7 @@ class ProfileViewController: UIViewController {
                     self.blockedStatus = "Unblock"
                 }
             }
-            
+            print("statuses \(self.status) \(self.blockedStatus)")
             self.updateButtons()
             self.mutualsTableView.reloadData()
             self.getMutualConnections()
@@ -181,7 +186,7 @@ class ProfileViewController: UIViewController {
             self.blockButton.setTitle("Block", for: .normal)
         } else if(blockedStatus == "Unblock"){
             self.addButton.isEnabled = false
-            self.blockButton.setTitle("Block", for: .normal)
+            self.blockButton.setTitle("Unblock", for: .normal)
         }
     }
     
@@ -206,9 +211,12 @@ class ProfileViewController: UIViewController {
         if(blockedStatus == "") {
             self.blockButton.setTitle("Block", for: .normal)
             FirebaseManager.manager.blockUser(otherUID: self.user, relationship: self.Connection.titleLabel!.text!)
+            self.blockedStatus = "Unblock"
+            self.status = ""
         } else if(blockedStatus == "Unblock"){
             self.blockButton.setTitle("Block", for: .normal)
             FirebaseManager.manager.unblockUser(otherUID: self.user, relationship: self.Connection.titleLabel!.text!)
+            self.blockedStatus = ""
         }
         self.updateButtons()
     }

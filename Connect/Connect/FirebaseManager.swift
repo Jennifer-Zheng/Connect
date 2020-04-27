@@ -463,6 +463,7 @@ class FirebaseManager {
                 "blockedUsers": FieldValue.arrayUnion([otherUID])
             ])
         removeConnection(otherUID: otherUID, relationship: relationship)
+        cancelConnectionRequest(otherUID: otherUID)
     }
     
     func unblockUser(otherUID: String, relationship: String) {
