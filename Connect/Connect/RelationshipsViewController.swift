@@ -88,13 +88,23 @@ extension RelationshipsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = relationshipsTableView.dequeueReusableCell(withIdentifier: relationshipTableViewCell) as! RelationshipTableViewCell
+        
         cell.relationship.setTitle(relationships[indexPath.row].0, for: .normal)
         cell.relationship.backgroundColor = relationships[indexPath.row].1
         let spacing: CGFloat = 8.0
         cell.relationship.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
         cell.viewController = self
+        cell.relationship.tag = indexPath.row
+        cell.relationship.removeTarget(nil, action: nil, for: .allEvents)
+        cell.relationship.addTarget(self, action: #selector(onRelationshipPress(sender:)), for: .touchUpInside)
         print("\(cell.relationship.frame.size)")
         return cell
+    }
+    
+    @objc func onRelationshipPress(sender: UIButton) {
+        var type = relationships[sender.tag].0
+        FirebaseManager.manager.sendRelationRequest(otherUID: self.user, newRelationship: type)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

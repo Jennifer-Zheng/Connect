@@ -21,6 +21,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var mutualsTableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var blockButton: UIButton!
+    @IBOutlet weak var relationshipButton: UIButton!
     
     var user = ""
     var uid = ""
@@ -152,6 +153,12 @@ class ProfileViewController: UIViewController {
         } else if(status == "remove") {
             self.addButton.setTitle("Remove", for: .normal)
             self.addButton?.backgroundColor = UIColor.systemBlue
+        }
+        
+        if(status == "remove") {
+            self.relationshipButton.isEnabled = true
+        } else {
+            self.relationshipButton.isEnabled = false
         }
     }
     
