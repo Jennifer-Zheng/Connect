@@ -221,6 +221,7 @@
                         <outlet property="mutualsTableView" destination="GzU-cA-oLc" id="0d0-8h-Jt9"/>
                         <outlet property="nameTextField" destination="rjB-1Y-udY" id="UTE-Qx-B6M"/>
                         <outlet property="profilePic" destination="AQ7-MP-562" id="Sad-Nb-Xnb"/>
+                        <outlet property="relationshipButton" destination="mym-yf-wcH" id="16o-pu-7K4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="blb-h6-FW6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
