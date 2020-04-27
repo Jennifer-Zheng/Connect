@@ -152,6 +152,7 @@ class ProfileViewController: UIViewController {
         if(segue.destination is RelationshipsViewController){
             let relationshipVC = segue.destination as! RelationshipsViewController
             relationshipVC.user = self.user
+            relationshipVC.currentRelation = self.Connection.titleLabel!.text!
         }
     }
     
@@ -176,8 +177,10 @@ class ProfileViewController: UIViewController {
         }
         
         if(blockedStatus == "") {
+            self.addButton.isEnabled = true
             self.blockButton.setTitle("Block", for: .normal)
         } else if(blockedStatus == "Unblock"){
+            self.addButton.isEnabled = false
             self.blockButton.setTitle("Block", for: .normal)
         }
     }
