@@ -25,10 +25,10 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         uid = Auth.auth().currentUser!.uid
-        showCurrentMaxRadius()
+        showCurrentSettings()
     }
     
-    func showCurrentMaxRadius() {
+    func showCurrentSettings() {
         let db = Firestore.firestore()
 
         db.collection("users").document("\(uid)")
@@ -37,6 +37,9 @@ class SettingsViewController: UIViewController {
             print("Error fetching document: \(error!)")
             return
           }
+
+            let currMessagesSetting = document.get("connectionMessagesOnly") as? Bool
+            let currHideProfileSetting = document.get("hideProfile") as? Bool
             let currMaxRadius = document.get("maxRadius") as? Float
             if currMaxRadius == 1 {
                 self.radiusLabel.text = Int(currMaxRadius!).description + " mile"
@@ -44,6 +47,8 @@ class SettingsViewController: UIViewController {
                 self.radiusLabel.text = Int(currMaxRadius!).description + " miles"
             }
             self.radiusSlider.value = currMaxRadius!
+            self.connectionMessagesOnlySwitch.isOn = currMessagesSetting!
+            self.hideProfileSwitch.isOn = currHideProfileSetting!
         }
     }
     
