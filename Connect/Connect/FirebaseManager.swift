@@ -274,7 +274,6 @@ class FirebaseManager {
                     if let error = error {
                         completion([], [error])
                     } else {
-                        print(userKey)
                         let locations = (document!.data()!["dict"] as! Dictionary<String, Array<Dictionary<String, Any>>>)[userKey]!
                         var ids = Array<String>()
                         var distances = Array<String>()
