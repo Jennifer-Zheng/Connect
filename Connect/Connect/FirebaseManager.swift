@@ -385,6 +385,10 @@ class FirebaseManager {
                 "connections": FieldValue.arrayUnion([["user": userUID, "relationship": newRelationship]]),
                 "sentRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
             ])
+        Firestore.firestore().collection("users").document(otherUID)
+            .updateData([
+                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": oldRelationship]])
+            ])
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
                 "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": oldRelationship]]),
