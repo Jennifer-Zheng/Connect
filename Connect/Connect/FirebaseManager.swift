@@ -268,12 +268,13 @@ class FirebaseManager {
     func loadNearbyUsers(completion: @escaping (_ result: Array<Dictionary<String,Any>?>, _ error: Array<Error?>) -> Void) {
         let userPoint = userDocument["location"] as? GeoPoint
         if (userPoint != nil) {
-            let userKey = "\(Int((10*userPoint!.latitude).rounded())),\(Int(10*(userPoint!.longitude).rounded()))"
+            let userKey = "\(Int((10*userPoint!.latitude).rounded())),\(Int((10*userPoint!.longitude).rounded()))"
             Firestore.firestore().collection("locations").document("location")
                 .getDocument { document, error in
                     if let error = error {
                         completion([], [error])
                     } else {
+                        print(userKey)
                         let locations = (document!.data()!["dict"] as! Dictionary<String, Array<Dictionary<String, Any>>>)[userKey]!
                         var ids = Array<String>()
                         var distances = Array<String>()
