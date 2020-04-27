@@ -274,7 +274,6 @@ class FirebaseManager {
                     if let error = error {
                         completion([], [error])
                     } else {
-                        print(userKey)
                         let locations = (document!.data()!["dict"] as! Dictionary<String, Array<Dictionary<String, Any>>>)[userKey]!
                         var ids = Array<String>()
                         var distances = Array<String>()
@@ -292,6 +291,7 @@ class FirebaseManager {
                                 for i in 0...(users.count - 1) {
                                     users[i]!["distance"] = distances[i]
                                 }
+                                users = users.filter { !($0!["blockedUsers"] as! Array<String>).contains(self.userUID) }
                                 completion(users, errors)
                             }
                         } else {
