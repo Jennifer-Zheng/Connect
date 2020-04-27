@@ -495,8 +495,8 @@ class FirebaseManager {
     // For example, coords 12.34567 and 32.10000 will be stored in (123, 321), (124, 321), (122, 321), (123, 322)... etc.
     func hashGeopoints(point: GeoPoint, add: Bool) -> Dictionary<String, Any> {
         var results = Dictionary<String, Any>()
-        for i in -1...1 {
-            for j in -1...1 {
+        for i in -2...2 {
+            for j in -2...2 {
                 let lat = (10 * point.latitude) + Double(i)
                 let long = (10 * point.longitude) + Double(j)
                 let key = "\(Int(lat.rounded())),\(Int(long.rounded()))"
