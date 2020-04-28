@@ -19,6 +19,8 @@ class FirebaseManager {
     private var userUID: String = ""
     private var userProfilePic: UIImage = UIImage()
     private var userDocument: Dictionary<String, Any> = [:]
+    var currentMessageListener: ListenerRegistration?
+    var currentConversationListener: ListenerRegistration?
     
     init() {
         Firestore.firestore().clearPersistence(completion: nil)
@@ -62,7 +64,7 @@ class FirebaseManager {
         }
     }
     
-    // GET REQUESTS
+    // MARK: - Get Requests
     
     // Loads all of a user's connection's profiles. Also works for pendingRequests and pendingConnections.
     func loadBatchUsers(userConnections: Array<Dictionary<String, Any>>,
@@ -307,7 +309,7 @@ class FirebaseManager {
     }
 
     
-    // MODIFY REQUESTS
+    // MARK: - Modify Requests
     
     // Upload the given profile picture to storage.
     func uploadImage(image: UIImage) {
@@ -434,6 +436,7 @@ class FirebaseManager {
                 "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
                 "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
             ])
+        createConversationIfNonexistant(otherUID: otherUID)
     }
     
     func declinePendingConnection(otherUID: String) {
@@ -465,6 +468,7 @@ class FirebaseManager {
             ])
         removeConnection(otherUID: otherUID, relationship: relationship)
         cancelConnectionRequest(otherUID: otherUID)
+        removeConversation(otherUID: otherUID)
     }
     
     func unblockUser(otherUID: String, relationship: String) {
@@ -472,6 +476,7 @@ class FirebaseManager {
             .updateData([
                 "blockedUsers": FieldValue.arrayRemove([otherUID])
             ])
+        addConversation(otherUID: otherUID)
     }
     
     // Updates the user's most recent location.
@@ -490,7 +495,123 @@ class FirebaseManager {
             .updateData(hashGeopoints(point: newPoint, add: true))
     }
     
-    // UTILITY METHODS
+    // MARK: - Messaging Methods
+    
+    // Create a conversation between users if one doesn't yet exist.
+    func createConversationIfNonexistant(otherUID: String) {
+        let documentID = getConversationDocumentID(otherUID: otherUID)
+        Firestore.firestore().collection("conversations").document(documentID)
+            .getDocument { document, error in
+                if let document = document, !document.exists {
+                    Firestore.firestore().collection("conversations").document(documentID)
+                        .setData([
+                            "messages": [Any](),
+                            "updatedAt": Timestamp()
+                        ])
+                    self.addConversation(otherUID: otherUID)
+                }
+        }
+    }
+    
+    // Show conversation. Used when a user is unblocked, or upon creation of a new conversation.
+    private func addConversation(otherUID: String) {
+        let documentID = getConversationDocumentID(otherUID: otherUID)
+        Firestore.firestore().collection("users").document(self.userUID)
+        .updateData([
+            "conversations": FieldValue.arrayUnion([documentID]),
+        ])
+        Firestore.firestore().collection("users").document(otherUID)
+        .updateData([
+            "conversations": FieldValue.arrayUnion([documentID]),
+        ])
+    }
+    
+    // Hide conversations. Used when either user blocks each other.
+    private func removeConversation(otherUID: String) {
+        let documentID = getConversationDocumentID(otherUID: otherUID)
+        Firestore.firestore().collection("users").document(self.userUID)
+        .updateData([
+            "conversations": FieldValue.arrayRemove([documentID]),
+        ])
+        Firestore.firestore().collection("users").document(otherUID)
+        .updateData([
+            "conversations": FieldValue.arrayRemove([documentID]),
+        ])
+    }
+    
+    // TODO: Depending on how notifications are implemented, think about moving the listener to a separate function like the user document
+    // listener. Then, get rid of the removeListener method and have this method reference variables instantaneously with an observer.
+    //
+    // Gets a list of conversations sorted by timestamp with the most recent message.
+    func getConversations(completion: @escaping (_ result: Array<Dictionary<String, Any>?>) -> Void) {
+        currentConversationListener = Firestore.firestore().collection("users").document(userUID)
+            .addSnapshotListener() { document, error in
+                if let document = document, document.exists {
+                    let dispatchGroup = DispatchGroup()
+                    var conversations = Array<Dictionary<String, Any>?>()
+                    let documentIDs = document.data()!["converations"] as! Array<String>
+                    if (documentIDs.count > 0) {
+                        for i in 0...(documentIDs.count)  {
+                            dispatchGroup.enter()
+                            Firestore.firestore().collection("conversations").document(documentIDs[i])
+                                .getDocument { document, error in
+                                    if let document = document, document.exists {
+                                        let data = document.data()!
+                                        let lastMessage = (data["messages"] as! Array<Dictionary<String, String>>).last!
+                                        conversations[i] = [
+                                            "id": documentIDs[i],
+                                            "lastMessageSender": lastMessage["sender"]!,
+                                            "lastMessageContent": lastMessage["content"]!,
+                                            "updatedAt": data["updatedAt"] as! Timestamp
+                                        ]
+                                    }
+                                    dispatchGroup.leave()
+                            }
+                        }
+                    }
+                    dispatchGroup.notify(queue: DispatchQueue.global()) {
+                        conversations.sort { ($0!["updatedAt"] as! Timestamp).seconds > ($1!["updatedAt"] as! Timestamp).seconds }
+                        completion(conversations)
+                    }
+                }
+        }
+    }
+    
+    func getMessages(otherUID: String, completion: @escaping (_ result: Array<Dictionary<String, Any>>, _ error: Error?) -> Void) {
+        let documentID = getConversationDocumentID(otherUID: otherUID)
+        currentMessageListener = Firestore.firestore().collection("conversations").document(documentID)
+            .addSnapshotListener()  { document, error in
+                if let error = error {
+                    completion(Array<Dictionary<String, Any>>(), error)
+                } else {
+                    completion(document!.data()!["messages"] as! Array<Dictionary<String, Any>>, nil)
+                }
+        }
+    }
+    
+    func sendMessage(otherUID: String, senderUID: String, content: String) {
+        let newMessage = ["sender": senderUID, "content": content, "timestamp": Timestamp()] as [String : Any]
+        let documentID = getConversationDocumentID(otherUID: otherUID)
+        Firestore.firestore().collection("conversations").document(documentID)
+            .updateData([
+                "messages": FieldValue.arrayUnion([newMessage]),
+                "updatedAt": Timestamp()
+            ])
+        Firestore.firestore().collection("conversations").document(otherUID)
+            .updateData([
+                "lastMessageReceivedAt": Timestamp()
+            ])
+    }
+    
+    func deleteMessageListener() {
+        currentMessageListener!.remove()
+    }
+    
+    func deleteConversationListener() {
+        currentConversationListener!.remove()
+    }
+    
+    // MARK: - UTILITY METHODS
     
     // Use less precise coordinates for hashing then store data in neighbors for border cases.
     // Block sizes are roughly 20sq miles.
@@ -523,6 +644,11 @@ class FirebaseManager {
             cos(loc1.latitude * .pi / 180) * cos(loc2.latitude * .pi / 180) * sin(deltaLongitude / 2) * sin(deltaLongitude / 2)
         let c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return radius * c
+    }
+    
+    // Create a unique conversation document ID by combining both user's ID's in alphabetical order.
+    func getConversationDocumentID(otherUID: String) -> String {
+        return otherUID < userUID ? (otherUID + "|" + userUID) : (userUID + "|" + otherUID)
     }
 
 }

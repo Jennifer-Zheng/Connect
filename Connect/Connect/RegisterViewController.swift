@@ -59,7 +59,7 @@ class RegisterViewController: UIViewController {
                         "pendingConnections": [Any](),
                         "pendingRelations": [Any](),
                         "sentConnections": [Any](),
-                        "messages": [Any](),
+                        "conversations": [Any](),
                         "blockedUsers": [Any](),
                         "connectionMessagesOnly": true,
                         "hideProfile": false,
