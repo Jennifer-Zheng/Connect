@@ -650,9 +650,9 @@ class FirebaseManager {
                 "lastMessageReceivedAt": Timestamp()
             ])
         Firestore.firestore().collection("users").document(userUID)
-        .updateData([
-            "lastMessageReceivedAt": Timestamp()
-        ])
+            .updateData([
+                "lastMessageReceivedAt": Timestamp()
+            ])
     }
     
     func deleteMessageListener() {
