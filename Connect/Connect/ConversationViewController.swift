@@ -42,7 +42,10 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
         self.view.addSubview(view)
         
         maintainPositionOnKeyboardFrameChanged = true
+        
         messageInputBar.delegate = self
+        messageInputBar.inputTextView.placeholder = "Type here"
+        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
