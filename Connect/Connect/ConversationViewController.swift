@@ -14,10 +14,12 @@ import InputBarAccessoryView
 class ConversationViewController: MessagesViewController, InputBarAccessoryViewDelegate, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate {
     
     var nameLabel = UILabel(frame: CGRect(x: 79, y: 57, width: 256, height: 35))
-    
     var otherName = ""
-    var otherUID = ""
     var otherProfile = UIImage(named: "Profile")
+    var otherUID = ""
+    var userUID = ""
+    var userName = ""
+    var messages = Array<Message>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +49,28 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        userUID = FirebaseManager.manager.getUID()
+        userName = FirebaseManager.manager.getDocument()["name"] as! String
         nameLabel.text = otherName
-        self.messagesCollectionView.reloadData()
-        self.messagesCollectionView.scrollToBottom(animated: true)
+        FirebaseManager.manager.createConversationIfNonexistant(otherUID: otherUID) {
+            FirebaseManager.manager.getMessages(otherUID: self.otherUID) { results, error in
+                if (results.count > 0) {
+                    var messages = Array<Message>()
+                    for i in 0...(results.count - 1) {
+                        let id = String(i)
+                        let content = results[i]["content"] as! String
+                        let timestamp = results[i]["timestamp"] as! Timestamp
+                        let senderUID = results[i]["sender"] as! String
+                        let senderName = (senderUID == self.userUID) ? self.userName : self.otherName
+                        let message = Message(id: id, content: content, timestamp: timestamp, senderUID: senderUID, senderName: senderName)
+                        messages.append(message)
+                    }
+                    self.messages = messages
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToBottom(animated: true)
+                }
+            }
+        }
     }
     
     
@@ -61,34 +82,27 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     // MARK: - InputBarAccessoryViewDelegate
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        // text = content.
-        // TODO: Create message, Append to message array then call FirebaseManager.manager.sendMessage()
+        FirebaseManager.manager.sendMessage(otherUID: otherUID, content: text)
+        let message = Message(id: String(messages.count + 1), content: text, timestamp: Timestamp(), senderUID: userUID, senderName: userName)
+        messages.append(message)
         inputBar.inputTextView.text = ""
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToBottom(animated: true)
-        messageInputBar.inputTextView.resignFirstResponder();
+        messageInputBar.inputTextView.resignFirstResponder()
     }
     
     // MARK: - MessagesDataSource
     
     func currentSender() -> SenderType {
-        return Message(id: "test", content: "test", timestamp: Timestamp(), senderUID: "test", senderName: "Evan Weiss") as SenderType
+        return Message(id: "senderType", content: "", timestamp: Timestamp(), senderUID: userUID, senderName: userName) as SenderType
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        let yesterday2 = Calendar.current.date(byAdding: .year, value: -1, to: Date())!
-        if (indexPath.section == 1) {
-            return Message(id: "test", content: "Hello! My name is Evan Weiss.", timestamp: Timestamp(date: yesterday2), senderUID: "test", senderName: "Evan Weiss") as MessageType
-        }
-        else if (indexPath.section == 2) {
-            return Message(id: "Hi, I am a Test Account. This is a really long message to test wrapping.", content: "test", timestamp: Timestamp(date: yesterday), senderUID: "test2", senderName: "Bill Bulko") as MessageType
-        }
-        return Message(id: "test", content: "Okay.", timestamp: Timestamp(), senderUID: "test", senderName: "Evan Weiss") as MessageType
+        return messages[indexPath.section]
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return 5
+        return messages.count
     }
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
@@ -118,9 +132,11 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        
-        // if message.sender.senderID == userUID. else...
-        avatarView.image = FirebaseManager.manager.getProfilePic()
+        if isFromCurrentSender(message: message) {
+            avatarView.image = FirebaseManager.manager.getProfilePic()
+        } else {
+            avatarView.image = otherProfile
+        }
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {

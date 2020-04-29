@@ -294,6 +294,7 @@ class FirebaseManager {
                                     users[i]!["distance"] = distances[i]
                                 }
                                 users = users.filter { !($0!["blockedUsers"] as! Array<String>).contains(self.userUID) }
+                                users = users.filter { !(self.userDocument["blockedUsers"] as! Array<String>).contains($0!["id"] as! String) }
                                 users = users.filter { $0!["hideProfile"] as! Bool == false }
                                 users.sort { Double($0!["distance"] as! String)! < Double($1!["distance"] as! String)! }
                                 completion(users, errors)
@@ -364,7 +365,7 @@ class FirebaseManager {
                 "pendingRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
             ])
     }
-    //TODO
+
     func cancelExistingRelationRequest(otherUID: String, newRelationship: String) {
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
@@ -436,7 +437,7 @@ class FirebaseManager {
                 "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
                 "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
             ])
-        createConversationIfNonexistant(otherUID: otherUID)
+        createConversationIfNonexistant(otherUID: otherUID, completion: {})
     }
     
     func declinePendingConnection(otherUID: String) {
@@ -498,7 +499,7 @@ class FirebaseManager {
     // MARK: - Messaging Methods
     
     // Create a conversation between users if one doesn't yet exist.
-    func createConversationIfNonexistant(otherUID: String) {
+    func createConversationIfNonexistant(otherUID: String, completion: @escaping () -> Void) {
         let documentID = getConversationDocumentID(otherUID: otherUID)
         Firestore.firestore().collection("conversations").document(documentID)
             .getDocument { document, error in
@@ -510,6 +511,7 @@ class FirebaseManager {
                         ])
                     self.addConversation(otherUID: otherUID)
                 }
+                completion()
         }
     }
     
@@ -555,7 +557,7 @@ class FirebaseManager {
             .getDocument { document, error in
                 if let document = document, document.exists {
                     let data = document.data()!
-                    let messages = data["messages"] as! Array<Dictionary<String, String>>
+                    let messages = data["messages"] as! Array<Dictionary<String, Any>>
                     conversation["documentID"] = documentID
                     conversation["updatedAt"] = data["updatedAt"] as! Timestamp
                     if (messages.count > 0) {
@@ -604,13 +606,13 @@ class FirebaseManager {
     func getMessages(otherUID: String, completion: @escaping (_ result: Array<Dictionary<String, Any>>, _ error: Error?) -> Void) {
         let documentID = getConversationDocumentID(otherUID: otherUID)
         currentMessageListener = Firestore.firestore().collection("conversations").document(documentID)
-            .addSnapshotListener()  { document, error in
+            .addSnapshotListener() { document, error in
                 if let error = error {
                     completion(Array<Dictionary<String, Any>>(), error)
                 } else {
                     let messages = document!.data()!["messages"] as! Array<Dictionary<String, Any>>
                     // Mark as read.
-                    if (self.userUID != messages.last!["sender"] as! String) {
+                    if (messages.count > 0 && self.userUID != messages.last!["sender"] as! String) {
                         Firestore.firestore().collection("conversations").document(documentID)
                             .updateData([
                                 "read": true
@@ -618,11 +620,12 @@ class FirebaseManager {
                     }
                     completion(messages, nil)
                 }
+                
         }
     }
     
-    func sendMessage(otherUID: String, senderUID: String, content: String) {
-        let newMessage = ["sender": senderUID, "content": content, "timestamp": Timestamp()] as [String : Any]
+    func sendMessage(otherUID: String, content: String) {
+        let newMessage = ["sender": userUID, "content": content, "timestamp": Timestamp()] as [String : Any]
         let documentID = getConversationDocumentID(otherUID: otherUID)
         Firestore.firestore().collection("conversations").document(documentID)
             .updateData([
