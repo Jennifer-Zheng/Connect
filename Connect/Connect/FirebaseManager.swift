@@ -515,68 +515,92 @@ class FirebaseManager {
     
     // Show conversation. Used when a user is unblocked, or upon creation of a new conversation.
     private func addConversation(otherUID: String) {
-        let documentID = getConversationDocumentID(otherUID: otherUID)
         Firestore.firestore().collection("users").document(self.userUID)
         .updateData([
-            "conversations": FieldValue.arrayUnion([documentID]),
+            "conversations": FieldValue.arrayUnion([otherUID]),
         ])
         Firestore.firestore().collection("users").document(otherUID)
         .updateData([
-            "conversations": FieldValue.arrayUnion([documentID]),
+            "conversations": FieldValue.arrayUnion([self.userUID]),
         ])
     }
     
     // Hide conversations. Used when either user blocks each other.
     private func removeConversation(otherUID: String) {
-        let documentID = getConversationDocumentID(otherUID: otherUID)
         Firestore.firestore().collection("users").document(self.userUID)
         .updateData([
-            "conversations": FieldValue.arrayRemove([documentID]),
+            "conversations": FieldValue.arrayRemove([otherUID]),
         ])
         Firestore.firestore().collection("users").document(otherUID)
         .updateData([
-            "conversations": FieldValue.arrayRemove([documentID]),
+            "conversations": FieldValue.arrayRemove([self.userUID]),
         ])
+    }
+    
+    private func loadConversation(otherUID: String, completion: @escaping (_ result: Dictionary<String, Any>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        let documentID = self.getConversationDocumentID(otherUID: otherUID)
+        var conversation = Dictionary<String, Any>()
+        
+        dispatchGroup.enter()
+        loadUser(uid: otherUID) { result, errors in
+            for key in result!.keys {
+                conversation[key] = result![key]
+            }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        Firestore.firestore().collection("conversations").document(documentID)
+            .getDocument { document, error in
+                if let document = document, document.exists {
+                    let data = document.data()!
+                    let messages = data["messages"] as! Array<Dictionary<String, String>>
+                    conversation["documentID"] = documentID
+                    conversation["updatedAt"] = data["updatedAt"] as! Timestamp
+                    if (messages.count > 0) {
+                        let lastMessage = messages.last!
+                        conversation["lastSender"] = lastMessage["sender"]!
+                        conversation["lastMessage"] = lastMessage["content"]!
+                        conversation["read"] = data["read"] as! Bool
+                    }
+                }
+                dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: DispatchQueue.global()) {
+            completion(conversation)
+        }
     }
     
     // TODO: Depending on how notifications are implemented, think about moving the listener to a separate function like the user document
     // listener. Then, get rid of the removeListener method and have this method reference variables instantaneously with an observer.
     //
     // Gets a list of conversations sorted by timestamp with the most recent message.
-    func getConversations(completion: @escaping (_ result: Array<Dictionary<String, Any>?>) -> Void) {
+    func loadConversations(completion: @escaping (_ result: Array<Dictionary<String, Any>>) -> Void) {
         currentConversationListener = Firestore.firestore().collection("users").document(userUID)
             .addSnapshotListener() { document, error in
                 if let document = document, document.exists {
                     let dispatchGroup = DispatchGroup()
-                    var conversations = Array<Dictionary<String, Any>?>()
-                    let documentIDs = document.data()!["converations"] as! Array<String>
-                    if (documentIDs.count > 0) {
-                        for i in 0...(documentIDs.count)  {
-                            dispatchGroup.enter()
-                            Firestore.firestore().collection("conversations").document(documentIDs[i])
-                                .getDocument { document, error in
-                                    if let document = document, document.exists {
-                                        let data = document.data()!
-                                        let lastMessage = (data["messages"] as! Array<Dictionary<String, String>>).last!
-                                        conversations[i] = [
-                                            "id": documentIDs[i],
-                                            "lastMessageSender": lastMessage["sender"]!,
-                                            "lastMessageContent": lastMessage["content"]!,
-                                            "updatedAt": data["updatedAt"] as! Timestamp
-                                        ]
-                                    }
-                                    dispatchGroup.leave()
-                            }
+                    var conversations = Array<Dictionary<String, Any>>()
+                    let otherUIDs = document.data()!["conversations"] as! Array<String>
+                    for otherUID in otherUIDs  {
+                        dispatchGroup.enter()
+                        self.loadConversation(otherUID: otherUID) { result in
+                            conversations.append(result)
+                            dispatchGroup.leave()
                         }
                     }
                     dispatchGroup.notify(queue: DispatchQueue.global()) {
-                        conversations.sort { ($0!["updatedAt"] as! Timestamp).seconds > ($1!["updatedAt"] as! Timestamp).seconds }
+                        conversations.sort { ($0["updatedAt"] as! Timestamp).seconds > ($1["updatedAt"] as! Timestamp).seconds }
                         completion(conversations)
                     }
                 }
         }
     }
     
+    // Returns all messages in a conversation.
+    // TODO: Use documentChange .add. See photos on phone. Ray Wenderlich
     func getMessages(otherUID: String, completion: @escaping (_ result: Array<Dictionary<String, Any>>, _ error: Error?) -> Void) {
         let documentID = getConversationDocumentID(otherUID: otherUID)
         currentMessageListener = Firestore.firestore().collection("conversations").document(documentID)
@@ -584,7 +608,15 @@ class FirebaseManager {
                 if let error = error {
                     completion(Array<Dictionary<String, Any>>(), error)
                 } else {
-                    completion(document!.data()!["messages"] as! Array<Dictionary<String, Any>>, nil)
+                    let messages = document!.data()!["messages"] as! Array<Dictionary<String, Any>>
+                    // Mark as read.
+                    if (self.userUID != messages.last!["sender"] as! String) {
+                        Firestore.firestore().collection("conversations").document(documentID)
+                            .updateData([
+                                "read": true
+                            ])
+                    }
+                    completion(messages, nil)
                 }
         }
     }
@@ -595,7 +627,12 @@ class FirebaseManager {
         Firestore.firestore().collection("conversations").document(documentID)
             .updateData([
                 "messages": FieldValue.arrayUnion([newMessage]),
+                "read": false,
                 "updatedAt": Timestamp()
+            ])
+        Firestore.firestore().collection("conversations").document(otherUID)
+            .updateData([
+                "lastMessageReceivedAt": Timestamp()
             ])
         Firestore.firestore().collection("conversations").document(otherUID)
             .updateData([

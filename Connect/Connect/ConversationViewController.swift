@@ -17,6 +17,7 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     
     var otherName = ""
     var otherUID = ""
+    var otherProfile = UIImage(named: "Profile")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,6 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
         self.view.addSubview(view)
         
         maintainPositionOnKeyboardFrameChanged = true
-        
         messageInputBar.delegate = self
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self

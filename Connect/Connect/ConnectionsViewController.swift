@@ -48,6 +48,9 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                     self.tableView.reloadData()
                 }
             }
+        } else {
+            self.connections = []
+            self.tableView.reloadData()
         }
     }
     

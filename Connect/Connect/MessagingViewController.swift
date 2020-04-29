@@ -16,34 +16,42 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     // Custom cell identifiers.
     let messagingCellIdentifier = "MessagingCell"
     
-    // Dummy connections array. The structure is for testing purposes and does not represent data on Firebase.
-    var connections = [
-        ["user" : "TestUser 1",
-         "lastSender" : "you",
-         "lastMessage" : "Hello!"],
-        ["user" : "First Last",
-        "lastSender" : "other",
-        "lastMessage" : "This is a really long message so there should be automatic dots"],
-        ["user" : "John Doe",
-        "lastSender" : "none",
-        "lastMessage" : nil]
-    ]
-    
-    var filteredConnections: [[String: String?]] = []
+    var userUID = ""
+    var conversations: Array<Dictionary<String, Any>> = []
+    var filteredConnections: Array<Dictionary<String, Any>> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        filteredConnections = connections
         searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        userUID = FirebaseManager.manager.getUID()
+        FirebaseManager.manager.loadConversations() { results in
+            self.conversations = results
+            DispatchQueue.main.sync {
+                self.filteredConnections = self.searchBar.text!.isEmpty ? self.conversations : self.conversations.filter {
+                    return ($0["name"] as! String).range(of: self.searchBar.text!, options: .caseInsensitive, range: nil, locale: nil) != nil
+                }
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    // Stop listening for real time updates.
+    deinit {
+        FirebaseManager.manager.deleteConversationListener()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.destination is ConversationViewController) {
             let indexPath = self.tableView.indexPathForSelectedRow!
-            let profileVC = segue.destination as! ConversationViewController
-            profileVC.otherName = self.connections[indexPath.row]["user"]!!
+            let conversationVC = segue.destination as! ConversationViewController
+            conversationVC.otherName = self.filteredConnections[indexPath.row]["name"] as! String
+            conversationVC.otherUID = self.filteredConnections[indexPath.row]["id"] as! String
+            conversationVC.otherProfile = (self.filteredConnections[indexPath.row]["image"] as! UIImage)
         }
     }
     
@@ -59,18 +67,21 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: messagingCellIdentifier) as! MessagingTableViewCell
-        let otherName = filteredConnections[indexPath.row]["user"]!!
-        let otherFirstName = otherName.components(separatedBy: " ")[0]
-        cell.otherName?.text = otherName
-        //cell.otherProfile?.image
+        cell.otherName?.text = (filteredConnections[indexPath.row]["name"] as! String)
+        cell.otherProfile?.image = (filteredConnections[indexPath.row]["image"] as! UIImage)
+        cell.previewMessage?.font = UIFont.systemFont(ofSize: 18.0)
         
-        // This is bad code for testing purposes.
-        if (filteredConnections[indexPath.row]["lastSender"] == "none") {
-            cell.previewMessage?.text = "You are now connected with " + otherFirstName
-        } else if (filteredConnections[indexPath.row]["lastSender"] == "you") {
-            cell.previewMessage?.text = "You said: " + connections[indexPath.row]["lastMessage"]!!
+        // Three cases for the preview text: No messages, user is the last sender, other person is the last sender (bold if unread).
+        if (filteredConnections[indexPath.row]["lastSender"] == nil) {
+            cell.previewMessage?.text = "No messages. Why not say hi?"
+        } else if (filteredConnections[indexPath.row]["lastSender"] as! String == userUID) {
+            cell.previewMessage?.text = "You said: " + (filteredConnections[indexPath.row]["lastMessage"] as! String)
         } else {
-            cell.previewMessage?.text = connections[indexPath.row]["lastMessage"]!!
+            cell.previewMessage?.text = (filteredConnections[indexPath.row]["lastMessage"] as! String)
+            // Bold font if you have an unread message.
+            if ((filteredConnections[indexPath.row]["read"] as! Bool) == false) {
+                cell.previewMessage?.font = UIFont.boldSystemFont(ofSize: 18.0)
+            }
         }
         return cell
     }
@@ -79,7 +90,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         self.dismiss(animated: true, completion: nil)
     }
     
-    // code to dismiss keyboard when user clicks on background
+    // Code to dismiss keyboard when user clicks on background.
 
     func textFieldShouldReturn(textField:UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -93,8 +104,8 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
 
 extension MessagingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredConnections = searchText.isEmpty ? connections : connections.filter {
-            return $0["user"]!!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+        filteredConnections = searchText.isEmpty ? conversations : conversations.filter {
+            return ($0["name"] as! String).range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
         }
         tableView.reloadData()
     }

@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pMU-Lc-otY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -55,6 +55,9 @@
                                             <constraint firstAttribute="width" constant="50" id="Gzp-y6-A2v"/>
                                         </constraints>
                                         <state key="normal" image="message.circle" catalog="system"/>
+                                        <connections>
+                                            <segue destination="fs1-No-bAp" kind="presentation" identifier="" modalPresentationStyle="fullScreen" id="qRb-Xo-KGo"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99711877110000002" green="0.84556508060000002" blue="0.03796871752" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -218,6 +221,7 @@
                         <outlet property="addButton" destination="26U-Es-7o7" id="BbT-Lc-j5l"/>
                         <outlet property="bioTextField" destination="GKy-se-BTR" id="bii-L8-y7B"/>
                         <outlet property="blockButton" destination="LbT-HD-lE9" id="Arf-Nu-dtS"/>
+                        <outlet property="conversationButton" destination="qe3-jI-ZAE" id="OLr-7V-9Xc"/>
                         <outlet property="mutualsTableView" destination="GzU-cA-oLc" id="0d0-8h-Jt9"/>
                         <outlet property="nameTextField" destination="rjB-1Y-udY" id="UTE-Qx-B6M"/>
                         <outlet property="profilePic" destination="AQ7-MP-562" id="Sad-Nb-Xnb"/>
@@ -229,13 +233,21 @@
             </objects>
             <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
+        <!--Conversation-->
+        <scene sceneID="Nzt-5c-cRo">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" id="fs1-No-bAp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r4o-vi-gLm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="723" y="101"/>
+        </scene>
         <!--Relationships-->
         <scene sceneID="zdH-DG-fqo">
             <objects>
                 <viewControllerPlaceholder storyboardName="Relationships" id="RIM-jz-i6a" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rc9-oL-J4y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="712" y="101"/>
+            <point key="canvasLocation" x="725" y="139"/>
         </scene>
     </scenes>
     <resources>
