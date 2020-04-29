@@ -49,9 +49,16 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
         if(segue.destination is ConversationViewController) {
             let indexPath = self.tableView.indexPathForSelectedRow!
             let conversationVC = segue.destination as! ConversationViewController
+            var otherConnectionMessagesOnly = (self.filteredConnections[indexPath.row]["connectionMessagesOnly"] as! Bool)
+            for connection in self.filteredConnections[indexPath.row]["connections"] as! Array<Dictionary<String, String>> {
+                if (connection["user"] == userUID) {
+                    otherConnectionMessagesOnly = false
+                }
+            }
             conversationVC.otherName = self.filteredConnections[indexPath.row]["name"] as! String
             conversationVC.otherUID = self.filteredConnections[indexPath.row]["id"] as! String
             conversationVC.otherProfile = (self.filteredConnections[indexPath.row]["image"] as! UIImage)
+            conversationVC.otherConnectionMessagesOnly = otherConnectionMessagesOnly
         }
     }
     

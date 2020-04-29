@@ -166,6 +166,7 @@ class ProfileViewController: UIViewController {
             conversationVC.otherName = nameTextField.text!
             conversationVC.otherUID = user
             conversationVC.otherProfile = profilePic.image!
+            conversationVC.otherConnectionMessagesOnly = false
         }
     }
     
