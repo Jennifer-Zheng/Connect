@@ -74,7 +74,7 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
         }
     }
     
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
         FirebaseManager.manager.deleteMessageListener()
     }
 

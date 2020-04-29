@@ -594,7 +594,19 @@ class FirebaseManager {
                         }
                     }
                     dispatchGroup.notify(queue: DispatchQueue.global()) {
+                        let allConnections = (self.userDocument["connections"] as! Array<Dictionary<String, String>>).map({ (person) -> String in
+                            return person["user"]!
+                        })
                         conversations.sort { ($0["updatedAt"] as! Timestamp).seconds > ($1["updatedAt"] as! Timestamp).seconds }
+                        conversations = conversations.filter {
+                            if (allConnections.contains($0["id"] as! String)) {
+                                return true
+                            }
+                            else if ($0["lastSender"] == nil) {
+                                return false
+                            }
+                            return true
+                        }
                         completion(conversations)
                     }
                 }
@@ -633,14 +645,14 @@ class FirebaseManager {
                 "read": false,
                 "updatedAt": Timestamp()
             ])
-        Firestore.firestore().collection("conversations").document(otherUID)
+        Firestore.firestore().collection("users").document(otherUID)
             .updateData([
                 "lastMessageReceivedAt": Timestamp()
             ])
-        Firestore.firestore().collection("conversations").document(otherUID)
-            .updateData([
-                "lastMessageReceivedAt": Timestamp()
-            ])
+        Firestore.firestore().collection("users").document(userUID)
+        .updateData([
+            "lastMessageReceivedAt": Timestamp()
+        ])
     }
     
     func deleteMessageListener() {

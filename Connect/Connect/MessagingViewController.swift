@@ -41,7 +41,7 @@ class MessagingViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     // Stop listening for real time updates.
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
         FirebaseManager.manager.deleteConversationListener()
     }
     
