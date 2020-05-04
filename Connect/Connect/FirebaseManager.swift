@@ -46,7 +46,6 @@ class FirebaseManager {
                 if let error = error {
                     print("Error fetching document: \(error)")
                 } else {
-                    print("UPDATE DOC")
                     self.userDocument = document!.data()!
                 }
                 // We load the user's profile picture inside the snapshot listener so it auto-updates if changed.
@@ -349,10 +348,6 @@ class FirebaseManager {
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
                 "pendingConnections": FieldValue.arrayUnion([["user": userUID]])
-            ])
-        Firestore.firestore().collection("users").document(userUID)
-            .updateData([
-                "sentConnections": FieldValue.arrayUnion([["user": otherUID]])
             ]) { error in
                 // Edge case. If two users send a request at the same time, accept it.
                 for request in self.userDocument["pendingConnections"] as! Array<Dictionary<String, String>> {
@@ -361,6 +356,10 @@ class FirebaseManager {
                     }
                 }
         }
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayUnion([["user": otherUID]])
+            ])
     }
     
     func cancelRelationRequest(otherUID: String, newRelationship: String) {
