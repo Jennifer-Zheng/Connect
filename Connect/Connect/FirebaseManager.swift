@@ -427,26 +427,41 @@ class FirebaseManager {
     }
     
     func confirmPendingConnection(otherUID: String) {
+        // First remove the connection to handle the edge case where two users accept a request at the same time.
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
-                "connections": FieldValue.arrayUnion([["user": userUID, "relationship": "Acquaintance"]]),
-                "sentConnections": FieldValue.arrayRemove([["user": userUID]])
-            ])
+                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": "Acquaintance"]])
+            ]) { error in
+                Firestore.firestore().collection("users").document(otherUID)
+                    .updateData([
+                        "connections": FieldValue.arrayUnion([["user": self.userUID, "relationship": "Acquaintance"]]),
+                        "sentConnections": FieldValue.arrayRemove([["user": self.userUID]]),
+                        "pendingConnections": FieldValue.arrayRemove([["user": self.userUID]])
+                    ])
+        }
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
-                "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
-                "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
-            ])
+                "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": "Acquaintance"]])
+            ]) { error in
+                Firestore.firestore().collection("users").document(self.userUID)
+                    .updateData([
+                        "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
+                        "sentConnections": FieldValue.arrayRemove([["user": otherUID]]),
+                        "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
+                    ])
+        }
         createConversationIfNonexistant(otherUID: otherUID, completion: {})
     }
     
     func declinePendingConnection(otherUID: String) {
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
-                "sentConnections": FieldValue.arrayRemove([["user": userUID]])
+                "sentConnections": FieldValue.arrayRemove([["user": userUID]]),
+                "pendingConnections": FieldValue.arrayRemove([["user": userUID]])
             ])
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
+                "sentConnections": FieldValue.arrayRemove([["user": otherUID]]),
                 "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
             ])
     }
