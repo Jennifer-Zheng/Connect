@@ -46,6 +46,7 @@ class FirebaseManager {
                 if let error = error {
                     print("Error fetching document: \(error)")
                 } else {
+                    print("UPDATE DOC")
                     self.userDocument = document!.data()!
                 }
                 // We load the user's profile picture inside the snapshot listener so it auto-updates if changed.
@@ -345,14 +346,21 @@ class FirebaseManager {
     }
     
     func sendConnectionRequest(otherUID: String) {
-        Firestore.firestore().collection("users").document(userUID)
-            .updateData([
-                "sentConnections": FieldValue.arrayUnion([["user": otherUID]])
-            ])
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
                 "pendingConnections": FieldValue.arrayUnion([["user": userUID]])
             ])
+        Firestore.firestore().collection("users").document(userUID)
+            .updateData([
+                "sentConnections": FieldValue.arrayUnion([["user": otherUID]])
+            ]) { error in
+                // Edge case. If two users send a request at the same time, accept it.
+                for request in self.userDocument["pendingConnections"] as! Array<Dictionary<String, String>> {
+                    if (request["user"] == otherUID) {
+                        self.confirmPendingConnection(otherUID: otherUID)
+                    }
+                }
+        }
     }
     
     func cancelRelationRequest(otherUID: String, newRelationship: String) {
@@ -427,29 +435,18 @@ class FirebaseManager {
     }
     
     func confirmPendingConnection(otherUID: String) {
-        // First remove the connection to handle the edge case where two users accept a request at the same time.
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
-                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": "Acquaintance"]])
-            ]) { error in
-                Firestore.firestore().collection("users").document(otherUID)
-                    .updateData([
-                        "connections": FieldValue.arrayUnion([["user": self.userUID, "relationship": "Acquaintance"]]),
-                        "sentConnections": FieldValue.arrayRemove([["user": self.userUID]]),
-                        "pendingConnections": FieldValue.arrayRemove([["user": self.userUID]])
-                    ])
-        }
-        Firestore.firestore().collection("users").document(userUID)
+                "connections": FieldValue.arrayUnion([["user": self.userUID, "relationship": "Acquaintance"]]),
+                "sentConnections": FieldValue.arrayRemove([["user": self.userUID]]),
+                "pendingConnections": FieldValue.arrayRemove([["user": self.userUID]])
+            ])
+        Firestore.firestore().collection("users").document(self.userUID)
             .updateData([
-                "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": "Acquaintance"]])
-            ]) { error in
-                Firestore.firestore().collection("users").document(self.userUID)
-                    .updateData([
-                        "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
-                        "sentConnections": FieldValue.arrayRemove([["user": otherUID]]),
-                        "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
-                    ])
-        }
+                "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": "Acquaintance"]]),
+                "sentConnections": FieldValue.arrayRemove([["user": otherUID]]),
+                "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
+            ])
         createConversationIfNonexistant(otherUID: otherUID, completion: {})
     }
     
@@ -461,7 +458,7 @@ class FirebaseManager {
             ])
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
-                "sentConnections": FieldValue.arrayRemove([["user": otherUID]]),
+                "sentConnections": FieldValue.arrayRemove([["user": userUID]]),
                 "pendingConnections": FieldValue.arrayRemove([["user": otherUID]])
             ])
     }
