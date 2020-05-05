@@ -157,12 +157,12 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: pendingRelationshipCellIdentifier) as! PendingRelationshipTableViewCell
                 
                 // Add in user info.
-                cell.otherName?.text = (pendingRelations[indexPath.row]!["name"] as! String)
-                cell.otherRelation?.setTitle((pendingRelations[indexPath.row]!["relationship"] as! String), for: .normal)
-                cell.otherRelation.backgroundColor = Constants.getRelationColor(pendingRelations[indexPath.row]!["relationship"] as! String)
+                cell.otherName?.text = (pendingRelations[indexPath.section]!["name"] as! String)
+                cell.otherRelation?.setTitle((pendingRelations[indexPath.section]!["relationship"] as! String), for: .normal)
+                cell.otherRelation.backgroundColor = Constants.getRelationColor(pendingRelations[indexPath.section]!["relationship"] as! String)
                 let spacing: CGFloat = 8.0
                 cell.otherRelation.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
-                cell.otherProfile?.image = (pendingRelations[indexPath.row]!["image"] as! UIImage)
+                cell.otherProfile?.image = (pendingRelations[indexPath.section]!["image"] as! UIImage)
                 
                 // Add functions to buttons. They need to be in this file since they modify the table.
                 cell.confirmButton?.tag = indexPath.section
@@ -177,7 +177,7 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
             let cell = tableView.dequeueReusableCell(withIdentifier: pendingConnectionCellIdentifier) as! PendingConnectionTableViewCell
             
             cell.otherName?.text = (pendingConnections[idx]!["name"] as? String)!
-            cell.otherProfile?.image = (pendingConnections[indexPath.row]!["image"] as! UIImage)
+            cell.otherProfile?.image = (pendingConnections[idx]!["image"] as! UIImage)
             let numMutuals = (pendingConnections[idx]!["mutuals"] as! Array<Any?>).count
             cell.otherNumberOfMutuals?.text = "\(numMutuals) Mutual Connection"
             if (numMutuals != 1) {

@@ -83,6 +83,9 @@ class ImportContactsViewController: UIViewController, UITableViewDelegate, UITab
                         }
                     }
                 }
+            } else {
+                self.contactsWithMutuals = []
+                self.tableView.reloadData()
             }
         }
     }

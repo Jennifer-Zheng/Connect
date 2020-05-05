@@ -404,22 +404,28 @@ class FirebaseManager {
         }
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
-                "connections": FieldValue.arrayUnion([["user": userUID, "relationship": newRelationship]]),
                 "sentRelations": FieldValue.arrayRemove([["user": userUID, "relationship": newRelationship]])
-            ])
-        Firestore.firestore().collection("users").document(otherUID)
-            .updateData([
-                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": oldRelationship]])
             ])
         Firestore.firestore().collection("users").document(userUID)
             .updateData([
                 "connections": FieldValue.arrayRemove([["user": otherUID, "relationship": oldRelationship]]),
                 "pendingRelations": FieldValue.arrayRemove([["user": otherUID, "relationship": newRelationship]])
             ])
-        Firestore.firestore().collection("users").document(userUID)
+        Firestore.firestore().collection("users").document(otherUID)
             .updateData([
-                "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": newRelationship]])
-            ])
+                "connections": FieldValue.arrayRemove([["user": userUID, "relationship": oldRelationship]])
+            ]) { error in
+                if (error == nil) {
+                    Firestore.firestore().collection("users").document(otherUID)
+                        .updateData([
+                            "connections": FieldValue.arrayUnion([["user": self.userUID, "relationship": newRelationship]])
+                        ])
+                    Firestore.firestore().collection("users").document(self.userUID)
+                        .updateData([
+                            "connections": FieldValue.arrayUnion([["user": otherUID, "relationship": newRelationship]])
+                        ])
+                }
+        }
     }
     
     func declinePendingRelation(otherUID: String, newRelationship: String) {
