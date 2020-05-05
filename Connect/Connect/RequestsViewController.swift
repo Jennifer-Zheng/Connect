@@ -82,6 +82,12 @@ class RequestsViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
+        
+        if (pendingConnections.count == 0 && pendingConnections.count == 0) {
+            self.pendingRelations = []
+            self.pendingConnections = []
+        }
+        
         dispatchGroup.notify(queue: DispatchQueue.main) {
             self.tableView.reloadData()
         }
