@@ -415,6 +415,8 @@ class FirebaseManager {
             .updateData([
                 "connections": FieldValue.arrayRemove([["user": userUID, "relationship": oldRelationship]])
             ]) { error in
+                // Only let the request that successfully removes the old relationship to create the new ones. This solves
+                // the problem of spamming requests creating duplicate connections.
                 if (error == nil) {
                     Firestore.firestore().collection("users").document(otherUID)
                         .updateData([
