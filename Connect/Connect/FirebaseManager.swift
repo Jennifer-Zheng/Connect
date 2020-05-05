@@ -345,6 +345,12 @@ class FirebaseManager {
     }
     
     func sendConnectionRequest(otherUID: String) {
+        // Edge case in case two users are spamming the add button. Don't send a request to someone already connected to.
+        for connection in self.userDocument["connections"] as! Array<Dictionary<String, String>> {
+            if (connection["user"] == otherUID) {
+                return
+            }
+        }
         Firestore.firestore().collection("users").document(otherUID)
             .updateData([
                 "pendingConnections": FieldValue.arrayUnion([["user": userUID]])
