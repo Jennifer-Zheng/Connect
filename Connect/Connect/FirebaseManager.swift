@@ -279,6 +279,7 @@ class FirebaseManager {
                         let locations = (document!.data()!["dict"] as! Dictionary<String, Array<Dictionary<String, Any>>>)[userKey]!
                         var ids = Array<String>()
                         var distances = Array<String>()
+                        // Load users who are within "maxRadius" from the user.
                         for entry in locations {
                             let location = entry["location"] as! GeoPoint
                             let distance = self.haversineDistance(loc1: userPoint!, loc2: location)
@@ -287,6 +288,7 @@ class FirebaseManager {
                                 distances.append(String(format: "%.1f", distance))
                             }
                         }
+                        // Filter out blocked users and users who have hidden their profile, and sort by distance.
                         if (ids.count > 0) {
                             self.loadBatchUsers(userIds: ids) { results, errors in
                                 var users = results
@@ -564,6 +566,7 @@ class FirebaseManager {
         ])
     }
     
+    // Function to load the most recent message of a conversation along with that user's profile.
     private func loadConversation(otherUID: String, completion: @escaping (_ result: Dictionary<String, Any>) -> Void) {
         let dispatchGroup = DispatchGroup()
         let documentID = self.getConversationDocumentID(otherUID: otherUID)
@@ -600,10 +603,7 @@ class FirebaseManager {
         }
     }
     
-    // TODO: Depending on how notifications are implemented, think about moving the listener to a separate function like the user document
-    // listener. Then, get rid of the removeListener method and have this method reference variables instantaneously with an observer.
-    //
-    // Gets a list of conversations sorted by timestamp with the most recent message.
+    // Gets a list of conversations sorted by timestamp with the most recent message. Updates in real time.
     func loadConversations(completion: @escaping (_ result: Array<Dictionary<String, Any>>) -> Void) {
         currentConversationListener = Firestore.firestore().collection("users").document(userUID)
             .addSnapshotListener() { document, error in
@@ -618,11 +618,13 @@ class FirebaseManager {
                             dispatchGroup.leave()
                         }
                     }
+                    // Once all conversations have loaded sort them by timestamp.
                     dispatchGroup.notify(queue: DispatchQueue.global()) {
                         let allConnections = (self.userDocument["connections"] as! Array<Dictionary<String, String>>).map({ (person) -> String in
                             return person["user"]!
                         })
                         conversations.sort { ($0["updatedAt"] as! Timestamp).seconds > ($1["updatedAt"] as! Timestamp).seconds }
+                        // Do not show empty conversations if the users are not connected.
                         conversations = conversations.filter {
                             if (allConnections.contains($0["id"] as! String)) {
                                 return true
@@ -638,8 +640,7 @@ class FirebaseManager {
         }
     }
     
-    // Returns all messages in a conversation.
-    // TODO: Use documentChange .add. See photos on phone. Ray Wenderlich
+    // Returns all messages in a conversation. Updates in real time.
     func getMessages(otherUID: String, completion: @escaping (_ result: Array<Dictionary<String, Any>>, _ error: Error?) -> Void) {
         let documentID = getConversationDocumentID(otherUID: otherUID)
         currentMessageListener = Firestore.firestore().collection("conversations").document(documentID)
@@ -680,10 +681,12 @@ class FirebaseManager {
             ])
     }
     
+    // Remove the message listener when the user leaves the messaging screen.
     func deleteMessageListener() {
         currentMessageListener!.remove()
     }
     
+    // Remove the conversation listener when the user leaves the messaging screen.
     func deleteConversationListener() {
         currentConversationListener!.remove()
     }
