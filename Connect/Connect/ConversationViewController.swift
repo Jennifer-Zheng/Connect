@@ -17,7 +17,6 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     var otherName = ""
     var otherProfile = UIImage(named: "Profile")
     var otherUID = ""
-    var otherConnectionMessagesOnly = false
     var userUID = ""
     var userName = ""
     var messages = Array<Message>()
@@ -89,21 +88,13 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
     // MARK: - InputBarAccessoryViewDelegate
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        // Don't let the user send a message if the other user's permissions disallow for it.
-        if (otherConnectionMessagesOnly) {
-            let alert = UIAlertController(title: "Unable to message user", message: "Sorry, \(otherName) is not allowing messages from those not connected with them at the moment.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        } else {
-            FirebaseManager.manager.sendMessage(otherUID: otherUID, content: text)
-            let message = Message(id: String(messages.count + 1), content: text, timestamp: Timestamp(), senderUID: userUID, senderName: userName)
-            messages.append(message)
-            inputBar.inputTextView.text = ""
-            messagesCollectionView.reloadData()
-            messagesCollectionView.scrollToBottom(animated: true)
-            messageInputBar.inputTextView.resignFirstResponder()
-        }
+        FirebaseManager.manager.sendMessage(otherUID: otherUID, content: text)
+        let message = Message(id: String(messages.count + 1), content: text, timestamp: Timestamp(), senderUID: userUID, senderName: userName)
+        messages.append(message)
         inputBar.inputTextView.text = ""
+        messagesCollectionView.reloadData()
+        messagesCollectionView.scrollToBottom(animated: true)
+        messageInputBar.inputTextView.resignFirstResponder()
     }
     
     // MARK: - MessagesDataSource
