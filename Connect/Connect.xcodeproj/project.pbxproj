@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34421F1DD817C15A88AF55E6 /* Pods_Connect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B173F78F74314AF648EE242 /* Pods_Connect.framework */; };
+		382C3CB9246365E400621CA9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 382C3CB8246365E400621CA9 /* README.md */; };
 		387E57E32436B014008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E42436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
 		387E57E52436B0D8008CF705 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387E57E22436B014008CF705 /* GoogleService-Info.plist */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		368F5214BFED4615F842E38F /* Pods_Connect_ConnectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect_ConnectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		382C3CB8246365E400621CA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		387E57E22436B014008CF705 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		38852F6724560366005D0885 /* BlockedUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUsersViewController.swift; sourceTree = "<group>"; };
 		38852F69245626AB005D0885 /* BlockedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BlockedUsers.storyboard; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		D65376FA241C0A7600E283E2 /* Connect */ = {
 			isa = PBXGroup;
 			children = (
+				382C3CB8246365E400621CA9 /* README.md */,
 				D653772E241C0C4C00E283E2 /* Storyboards */,
 				C9EEBFD6243FD06A005EA785 /* Custom Cells */,
 				D65376FB241C0A7600E283E2 /* AppDelegate.swift */,
@@ -424,6 +427,7 @@
 				D6537732241C108A00E283E2 /* EditProfile.storyboard in Resources */,
 				D6537734241C109A00E283E2 /* ImportContacts.storyboard in Resources */,
 				D6537738241C11A100E283E2 /* Settings.storyboard in Resources */,
+				382C3CB9246365E400621CA9 /* README.md in Resources */,
 				C9EEBFEE244178AB005EA785 /* MutualConnectionTableViewCell.xib in Resources */,
 				D653773E241C11E000E283E2 /* Connections.storyboard in Resources */,
 				D6537740241C11F400E283E2 /* Nearby.storyboard in Resources */,
