@@ -56,6 +56,7 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
         userUID = FirebaseManager.manager.getUID()
         userName = FirebaseManager.manager.getDocument()["name"] as! String
         nameLabel.text = otherName
+        // Create the conversation if nonexistant then get all messages.
         FirebaseManager.manager.createConversationIfNonexistant(otherUID: otherUID) {
             FirebaseManager.manager.getMessages(otherUID: self.otherUID) { results, error in
                 if (results.count > 0) {
@@ -165,6 +166,7 @@ class ConversationViewController: MessagesViewController, InputBarAccessoryViewD
 
 }
 
+// Message struct to conform to the prototypes needed for message kit.
 struct Message {
     var id: String
     var content: String
@@ -181,6 +183,7 @@ struct Message {
     }
 }
 
+// Prototype necessary for messagekit.
 extension Message: SenderType {
     var senderId: String {
         return senderUID
@@ -191,6 +194,7 @@ extension Message: SenderType {
     }
 }
 
+// Prototype necessary for messagekit.
 extension Message: MessageType {
     var sender: SenderType {
         return self as SenderType
