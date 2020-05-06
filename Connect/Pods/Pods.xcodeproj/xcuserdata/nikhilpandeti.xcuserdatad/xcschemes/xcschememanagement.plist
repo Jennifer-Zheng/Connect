@@ -180,12 +180,12 @@
 		<key>MessageKit-MessageKitAssets.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>26</integer>
+			<integer>25</integer>
 		</dict>
 		<key>MessageKit.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>25</integer>
+			<integer>26</integer>
 		</dict>
 		<key>Pods-Connect-ConnectUITests.xcscheme</key>
 		<dict>
