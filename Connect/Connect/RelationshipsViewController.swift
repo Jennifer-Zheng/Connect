@@ -21,7 +21,7 @@ class RelationshipsViewController: UIViewController {
     
     var relationships : [(String, UIColor)] = []
     
-    var user = "D7lCTYj3JTOFjxZlFfKgQHri2ew1"
+    var user = ""
     var currentRelation = ""
     
     override func viewDidLoad() {
@@ -98,12 +98,11 @@ extension RelationshipsViewController: UITableViewDataSource {
         cell.relationship.tag = indexPath.row
         cell.relationship.removeTarget(nil, action: nil, for: .allEvents)
         cell.relationship.addTarget(self, action: #selector(onRelationshipPress(sender:)), for: .touchUpInside)
-        print("\(cell.relationship.frame.size)")
         return cell
     }
     
     @objc func onRelationshipPress(sender: UIButton) {
-        var type = relationships[sender.tag].0
+        let type = relationships[sender.tag].0
         
         FirebaseManager.manager.sendRelationRequest(otherUID: self.user, newRelationship: type)
         self.dismiss(animated: true, completion: nil)
