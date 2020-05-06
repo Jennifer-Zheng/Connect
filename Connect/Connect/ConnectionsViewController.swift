@@ -15,6 +15,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var profilePic: UIButton!
+    @IBOutlet weak var noConnectionsMessage: UILabel!
     
     // Custom cell identifiers.
     let connectionCellIdentifier = "ConnectionCell"
@@ -36,6 +37,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
         profilePic.setImage(FirebaseManager.manager.getProfilePic(), for: .normal)
         let connections = FirebaseManager.manager.getDocument()["connections"] as! Array<Dictionary<String, Any>>
         if (connections.count > 0) {
+            noConnectionsMessage.isHidden = true
             FirebaseManager.manager.loadBatchUsers(userConnections: connections) { results, errors in
                 self.connections = connections
                 for i in 0...(results.count - 1) {
@@ -49,6 +51,7 @@ class ConnectionsViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
         } else {
+            noConnectionsMessage.isHidden = false
             self.connections = []
             self.tableView.reloadData()
         }

@@ -163,6 +163,7 @@
                         <viewLayoutGuide key="safeArea" id="C0P-Iq-d5K"/>
                     </view>
                     <connections>
+                        <outlet property="noConnectionsMessage" destination="KP4-Yv-jOc" id="mbk-1c-FYO"/>
                         <outlet property="profilePic" destination="YuM-hO-bFJ" id="CJV-Sg-ePO"/>
                         <outlet property="tableView" destination="88l-Tr-Wok" id="0aH-A5-rf7"/>
                     </connections>
